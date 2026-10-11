@@ -1,0 +1,27 @@
+# --- Força HTTPS (o certificado vem do AutoSSL do cPanel) ---
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# --- Bloqueia arquivos sensíveis (defesa extra caso algum vá parar no webroot) ---
+<FilesMatch "(\.env\.php|\.env)$">
+    Require all denied
+</FilesMatch>
+<FilesMatch "^\.(git|ht)">
+    Require all denied
+</FilesMatch>
+RedirectMatch 403 /\.git
+
+# --- Sem listagem de diretórios ---
+Options -Indexes
+
+# --- Headers de segurança ---
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header unset X-Powered-By
+</IfModule>

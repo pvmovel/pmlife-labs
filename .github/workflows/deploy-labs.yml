@@ -39,7 +39,9 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD_LABS }}
           protocol: ftps
           port: 21
-          security: strict
+          # FTP_SERVER é um IP (mesmo padrão do pmlife) e o certificado só cobre o hostname:
+          # loose mantém o TLS, mas não valida o nome do certificado.
+          security: loose
           local-dir: ./_site/
           server-dir: ./
           dangerous-clean-slate: false

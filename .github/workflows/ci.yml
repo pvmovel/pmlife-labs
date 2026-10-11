@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches-ignore: [main] # a main roda estes mesmos gates via deploy-labs.yml
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  gates:
+    name: gates
+    runs-on: ubuntu-latest
+    env:
+      GITLEAKS_VERSION: 8.21.2
+
+    steps:
+      - name: Checkout (histórico completo para o gitleaks)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Varredura de segredos (gitleaks)
+        run: |
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | tar -xz -C /usr/local/bin gitleaks
+          gitleaks git --redact --verbose --exit-code 1 .
+
+      - name: Termos proibidos (checklist de sanitização)
+        env:
+          FORBIDDEN_PATTERNS: ${{ secrets.FORBIDDEN_PATTERNS }}
+        run: |
+          if [ -z "$FORBIDDEN_PATTERNS" ]; then
+            echo "::warning::FORBIDDEN_PATTERNS indisponível (ex.: PR de fork); checagem pulada."
+            exit 0
+          fi
+          printf '%s\n' "$FORBIDDEN_PATTERNS" | sed '/^[[:space:]]*$/d' > "$RUNNER_TEMP/forbidden.txt"
+          # Só nomes de arquivo: imprimir a linha exporia o termo no log público.
+          if git ls-files -z | xargs -0 grep -IliF -f "$RUNNER_TEMP/forbidden.txt" > "$RUNNER_TEMP/hits.txt"; then
+            echo "::error::Termo proibido encontrado nos arquivos:"
+            cat "$RUNNER_TEMP/hits.txt"
+            exit 1
+          fi
+          echo "Nenhum termo proibido."
+
+      - name: Configurar PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: none
+
+      - name: Sintaxe PHP (php -l)
+        run: |
+          git ls-files -z '*.php' | xargs -0 -r -n1 php -l
+
+      - name: Configurar Node.js 24 (spikes front-end)
+        if: hashFiles('spikes/*/package.json', 'benchmarks/*/package.json') != ''
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Montar o site (_site/)
+        run: bash scripts/build-site.sh
+
+      - name: Publicar _site/ como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: _site/
+          include-hidden-files: true
+          retention-days: 7

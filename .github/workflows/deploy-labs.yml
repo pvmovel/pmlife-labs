@@ -1,0 +1,70 @@
+name: Deploy Labs
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-labs
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
+
+  deploy:
+    name: deploy
+    needs: ci
+    runs-on: ubuntu-latest
+    # Sem `url:`: a URL apareceria na página pública de Deployments.
+    environment: labs-homolog
+
+    steps:
+      - name: Baixar _site/
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: _site/
+
+      - name: Publicar via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME_LABS }}
+          password: ${{ secrets.FTP_PASSWORD_LABS }}
+          protocol: ftps
+          port: 21
+          security: strict
+          local-dir: ./_site/
+          server-dir: ./
+          dangerous-clean-slate: false
+
+      - name: Smoke test
+        env:
+          LABS_URL: ${{ secrets.LABS_URL }}
+        run: |
+          set -u
+          fail=0
+          check() { # check <caminho> <status esperado> [texto obrigatório no corpo]
+            local code body
+            body=$(curl -sS -A "pmlife-labs-smoke" -o - -w '\n%{http_code}' "${LABS_URL}$1") || true
+            code=${body##*$'\n'}; body=${body%$'\n'*}
+            if [ "$code" != "$2" ]; then
+              echo "::error::$1 -> HTTP $code (esperado $2)"; fail=1; return
+            fi
+            if [ -n "${3:-}" ] && [ "$body" != "$3" ]; then
+              echo "::error::$1 -> corpo inesperado"; fail=1; return
+            fi
+            echo "ok  $1 -> $code"
+          }
+          check "/" 200
+          check "/spikes/spike-php-env-security-hostgator/public/status.php" 500 '{"status":"error","error":{"code":"DB_UNAVAILABLE"}}'
+          check "/spikes/spike-php-env-security-hostgator/src/db.php" 403
+          check "/spikes/spike-php-env-security-hostgator/config/env.example.php" 403
+          check "/.ftp-deploy-sync-state.json" 403
+          exit $fail

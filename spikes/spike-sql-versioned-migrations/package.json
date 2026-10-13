@@ -1,0 +1,9 @@
+{
+  "name": "spike-sql-versioned-migrations",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Spike: migrations SQL versionadas por dialeto (MySQL e PostgreSQL) com runner PHP e repositório PDO",
+  "scripts": {
+    "verify": "php scripts/verify.php"
+  }
+}

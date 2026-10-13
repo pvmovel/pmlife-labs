@@ -1,0 +1,21 @@
+{
+  "name": "spike-eslint-clean-arch-boundaries",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Spike: ESLint bloqueando imports que violam as fronteiras da Clean Architecture",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "check:violations": "node scripts/check-violations.mjs",
+    "verify": "eslint . && tsc --noEmit && node scripts/check-violations.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10",
+    "eslint": "^10",
+    "eslint-import-resolver-typescript": "^4",
+    "eslint-plugin-boundaries": "^7",
+    "typescript": "~5.9",
+    "typescript-eslint": "^8"
+  }
+}

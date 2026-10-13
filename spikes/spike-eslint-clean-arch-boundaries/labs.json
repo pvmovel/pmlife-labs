@@ -1,0 +1,10 @@
+{
+  "title": "Fronteiras da Clean Architecture verificadas pelo ESLint",
+  "summary": "A regra de dependência entre camadas sai da documentação e vira lint: um import que atravessa a fronteira errada quebra o editor, o pre-commit e o CI.",
+  "problem": "Em Clean Architecture a regra 'as setas só apontam para dentro' costuma existir só no papel. Um import apressado desfaz a arquitetura, e aliases como @infrastructure/... escondem a violação de quem procura por ../Infrastructure.",
+  "result": "Matriz Domain / Application / Infrastructure / Presentation / Composition Root / Content com tudo proibido por padrão. Um script prova nos dois sentidos: o código correto passa e cada uma das 6 violações de exemplo é bloqueada.",
+  "tags": ["TypeScript", "ESLint 10", "typescript-eslint", "eslint-plugin-boundaries", "Clean Architecture"],
+  "roadmap": "US15",
+  "date": "2026-10-13",
+  "run": "yarn install --frozen-lockfile\nyarn verify"
+}

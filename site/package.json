@@ -1,0 +1,18 @@
+{
+  "name": "pmlife-labs-site",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Gerador da página de portfólio do PMLife Labs (catálogo de PoCs, spikes e benchmarks)",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "highlight.js": "^11",
+    "marked": "^18",
+    "marked-highlight": "^2"
+  }
+}

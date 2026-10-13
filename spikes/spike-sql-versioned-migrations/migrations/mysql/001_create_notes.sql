@@ -1,0 +1,9 @@
+-- 001: schema FINAL da tabela de exemplo. IF NOT EXISTS mantém a migration segura
+-- em bancos onde a tabela já foi criada antes do versionamento.
+-- Exclusivo do MySQL: AUTO_INCREMENT, ON UPDATE CURRENT_TIMESTAMP, ENGINE/CHARSET.
+CREATE TABLE IF NOT EXISTS notes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

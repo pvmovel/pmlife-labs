@@ -15,6 +15,40 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITLEAKS_VERSION: 8.21.2
+      # Bancos descartáveis para os spikes que testam SQL real (credenciais só de teste, sem segredo).
+      SPIKE_MYSQL_HOST: 127.0.0.1
+      SPIKE_MYSQL_PORT: 3306
+      SPIKE_MYSQL_DB: spike
+      SPIKE_MYSQL_USER: spike
+      SPIKE_MYSQL_PASS: spikepw
+      SPIKE_PGSQL_HOST: 127.0.0.1
+      SPIKE_PGSQL_PORT: 5432
+      SPIKE_PGSQL_DB: spike
+      SPIKE_PGSQL_USER: spike
+      SPIKE_PGSQL_PASS: spikepw
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: rootpw
+          MYSQL_DATABASE: spike
+          MYSQL_USER: spike
+          MYSQL_PASSWORD: spikepw
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uspike -pspikepw --silent"
+          --health-interval=5s --health-timeout=5s --health-retries=24
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: spike
+          POSTGRES_USER: spike
+          POSTGRES_PASSWORD: spikepw
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd="pg_isready -U spike"
+          --health-interval=5s --health-timeout=5s --health-retries=24
 
     steps:
       - name: Checkout (histórico completo para o gitleaks)
@@ -49,6 +83,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
+          extensions: pdo_mysql, pdo_pgsql
           tools: none
 
       - name: Sintaxe PHP (php -l)

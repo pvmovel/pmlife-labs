@@ -68,6 +68,9 @@ jobs:
           check "/catalogo/spike-php-env-security-hostgator/" 200
           check "/catalogo/spike-eslint-clean-arch-boundaries/" 200
           check "/assets/labs.css" 200
+          check "/catalogo/spike-sql-versioned-migrations/" 200
+          check "/spikes/spike-sql-versioned-migrations/migrate.php" 403
+          check "/spikes/spike-sql-versioned-migrations/migrations/mysql/001_create_notes.sql" 403
           check "/spikes/spike-eslint-clean-arch-boundaries/src/Domain/Task.ts" 403
           check "/spikes/spike-php-env-security-hostgator/public/status.php" 500 '{"status":"error","error":{"code":"DB_UNAVAILABLE"}}'
           check "/spikes/spike-php-env-security-hostgator/src/db.php" 403

@@ -65,6 +65,10 @@ jobs:
             echo "ok  $1 -> $code"
           }
           check "/" 200
+          check "/catalogo/spike-php-env-security-hostgator/" 200
+          check "/catalogo/spike-eslint-clean-arch-boundaries/" 200
+          check "/assets/labs.css" 200
+          check "/spikes/spike-eslint-clean-arch-boundaries/src/Domain/Task.ts" 403
           check "/spikes/spike-php-env-security-hostgator/public/status.php" 500 '{"status":"error","error":{"code":"DB_UNAVAILABLE"}}'
           check "/spikes/spike-php-env-security-hostgator/src/db.php" 403
           check "/spikes/spike-php-env-security-hostgator/config/env.example.php" 403

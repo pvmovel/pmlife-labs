@@ -3,15 +3,15 @@
 Options -Indexes
 DirectoryIndex index.html index.php
 
-# --- Só public/ e dist/ de cada spike/benchmark ficam acessíveis ---
+# --- Só public/ e dist/ de cada poc/spike/benchmark ficam acessíveis (o catálogo fica em catalogo/) ---
 # (o build também grava "Require all denied" em cada pasta bloqueada, para o caso de mod_rewrite estar desligado)
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond %{HTTPS} !=on
     RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-    RewriteRule ^(spikes|benchmarks)/[^/]+/(public|dist)(/|$) - [L]
-    RewriteRule ^(spikes|benchmarks)/ - [F]
+    RewriteRule ^(pocs|spikes|benchmarks)/[^/]+/(public|dist)(/|$) - [L]
+    RewriteRule ^(pocs|spikes|benchmarks)/ - [F]
 </IfModule>
 
 # --- Arquivos sensíveis ---

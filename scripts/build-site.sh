@@ -1,35 +1,56 @@
 #!/usr/bin/env bash
 # Monta _site/, que é publicado em <homolog>/labs pelo deploy-labs.yml.
 #
-# Convenção por spike/benchmark (<grupo>/<nome>/ com README.md):
+# Convenção por item (pocs/, spikes/ ou benchmarks/<nome>/, com README.md e labs.json):
 #   public/        -> webroot da demo (PHP/HTML)
-#   package.json   -> se tiver script "build", roda o build com base /labs/<grupo>/<nome>/dist/
+#   package.json   -> script "verify": roda e publica a saída na página do item (falhou, o build falha)
+#                     script "build":  roda o build com base /labs/<grupo>/<nome>/dist/
 #   o resto        -> sobe para o servidor (os require relativos precisam), mas fica bloqueado (403)
+#
+# A página de portfólio (index.html + catalogo/<nome>/) é gerada por site/build.mjs.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/_site"
 BASE="${LABS_BASE:-/labs}"
-REPO="${GITHUB_REPOSITORY:-pvmovel/pmlife-labs}"
 
 rm -rf "$OUT"
 mkdir -p "$OUT"
 cp "$ROOT/site/.htaccess" "$OUT/.htaccess"
 
-html_escape() { sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' -e 's/"/\&quot;/g'; }
+# Remove cores ANSI e caminhos absolutos da máquina (local ou runner) da saída publicada.
+clean_output() { sed -e 's/\x1b\[[0-9;]*m//g' -e "s|$1/||g" -e "s|$1|.|g"; }
 
-items=""
-count=0
-for dir in "$ROOT"/spikes/*/ "$ROOT"/benchmarks/*/; do
-  [ -f "$dir/README.md" ] || continue
+for dir in "$ROOT"/pocs/*/ "$ROOT"/spikes/*/ "$ROOT"/benchmarks/*/; do
+  [ -d "$dir" ] || continue
   dir="${dir%/}"
+  # Placeholder vazio (só .gitkeep) ainda não é item do catálogo.
+  [ -n "$(find "$dir" -mindepth 1 -maxdepth 1 ! -name .gitkeep -print -quit)" ] || continue
+
   group="$(basename "$(dirname "$dir")")"
   name="$(basename "$dir")"
   rel="$group/$name"
 
-  if [ -f "$dir/package.json" ] && grep -q '"build"[[:space:]]*:' "$dir/package.json"; then
-    echo "build: $rel"
-    (cd "$dir" && yarn install --frozen-lockfile && yarn build --base="$BASE/$rel/dist/")
+  if [ -f "$dir/package.json" ]; then
+    (cd "$dir" && yarn install --frozen-lockfile --silent)
+
+    if grep -q '"verify"[[:space:]]*:' "$dir/package.json"; then
+      echo "verify: $rel"
+      mkdir -p "$OUT/catalogo/$name"
+      log="$OUT/catalogo/$name/execucao.txt"
+      if ! (cd "$dir" && yarn --silent verify) > "$log" 2>&1; then
+        cat "$log"
+        echo "ERRO: yarn verify falhou em $rel" >&2
+        exit 1
+      fi
+      clean_output "$dir" < "$log" > "$log.tmp" && mv "$log.tmp" "$log"
+      cat "$log"
+    fi
+
+    if grep -q '"build"[[:space:]]*:' "$dir/package.json"; then
+      echo "build: $rel"
+      (cd "$dir" && yarn build --base="$BASE/$rel/dist/")
+    fi
   fi
 
   mkdir -p "$OUT/$rel"
@@ -40,55 +61,10 @@ for dir in "$ROOT"/spikes/*/ "$ROOT"/benchmarks/*/; do
     [ -d "$sub" ] || continue
     case "$(basename "$sub")" in public|dist) ;; *) printf 'Require all denied\n' > "$sub/.htaccess" ;; esac
   done
-
-  title="$(grep -m1 '^# ' "$dir/README.md" | sed 's/^# //' | html_escape)"
-  demo=""
-  for webroot in public dist; do
-    [ -d "$OUT/$rel/$webroot" ] || continue
-    if [ -n "$(find "$OUT/$rel/$webroot" -maxdepth 1 -type f -name 'index.*' -print -quit)" ]; then
-      demo="$rel/$webroot/"
-    else # sem index: aponta para o primeiro .html/.php
-      entry="$(find "$OUT/$rel/$webroot" -maxdepth 1 -type f \( -name '*.html' -o -name '*.php' \) -printf '%f\n' | sort | head -n1)"
-      [ -n "$entry" ] && demo="$rel/$webroot/$entry"
-    fi
-    break
-  done
-  demo_link=""
-  [ -n "$demo" ] && demo_link=" · <a href=\"$demo\">demo</a>"
-
-  items+="      <li><span class=\"tag\">$group</span><strong>$title</strong><br><code>$rel</code> · <a href=\"https://github.com/$REPO/tree/main/$rel\">código</a>$demo_link</li>"$'\n'
-  count=$((count + 1))
 done
 
-cat > "$OUT/index.html" <<HTML
-<!doctype html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PMLife Labs</title>
-  <style>
-    :root { --bg:#fafafa; --fg:#1d1d1f; --muted:#6e6e73; --card:#fff; --line:#e5e5ea; --accent:#0a66c2; }
-    @media (prefers-color-scheme: dark) { :root { --bg:#111; --fg:#f2f2f2; --muted:#a1a1a6; --card:#1c1c1e; --line:#2c2c2e; --accent:#5ea8ff; } }
-    body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui, sans-serif; }
-    main { max-width:760px; margin:0 auto; padding:32px 16px; }
-    h1 { margin:0 0 4px; } p { color:var(--muted); margin:0 0 24px; }
-    ul { list-style:none; padding:0; margin:0; display:grid; gap:12px; }
-    li { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
-    a { color:var(--accent); } code { color:var(--muted); font-size:.85em; }
-    .tag { font-size:.75em; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-right:8px; }
-  </style>
-</head>
-<body>
-  <main>
-    <h1>PMLife Labs 🧪</h1>
-    <p>Spikes e PoCs de arquitetura publicados automaticamente a partir de <a href="https://github.com/$REPO">$REPO</a>.</p>
-    <ul>
-$items    </ul>
-  </main>
-</body>
-</html>
-HTML
+# Página de portfólio (home + detalhe de cada item).
+(cd "$ROOT/site" && yarn install --frozen-lockfile --silent && node build.mjs "$OUT")
 
 # Nenhum arquivo de ambiente pode ir para o servidor.
 if find "$OUT" \( -name '*.env.php' -o -name '.env*' \) | grep -q .; then
@@ -96,4 +72,4 @@ if find "$OUT" \( -name '*.env.php' -o -name '.env*' \) | grep -q .; then
   exit 1
 fi
 
-echo "_site/ montado com $count item(ns)."
+echo "_site/ montado."

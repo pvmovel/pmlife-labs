@@ -55,13 +55,12 @@ jobs:
         run: |
           git ls-files -z '*.php' | xargs -0 -r -n1 php -l
 
-      - name: Configurar Node.js 24 (spikes front-end)
-        if: hashFiles('spikes/*/package.json', 'benchmarks/*/package.json') != ''
+      - name: Configurar Node.js 24
         uses: actions/setup-node@v4
         with:
           node-version: 24
 
-      - name: Montar o site (_site/)
+      - name: Montar o site (yarn verify de cada item + página de portfólio)
         run: bash scripts/build-site.sh
 
       - name: Publicar _site/ como artefato

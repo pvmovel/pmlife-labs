@@ -14,8 +14,8 @@ Há ainda uma armadilha específica de SPAs com **Vite**: tudo o que está em `p
 
 ```
 /home<N>/<conta>/                 <- home da conta (o caminho varia: nunca fixe)
-├── app.homolog.env.php           <- credenciais de homolog (chmod 600)
-├── app.production.env.php        <- credenciais de produção (chmod 600)
+├── labs.homolog.env.php           <- credenciais de homolog (chmod 600)
+├── labs.production.env.php        <- credenciais de produção (chmod 600)
 └── public_html/                  <- webroot (DOCUMENT_ROOT)
     ├── .htaccess
     └── status.php                <- controller fino
@@ -23,7 +23,7 @@ Há ainda uma armadilha específica de SPAs com **Vite**: tudo o que está em `p
 
 | Arquivo | Papel |
 | :--- | :--- |
-| `src/env-loader.php` | `detect_env()` deduz o ambiente pelo host (ou `APP_ENV`); `load_env()` procura `app.<env>.env.php` em `$HOME` e depois nos diretórios acima do `DOCUMENT_ROOT`. O nome do ambiente passa por uma lista permitida, o que impede path traversal. |
+| `src/env-loader.php` | `detect_env()` deduz o ambiente pelo host (ou `APP_ENV`); `load_env()` procura `labs.<env>.env.php` em `$HOME` e depois nos diretórios acima do `DOCUMENT_ROOT`. O nome do ambiente passa por uma lista permitida, o que impede path traversal. |
 | `src/db.php` | Monta o DSN a partir de `DB_DRIVER` (`mysql`/`pgsql`) e abre o PDO. Em qualquer falha grava o detalhe com `error_log()` e responde `500 {"status":"error","error":{"code":"DB_UNAVAILABLE"}}`. |
 | `public/status.php` | Endpoint de exemplo (`SELECT 1`). |
 | `public/.htaccess` | Força HTTPS, nega `*.env.php`, `.env`, `.git*` e `.ht*`, desliga a listagem de diretórios e adiciona HSTS, `nosniff`, `X-Frame-Options` e `Referrer-Policy`. |
@@ -37,12 +37,25 @@ Princípios:
 4. **Driver no env**: trocar MySQL por PostgreSQL vira uma mudança de configuração (mais migrations no outro dialeto), sem tocar nos controllers.
 5. **Rotacionar a senha** se ela já esteve no git. Limpar o histórico não basta, porque clones e forks continuam com ela.
 
+## Demo ao vivo
+
+No labs, o spike está ligado a um MySQL real:
+
+| Endpoint | O que mostra | Resposta |
+| :--- | :--- | :--- |
+| `public/status.php` | conexão com credenciais lidas de `labs.production.env.php`, fora do webroot | `200 {"status":"success","data":{"db":"up"}}` |
+| `public/status-erro.php` | a mesma configuração, apontando para um banco que não existe | `500 {"status":"error","error":{"code":"DB_UNAVAILABLE"}}` |
+
+A demo de erro usa um **banco inexistente**, e não uma senha errada, para que acessos públicos repetidos não gerem tentativas de login falhas no servidor de banco. O `error_log` que a hospedagem grava na pasta do script responde 403, porque revelaria nomes reais de banco e usuário.
+
+O prefixo do arquivo (`labs.`, na constante `ENV_FILE_PREFIX`) separa os envs desta aplicação dos de outras que dividem o mesmo HOME da conta.
+
 ## Como testar localmente
 
 ```bash
 # 1) env fictício num "home" temporário
 mkdir -p /tmp/fake-home
-cp config/env.example.php /tmp/fake-home/app.development.env.php
+cp config/env.example.php /tmp/fake-home/labs.development.env.php
 
 # 2) sobe o servidor embutido com esse HOME
 HOME=/tmp/fake-home php -S 127.0.0.1:8765 -t public
@@ -59,7 +72,7 @@ Fallback pelo `DOCUMENT_ROOT` (simula `home/public_html` sem `$HOME`):
 
 ```bash
 mkdir -p /tmp/h/conta/public_html
-echo "<?php return ['DB_NAME'=>'ok'];" > /tmp/h/conta/app.homolog.env.php
+echo "<?php return ['DB_NAME'=>'ok'];" > /tmp/h/conta/labs.homolog.env.php
 env -u HOME php -r '$_SERVER["DOCUMENT_ROOT"]=$argv[1]; require "src/env-loader.php";
   var_dump(load_env(detect_env("homolog.example.com")));' /tmp/h/conta/public_html
 ```

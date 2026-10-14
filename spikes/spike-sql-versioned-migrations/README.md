@@ -60,6 +60,14 @@ Essas diferenças ficam **só** nos arquivos de migration de cada dialeto. O có
 - **Transação por migration:** no MySQL, DDL faz commit implícito, então uma transação não protegeria. A garantia vem de cada arquivo ser idempotente.
 - **Quem roda as migrations:** um usuário administrativo, via CLI ou phpMyAdmin. O usuário da aplicação web fica só com `SELECT, INSERT, UPDATE, DELETE`.
 
+## Demo ao vivo
+
+`public/index.php` lê o MySQL do labs na hospedagem e mostra o servidor, as versões em `schema_migrations` (com `applied_at`) e as notas lidas pelo `PdoNoteRepository`. Como fica montado:
+
+- as migrations são aplicadas pelo próprio `migrate.php`, rodando pelo **Cron do cPanel** uma vez por dia com o usuário **admin** (`labs.admin.env.php`). Nos dias seguintes, a saída é `Nada a aplicar.`;
+- a página conecta com o usuário **app** (`labs.production.env.php`), que só tem `SELECT, INSERT, UPDATE, DELETE`. Se ela tentasse um DDL, o banco recusaria (`CREATE command denied`);
+- a configuração é localizada por `src/LabsConfig.php`, com a mesma técnica do spike de credenciais fora do webroot.
+
 ## Como testar localmente
 
 Requer PHP 7.4+ com `pdo_mysql` e `pdo_pgsql`, e Docker para subir os bancos descartáveis. O `verify` **apaga** as tabelas `notes` e `schema_migrations` do banco informado: use só bancos de teste.

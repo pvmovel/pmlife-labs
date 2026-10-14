@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 const ENV_ALLOWED = ['development', 'homolog', 'production'];
 const ENV_MAX_LEVELS = 4;
+// Prefixo do arquivo: separa os envs desta aplicação dos de outras que dividem o mesmo HOME
+// (na hospedagem compartilhada, várias apps da conta ficam no mesmo /home<N>/<conta>/).
+const ENV_FILE_PREFIX = 'labs';
 
 /**
  * Deduz o ambiente pelo host. APP_ENV (variável de ambiente do processo) tem prioridade.
@@ -67,7 +70,7 @@ function env_candidate_dirs(): array
 }
 
 /**
- * Carrega `app.<env>.env.php` (que deve retornar um array) do primeiro diretório candidato que o contém.
+ * Carrega `labs.<env>.env.php` (que deve retornar um array) do primeiro diretório candidato que o contém.
  *
  * @return array<string, mixed>
  * @throws RuntimeException quando o arquivo não existe ou é inválido (a mensagem não contém caminhos).
@@ -78,7 +81,7 @@ function load_env(string $env): array
         throw new RuntimeException('ENV_INVALID');
     }
 
-    $file = "app.{$env}.env.php";
+    $file = ENV_FILE_PREFIX . ".{$env}.env.php";
     foreach (env_candidate_dirs() as $dir) {
         $path = $dir . '/' . $file;
         if (is_file($path) && is_readable($path)) {

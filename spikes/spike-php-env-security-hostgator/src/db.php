@@ -26,31 +26,28 @@ function build_dsn(array $config): string
     $driver = (string) ($config['DB_DRIVER'] ?? 'mysql');
     $host = (string) ($config['DB_HOST'] ?? 'localhost');
     $name = (string) ($config['DB_NAME'] ?? '');
+    $port = isset($config['DB_PORT']) ? ';port=' . (int) $config['DB_PORT'] : '';
 
     switch ($driver) {
         case 'mysql':
-            return "mysql:host={$host};dbname={$name};charset=utf8mb4";
+            return "mysql:host={$host}{$port};dbname={$name};charset=utf8mb4";
         case 'pgsql':
-            return "pgsql:host={$host};dbname={$name}";
+            return "pgsql:host={$host}{$port};dbname={$name}";
         default:
             throw new RuntimeException('DB_DRIVER_UNSUPPORTED');
     }
 }
 
 /**
- * Abre a conexão PDO do ambiente atual. Em qualquer falha registra o detalhe no
+ * Abre um PDO com a configuração recebida. Em qualquer falha registra o detalhe no
  * error_log e responde HTTP 500 genérico com o código DB_UNAVAILABLE.
+ *
+ * @param array<string, mixed> $config
  */
-function db(): PDO
+function connect(array $config): PDO
 {
-    static $pdo = null;
-    if ($pdo instanceof PDO) {
-        return $pdo;
-    }
-
     try {
-        $config = load_env(detect_env($_SERVER['HTTP_HOST'] ?? ''));
-        $pdo = new PDO(
+        return new PDO(
             build_dsn($config),
             (string) ($config['DB_USER'] ?? ''),
             (string) ($config['DB_PASS'] ?? ''),
@@ -60,9 +57,33 @@ function db(): PDO
                 PDO::ATTR_EMULATE_PREPARES => false,
             ]
         );
-        return $pdo;
     } catch (PDOException | RuntimeException $e) {
         error_log('[db] ' . get_class($e) . ': ' . $e->getMessage());
         json_error('DB_UNAVAILABLE');
     }
+}
+
+/**
+ * Configuração do ambiente atual, lida do arquivo fora do webroot.
+ *
+ * @return array<string, mixed>
+ */
+function current_config(): array
+{
+    try {
+        return load_env(detect_env($_SERVER['HTTP_HOST'] ?? ''));
+    } catch (RuntimeException $e) {
+        error_log('[db] ' . $e->getMessage());
+        json_error('DB_UNAVAILABLE');
+    }
+}
+
+/** Conexão do ambiente atual (reaproveitada na mesma requisição). */
+function db(): PDO
+{
+    static $pdo = null;
+    if (!$pdo instanceof PDO) {
+        $pdo = connect(current_config());
+    }
+    return $pdo;
 }

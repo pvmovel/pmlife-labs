@@ -110,13 +110,16 @@ function readItems() {
       if (names.has(entry.name)) throw new Error(`${rel}: nome repetido em outro grupo`);
       names.add(entry.name);
 
-      // Demo: a do manifesto ou, se houver, o index de public/ ou dist/ publicado.
-      let demo = meta.demo ?? null;
-      if (!demo) {
+      // Demos: `demos` (lista) ou `demo` (uma só) do manifesto; sem elas, o index de public/ ou dist/ publicado.
+      let demos = Array.isArray(meta.demos) ? meta.demos : meta.demo ? [meta.demo] : [];
+      for (const d of demos) {
+        if (typeof d.path !== 'string' || d.path === '') throw new Error(`${rel}/labs.json: toda demo precisa de "path"`);
+      }
+      if (demos.length === 0) {
         for (const webroot of ['public', 'dist']) {
           const published = path.join(OUT, rel, webroot);
           if (existsSync(published) && readdirSync(published).some((f) => /^index\./.test(f))) {
-            demo = { path: `${webroot}/`, label: 'Abrir a demo' };
+            demos = [{ path: `${webroot}/`, label: 'Abrir a demo' }];
             break;
           }
         }
@@ -128,7 +131,7 @@ function readItems() {
         name: entry.name,
         rel,
         group,
-        demo,
+        demos,
         readme: readFileSync(readme, 'utf8'),
         execution: existsSync(execPath) ? readFileSync(execPath, 'utf8').trim() : null,
       });
@@ -220,8 +223,8 @@ ${body}
 
 function card(item) {
   const detail = `catalogo/${item.name}/`;
-  const demoBtn = item.demo
-    ? `<a class="btn btn--ghost" href="${esc(`${item.rel}/${item.demo.path}`)}">${icon.play}<span>Demo</span></a>`
+  const demoBtn = item.demos.length
+    ? `<a class="btn btn--ghost" href="${esc(`${item.rel}/${item.demos[0].path}`)}">${icon.play}<span>Demo</span></a>`
     : '';
   return `      <article class="card" data-group="${item.group.id}">
         <div class="card__head">${badge(item.group)}${item.roadmap ? `<span class="card__ref">${esc(item.roadmap)}</span>` : ''}<time datetime="${item.date}">${formatDate(item.date)}</time></div>
@@ -321,17 +324,20 @@ ${items.map(card).join('\n')}
 
 function renderDetail(item) {
   const up = '../../';
+  const hasDemo = item.demos.length > 0;
   const actions = [
-    item.demo
-      ? `<a class="btn btn--primary" href="${esc(`${up}${item.rel}/${item.demo.path}`)}">${icon.play}<span>${esc(item.demo.label ?? 'Abrir a demo')}</span></a>`
-      : '',
-    `<a class="btn ${item.demo ? 'btn--ghost' : 'btn--primary'}" href="${REPO_URL}/tree/main/${item.rel}">${icon.github}<span>Ver o código</span></a>`,
+    ...item.demos.map(
+      (d, i) =>
+        `<a class="btn ${i === 0 ? 'btn--primary' : 'btn--ghost'}" href="${esc(`${up}${item.rel}/${d.path}`)}">${icon.play}<span>${esc(d.label ?? 'Abrir a demo')}</span></a>`,
+    ),
+    `<a class="btn ${hasDemo ? 'btn--ghost' : 'btn--primary'}" href="${REPO_URL}/tree/main/${item.rel}">${icon.github}<span>Ver o código</span></a>`,
     item.execution ? `<a class="btn btn--ghost" href="#execucao">${icon.check}<span>Execução no CI</span></a>` : '',
     item.run ? `<a class="btn btn--ghost" href="#rodar">${icon.terminal}<span>Rodar localmente</span></a>` : '',
   ].join('\n          ');
 
-  const demoNote = item.demo?.note
-    ? `<div class="callout"><strong>Sobre a demo:</strong> ${esc(item.demo.note)}</div>`
+  const notes = item.demos.filter((d) => d.note);
+  const demoNote = notes.length
+    ? `<div class="callout"><strong>Sobre ${notes.length > 1 ? 'as demos' : 'a demo'}:</strong>${notes.length > 1 ? `<ul>${notes.map((d) => `<li><strong>${esc(d.label ?? d.path)}:</strong> ${esc(d.note)}</li>`).join('')}</ul>` : ` ${esc(notes[0].note)}`}</div>`
     : '';
 
   const execution = item.execution

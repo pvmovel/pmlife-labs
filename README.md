@@ -66,6 +66,21 @@ Convenção para cada `pocs/<nome>/`, `spikes/<nome>/` ou `benchmarks/<nome>/`. 
 
 `roadmap`, `demo` e `run` são opcionais. Sem `demo`, o build usa o `index` de `public/` ou `dist/`, se existir.
 
+## 🗄️ Banco do labs
+
+As demos ao vivo usam um **MySQL real** na hospedagem, sem custo extra (incluído no plano):
+
+- um banco isolado, sem acesso aos bancos do produto;
+- **dois usuários:** *app* (só `SELECT, INSERT, UPDATE, DELETE`), usado pelas páginas, e *admin* (DDL), usado **só** pelo Cron, que roda `migrate.php up` uma vez por dia;
+- **credenciais fora do webroot e fora deste repositório:** `labs.production.env.php` (app) e `labs.admin.env.php` (admin), com permissão 600, localizados pela técnica do [`spike-php-env-security-hostgator`](spikes/spike-php-env-security-hostgator);
+- `error_log` e arquivos internos de cada item respondem 403.
+
+Convenções:
+
+- um item com **schema próprio** ganha banco próprio, sem dividir tabelas entre spikes;
+- demos com **escrita** só entram com reset diário pelo Cron e limite de volume;
+- só MySQL ao vivo (a hospedagem não oferece PostgreSQL); os testes automatizados continuam nos bancos descartáveis do CI.
+
 ## 🖥️ Página de portfólio
 
 A página publicada em `/labs` (home com todos os itens e uma página de detalhe por item, com código, demo, execução no CI e como rodar) é gerada por [`site/build.mjs`](site/build.mjs), chamado por [`scripts/build-site.sh`](scripts/build-site.sh). Para testar localmente (Node 20+ e Yarn 1):

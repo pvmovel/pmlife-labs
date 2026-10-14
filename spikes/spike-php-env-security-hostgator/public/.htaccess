@@ -13,6 +13,10 @@
     Require all denied
 </FilesMatch>
 RedirectMatch 403 /\.git
+# Log que a hospedagem grava na pasta do script: revelaria nomes reais de banco e usuário
+<FilesMatch "^error_log$">
+    Require all denied
+</FilesMatch>
 
 # --- Sem listagem de diretórios ---
 Options -Indexes

@@ -1,0 +1,5 @@
+# Webroot da demo: só o index.php é público.
+Options -Indexes
+<FilesMatch "^(error_log|\..*)$">
+    Require all denied
+</FilesMatch>

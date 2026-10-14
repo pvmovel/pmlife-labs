@@ -72,7 +72,11 @@ jobs:
           check "/spikes/spike-sql-versioned-migrations/migrate.php" 403
           check "/spikes/spike-sql-versioned-migrations/migrations/mysql/001_create_notes.sql" 403
           check "/spikes/spike-eslint-clean-arch-boundaries/src/Domain/Task.ts" 403
-          check "/spikes/spike-php-env-security-hostgator/public/status.php" 500 '{"status":"error","error":{"code":"DB_UNAVAILABLE"}}'
+          check "/spikes/spike-php-env-security-hostgator/public/status.php" 200 '{"status":"success","data":{"db":"up"}}'
+          check "/spikes/spike-php-env-security-hostgator/public/status-erro.php" 500 '{"status":"error","error":{"code":"DB_UNAVAILABLE"}}'
+          check "/spikes/spike-php-env-security-hostgator/public/error_log" 403
+          check "/spikes/spike-sql-versioned-migrations/public/" 200
+          check "/spikes/spike-sql-versioned-migrations/public/error_log" 403
           check "/spikes/spike-php-env-security-hostgator/src/db.php" 403
           check "/spikes/spike-php-env-security-hostgator/config/env.example.php" 403
           check "/.ftp-deploy-sync-state.json" 403

@@ -187,6 +187,8 @@ svg { width: 16px; height: 16px; flex: none; }
 .detail__lead { margin: 0 0 16px; color: var(--muted); font-size: 1.1rem; }
 .detail__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 
+.callout ul { margin: 6px 0 0; padding-left: 20px; }
+.callout li + li { margin-top: 4px; }
 .callout {
   margin-top: 18px; padding: 12px 16px; border-radius: 10px; font-size: 0.93rem;
   background: color-mix(in srgb, var(--accent) 9%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--line));

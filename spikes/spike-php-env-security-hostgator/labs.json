@@ -2,14 +2,27 @@
   "title": "Credenciais fora do webroot em hospedagem compartilhada",
   "summary": "Como tirar a senha do banco do código e do servidor web em uma hospedagem cPanel, sem VPS nem cofre de segredos, com erros opacos para o cliente e headers de segurança.",
   "problem": "Em hospedagem compartilhada é comum a senha do MySQL estar versionada no db.php, mensagens do PDO vazarem usuário e host para o visitante e um .env de exemplo acabar publicado junto com o build do Vite.",
-  "result": "Um arquivo de ambiente por ambiente, fora do public_html, localizado sem caminho fixo; o cliente recebe só HTTP 500 com o código DB_UNAVAILABLE e o detalhe vai para o log. Técnica aplicada em produção no projeto principal.",
-  "tags": ["PHP 8.2", "PDO", "Apache .htaccess", "cPanel", "Segurança"],
+  "result": "Um arquivo de ambiente por aplicação e ambiente, fora do public_html, localizado sem caminho fixo; o cliente recebe só HTTP 500 com o código DB_UNAVAILABLE e o detalhe vai para o log. Demo ao vivo conectada a um MySQL real e técnica aplicada em produção no projeto principal.",
+  "tags": [
+    "PHP 8.2",
+    "PDO",
+    "Apache .htaccess",
+    "cPanel",
+    "Segurança"
+  ],
   "roadmap": "US11",
   "date": "2026-10-11",
-  "demo": {
-    "path": "public/status.php",
-    "label": "Ver o erro sanitizado ao vivo",
-    "note": "Sem banco configurado no labs, a resposta esperada é HTTP 500 com {\"status\":\"error\",\"error\":{\"code\":\"DB_UNAVAILABLE\"}}: nenhum detalhe interno vaza."
-  },
-  "run": "mkdir -p /tmp/fake-home\ncp config/env.example.php /tmp/fake-home/app.development.env.php\nHOME=/tmp/fake-home php -S 127.0.0.1:8765 -t public\ncurl -i http://127.0.0.1:8765/status.php"
+  "run": "mkdir -p /tmp/fake-home\ncp config/env.example.php /tmp/fake-home/labs.development.env.php\nHOME=/tmp/fake-home php -S 127.0.0.1:8765 -t public\ncurl -i http://127.0.0.1:8765/status.php",
+  "demos": [
+    {
+      "path": "public/status.php",
+      "label": "Conexão real ao vivo",
+      "note": "Conecta no MySQL do labs com credenciais lidas de um arquivo fora do webroot. Resposta esperada: 200 {\"status\":\"success\",\"data\":{\"db\":\"up\"}}."
+    },
+    {
+      "path": "public/status-erro.php",
+      "label": "Erro sanitizado ao vivo",
+      "note": "A mesma configuração, apontando para um banco que não existe. Resposta esperada: 500 {\"status\":\"error\",\"error\":{\"code\":\"DB_UNAVAILABLE\"}}, sem nenhum detalhe interno: o motivo vai só para o log do servidor."
+    }
+  ]
 }

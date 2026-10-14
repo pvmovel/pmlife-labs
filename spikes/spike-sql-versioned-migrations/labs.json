@@ -13,5 +13,12 @@
   ],
   "roadmap": "US12",
   "date": "2026-10-13",
-  "run": "docker run -d --rm --name spike-mysql \\\n  -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw \\\n  -p 127.0.0.1:13306:3306 mysql:8.4\ndocker run -d --rm --name spike-pg \\\n  -e POSTGRES_DB=spike -e POSTGRES_USER=spike -e POSTGRES_PASSWORD=spikepw \\\n  -p 127.0.0.1:15432:5432 postgres:16\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 \\\n  SPIKE_MYSQL_DB=spike SPIKE_MYSQL_USER=spike SPIKE_MYSQL_PASS=spikepw\nexport SPIKE_PGSQL_HOST=127.0.0.1 SPIKE_PGSQL_PORT=15432 \\\n  SPIKE_PGSQL_DB=spike SPIKE_PGSQL_USER=spike SPIKE_PGSQL_PASS=spikepw\nphp scripts/verify.php\ndocker stop spike-mysql spike-pg"
+  "run": "docker run -d --rm --name spike-mysql \\\n  -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw \\\n  -p 127.0.0.1:13306:3306 mysql:8.4\ndocker run -d --rm --name spike-pg \\\n  -e POSTGRES_DB=spike -e POSTGRES_USER=spike -e POSTGRES_PASSWORD=spikepw \\\n  -p 127.0.0.1:15432:5432 postgres:16\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 \\\n  SPIKE_MYSQL_DB=spike SPIKE_MYSQL_USER=spike SPIKE_MYSQL_PASS=spikepw\nexport SPIKE_PGSQL_HOST=127.0.0.1 SPIKE_PGSQL_PORT=15432 \\\n  SPIKE_PGSQL_DB=spike SPIKE_PGSQL_USER=spike SPIKE_PGSQL_PASS=spikepw\nphp scripts/verify.php\ndocker stop spike-mysql spike-pg",
+  "demos": [
+    {
+      "path": "public/",
+      "label": "Banco real ao vivo",
+      "note": "MySQL do labs na HostGator: as migrations são aplicadas pelo Migrator via Cron do cPanel, com um usuário admin; a página lê com um usuário sem privilégio de DDL. O PostgreSQL é provado no CI (a hospedagem só oferece MySQL)."
+    }
+  ]
 }

@@ -1,0 +1,9 @@
+{
+  "status": "success",
+  "data": {
+    "titulo_projeto_pt": "Minha Plataforma",
+    "titulo_projeto_en": "My Platform",
+    "environment": "demo",
+    "is_default": false
+  }
+}

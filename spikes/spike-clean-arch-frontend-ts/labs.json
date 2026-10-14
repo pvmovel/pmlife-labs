@@ -1,0 +1,17 @@
+{
+  "title": "Clean Architecture no front: troque a fonte de dados sem tocar na UI",
+  "summary": "Uma fatia vertical completa em React + TypeScript (Port, Adapter, caso de uso, Composition Root, hook e componente), em que a interface não sabe se o dado veio de HTTP ou da memória.",
+  "problem": "Componentes React costumam fazer fetch direto, montar URL, interpretar o JSON da API e mostrar err.message do servidor na tela. Isso acopla a UI ao backend, impede testar sem rede e vaza detalhes internos para o usuário.",
+  "result": "O componente só renderiza o estado de um hook; o hook chama um caso de uso; o caso de uso depende de uma interface (Port). O único lugar que escolhe a implementação concreta é o Composition Root. Testes injetam um fake sem nenhuma chamada de rede, e o adapter HTTP converte toda falha em um código estável, sem texto do servidor.",
+  "tags": ["React 19", "TypeScript", "Clean Architecture", "SOLID", "Vitest", "Testing Library"],
+  "roadmap": "US13",
+  "date": "2026-10-14",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Alterne entre HTTP, HTTP com falha e Em memória: a mesma interface, com o adapter trocado só no Composition Root. A falha mostra a mensagem da própria UI e o código (HTTP_ERROR), nunca o texto do servidor."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # lint de fronteiras + tsc + 9 testes\nyarn dev      # demo em http://localhost:5173"
+}

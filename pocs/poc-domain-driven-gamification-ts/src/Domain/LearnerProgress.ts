@@ -1,6 +1,6 @@
 // Domain (TypeScript puro): progresso de um aprendiz em uma trilha.
 // O nível NÃO é guardado: é sempre derivado do XP pela escada. Isso elimina o if/else
-// de limiares e faz o salto de vários níveis funcionar sozinho.
+// de limiares; quando uma concessão cruza vários limiares, a promoção é registrada nível a nível.
 import type { CareerLadder, CareerLevel } from './CareerLadder';
 
 /** Formato serializável para persistir e reidratar (ex.: SQLite no navegador, API). */
@@ -11,10 +11,12 @@ export interface ProgressSnapshot {
   readonly completedQuests: readonly string[];
 }
 
-/** Resultado de uma concessão de XP: de onde para onde o aprendiz foi. */
+/** Resultado de uma concessão de XP: de onde para onde o aprendiz foi, degrau a degrau. */
 export interface Promotion {
   readonly from: CareerLevel;
   readonly to: CareerLevel;
+  /** Cada nível alcançado, em ordem, sem pular nenhum (promoção nível a nível). */
+  readonly promotions: readonly CareerLevel[];
   readonly levelsGained: number;
 }
 
@@ -67,15 +69,16 @@ export class LearnerProgress {
   }
 
   /**
-   * Soma XP e devolve a promoção ocorrida (pode ser de vários níveis de uma vez).
+   * Soma XP e devolve as promoções em ordem: o nível final é o do XP total, sem pular degraus no registro.
    * @throws Error se o XP não for um número positivo.
    */
   addExperience(amount: number): Promotion {
     if (!Number.isFinite(amount) || amount <= 0) throw new Error('O XP concedido deve ser maior que zero.');
+    const before = this.xpTotal;
     const from = this.level;
     this.xpTotal += amount;
-    const to = this.level;
-    return { from, to, levelsGained: this.ladder.indexOf(to) - this.ladder.indexOf(from) };
+    const promotions = this.ladder.levelsCrossed(before, this.xpTotal);
+    return { from, to: this.level, promotions, levelsGained: promotions.length };
   }
 
   /**

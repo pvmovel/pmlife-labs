@@ -51,6 +51,11 @@ export class CareerLadder {
     return current;
   }
 
+  /** Níveis alcançados ao ir de `fromXp` para `toXp`, em ordem e sem pular nenhum. */
+  levelsCrossed(fromXp: number, toXp: number): CareerLevel[] {
+    return this.levels.filter((l) => l.minXp > fromXp && l.minXp <= toXp);
+  }
+
   /** O próximo nível a alcançar, ou null no topo da escada. */
   nextLevelFor(xp: number): CareerLevel | null {
     return this.levels.find((l) => l.minXp > xp) ?? null;

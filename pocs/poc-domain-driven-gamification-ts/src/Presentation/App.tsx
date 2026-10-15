@@ -19,10 +19,12 @@ const fresh = (track: Track): TrackState => ({
   saved: null,
 });
 
-const describe = (p: Promotion, xp: number) =>
-  p.levelsGained > 0
-    ? `+${xp} XP ➔ promovido de ${p.from.label} para ${p.to.label} (+${p.levelsGained} ${p.levelsGained > 1 ? 'níveis' : 'nível'})`
-    : `+${xp} XP (continua em ${p.to.label})`;
+/** Uma linha por promoção, em ordem: nenhum nível é pulado no histórico. */
+const describe = (p: Promotion, xp: number): string[] => {
+  if (p.promotions.length === 0) return [`+${xp} XP (continua em ${p.to.label})`];
+  const steps = [p.from, ...p.promotions];
+  return [`+${xp} XP`, ...p.promotions.map((to, i) => `   ↳ promovido de ${steps[i].label} para ${to.label}`)];
+};
 
 export function App() {
   const [trackId, setTrackId] = useState(TRACKS[0].id);
@@ -43,10 +45,10 @@ export function App() {
       if (questId) {
         const promotion = draft.completeQuest(questId, xp);
         if (!promotion) return { log: [`"${label}" já foi concluída: nenhum XP somado (idempotência)`, ...s.log] };
-        return { naiveIndex: naiveNextIndex(track.ladder, s.naiveIndex, draft.xp), log: [`Missão "${label}": ${describe(promotion, xp)}`, ...s.log] };
+        return { naiveIndex: naiveNextIndex(track.ladder, s.naiveIndex, draft.xp), log: [`Missão "${label}"`, ...describe(promotion, xp), ...s.log] };
       }
       const promotion = draft.addExperience(xp);
-      return { naiveIndex: naiveNextIndex(track.ladder, s.naiveIndex, draft.xp), log: [describe(promotion, xp), ...s.log] };
+      return { naiveIndex: naiveNextIndex(track.ladder, s.naiveIndex, draft.xp), log: [...describe(promotion, xp), ...s.log] };
     });
 
   const levels = track.ladder.all();
@@ -129,7 +131,7 @@ export function App() {
             <strong data-testid="naive-level">{naiveLevel.label}</strong>
           </div>
         </div>
-        <p className="muted small">Dê +3000 XP de uma vez: o padrão comum de if/else promove só um nível; aqui o aprendiz vai direto para onde o XP manda.</p>
+        <p className="muted small">Dê +3000 XP de uma vez: o padrão comum de if/else promove só um nível; aqui o aprendiz chega ao nível que o XP manda, com cada promoção registrada em ordem no histórico.</p>
       </section>
 
       <section className="card">
@@ -155,8 +157,8 @@ export function App() {
       <section className="card">
         <h2>Histórico</h2>
         {state.log.length === 0 ? <p className="muted small">Nenhuma ação ainda.</p> : (
-          <ul className="log">
-            {state.log.slice(0, 8).map((line, i) => (
+          <ul className="log" aria-label="Histórico">
+            {state.log.slice(0, 10).map((line, i) => (
               <li key={i}>{line}</li>
             ))}
           </ul>

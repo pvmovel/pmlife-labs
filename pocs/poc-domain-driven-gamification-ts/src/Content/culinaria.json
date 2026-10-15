@@ -1,0 +1,15 @@
+{
+  "trackId": "culinaria",
+  "name": "Trilha de Culinária",
+  "levels": [
+    { "id": "ajudante", "label": "Ajudante de Cozinha", "minXp": 0 },
+    { "id": "cozinheiro", "label": "Cozinheiro", "minXp": 1000 },
+    { "id": "sous-chef", "label": "Sous-chef", "minXp": 2500 },
+    { "id": "chef", "label": "Chef de Cozinha", "minXp": 5000 }
+  ],
+  "quests": [
+    { "id": "mise-en-place", "label": "Organizar a mise en place", "xp": 300 },
+    { "id": "molho-base", "label": "Preparar um molho base", "xp": 800 },
+    { "id": "menu-degustacao", "label": "Montar um menu degustação", "xp": 3000 }
+  ]
+}

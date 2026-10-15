@@ -43,7 +43,7 @@ Convenção para cada `pocs/<nome>/`, `spikes/<nome>/` ou `benchmarks/<nome>/`. 
 | :--- | :--- |
 | `README.md` | documentação completa, renderizada na página de detalhe do item |
 | `labs.json` | dados do card e do cabeçalho da página (ver abaixo) |
-| `public/` | webroot da demo (PHP ou HTML), acessível publicamente |
+| `public/` | webroot da demo (PHP ou HTML), acessível publicamente. **Toda demo em HTML tem, no topo, os botões `← PMLife Labs` (página principal) e `Documentação` (página do item no catálogo)** |
 | `package.json` com script `verify` | o build roda `yarn verify`, publica a saída na página do item e falha o pipeline se der erro |
 | `package.json` com script `build` | o build roda `yarn build --base=<base>/<grupo>/<nome>/dist/` e publica `dist/` |
 | qualquer outra pasta (`src/`, `config/`…) | vai para o servidor, porque os `require` relativos precisam dela, mas responde **403** |

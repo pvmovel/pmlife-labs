@@ -26,6 +26,11 @@ export function App() {
 
   return (
     <main className="page">
+      {/* Navegação padrão das demos do labs: dist/ ➔ spike ➔ spikes ➔ /labs */}
+      <nav className="labs-nav" aria-label="PMLife Labs">
+        <a className="btn" href="../../../">← PMLife Labs</a>
+        <a className="btn" href="../../../catalogo/spike-clean-arch-frontend-ts/">Documentação</a>
+      </nav>
       <p className="eyebrow">Spike · Clean Architecture no front</p>
       <h1>Troque a fonte de dados sem tocar na interface</h1>
 

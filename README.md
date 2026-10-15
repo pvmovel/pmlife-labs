@@ -20,7 +20,9 @@ Regra prática: se a pergunta é **"dá para o produto fazer isso?"**, é PoC. S
 
 ## 🎯 PoCs
 
-Nenhuma ainda.
+| PoC | Tema |
+| :--- | :--- |
+| [`pocs/poc-domain-driven-gamification-ts`](pocs/poc-domain-driven-gamification-ts) | Motor de gamificação para qualquer trilha: níveis derivados do XP por escada configurável, salto de vários níveis, missões idempotentes e reidratação |
 
 ## 🧪 Spikes
 

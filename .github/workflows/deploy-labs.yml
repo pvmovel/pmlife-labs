@@ -70,6 +70,9 @@ jobs:
           check "/assets/labs.css" 200
           check "/catalogo/spike-sql-versioned-migrations/" 200
           check "/catalogo/spike-clean-arch-frontend-ts/" 200
+          check "/catalogo/poc-domain-driven-gamification-ts/" 200
+          check "/pocs/poc-domain-driven-gamification-ts/dist/" 200
+          check "/pocs/poc-domain-driven-gamification-ts/src/Domain/LearnerProgress.ts" 403
           check "/spikes/spike-clean-arch-frontend-ts/dist/" 200
           check "/spikes/spike-clean-arch-frontend-ts/dist/api/config.json" 200
           check "/spikes/spike-clean-arch-frontend-ts/src/Infrastructure/HttpConfigGateway.ts" 403

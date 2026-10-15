@@ -1,0 +1,17 @@
+{
+  "title": "Motor de gamificação para qualquer trilha de aprendizado",
+  "summary": "Níveis, XP e missões funcionando para qualquer área (culinária, idiomas, tecnologia, concursos) com a mesma regra de negócio: uma trilha nova é só um arquivo de conteúdo.",
+  "problem": "Plataformas gamificadas costumam ter os níveis e os limites de XP escritos no código. Cada trilha nova vira desenvolvimento, e a regra comum de if/else promove só um nível por vez: quem ganha muito XP de uma vez fica preso num nível que não reflete o que fez.",
+  "result": "Um motor único em que o nível é sempre derivado do XP pela escada da trilha. O aprendiz sobe quantos níveis o XP permitir, missões repetidas não somam pontos duas vezes e o progresso pode ser salvo e restaurado. Duas trilhas fictícias rodam no mesmo código, com 13 testes automatizados.",
+  "tags": ["Gamificação", "Domain-Driven Design", "TypeScript", "React", "Vitest"],
+  "roadmap": "US17",
+  "date": "2026-10-15",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Escolha uma trilha e dê +3000 XP de uma vez: o motor promove direto para o nível certo, enquanto o if/else comum para no seguinte. Conclua a mesma missão duas vezes para ver que o XP não duplica, e use Salvar/Restaurar para ver a reidratação."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + 13 testes\nyarn dev      # demo em http://localhost:5173"
+}

@@ -45,10 +45,17 @@ header('X-Content-Type-Options: nosniff');
     th, td { text-align:left; padding:7px 8px; border-bottom:1px solid var(--line); } th { color:var(--muted); font-weight:600; }
     code { font-family:ui-monospace, Menlo, monospace; font-size:.9em; } .ok { color:var(--ok); } .err { color:var(--err); }
     a { color:inherit; }
+    .labs-nav { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:9px; border:1px solid var(--line); background:var(--card); color:var(--text); font-size:.9rem; font-weight:600; text-decoration:none; }
+    .btn:hover { border-color:var(--ok); }
   </style>
 </head>
 <body>
 <main>
+  <nav class="labs-nav" aria-label="PMLife Labs">
+    <a class="btn" href="../../../">← PMLife Labs</a>
+    <a class="btn" href="../../../catalogo/spike-sql-versioned-migrations/">Documentação</a>
+  </nav>
   <h1>Migrations versionadas: banco real</h1>
   <p>Leitura ao vivo do MySQL do labs. As migrations foram aplicadas pelo <code>Migrator</code> (via Cron, usuário admin); esta página conecta com um usuário <strong>só de leitura e escrita de dados</strong>, sem privilégio de DDL.</p>
 <?php if ($error !== null): ?>
@@ -77,7 +84,6 @@ header('X-Content-Type-Options: nosniff');
     </table>
   </section>
 <?php endif; ?>
-  <p><a href="../../../catalogo/spike-sql-versioned-migrations/">← Documentação do spike</a></p>
 </main>
 </body>
 </html>

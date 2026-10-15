@@ -16,7 +16,7 @@ Na demo, duas trilhas fictícias rodam no mesmo motor:
 | Situação comum | Com este motor |
 | :--- | :--- |
 | Níveis e limites de XP escritos no código: **cada trilha nova é um projeto de desenvolvimento** | A trilha é um JSON (`src/Content/*.json`): lançar uma trilha é tarefa de conteúdo |
-| O `if/else` de limiares sobe **um nível por vez**: quem ganha 3000 XP de uma vez fica no nível seguinte, não no que mereceu | O nível é **derivado do XP**: o aprendiz vai direto para onde a pontuação manda |
+| O `if/else` de limiares sobe **um nível por vez**: quem ganha 3000 XP de uma vez fica no nível seguinte, não no que mereceu | O nível é **derivado do XP**: o aprendiz chega ao nível que a pontuação manda, com **cada promoção registrada em ordem** (nenhum degrau pulado) |
 | Repetir uma missão pode somar pontos de novo | Missões são **idempotentes**: concluir de novo não soma XP |
 | Progresso preso à tela | O progresso vira um **snapshot** simples, que pode ser salvo (no navegador ou no servidor) e restaurado |
 
@@ -33,7 +33,7 @@ src/Presentation/                          a demo (React): só usa o domínio
 ```
 
 - O **domínio é TypeScript puro**: não conhece React, conteúdo nem tela. O ESLint de fronteiras garante isso.
-- `addExperience` devolve a **promoção** (`de`, `para`, `níveis ganhos`), que a interface usa para comemorar.
+- `addExperience` devolve as **promoções em ordem** (`promotions`: cada degrau alcançado), que a interface usa para comemorar uma a uma.
 - O snapshot carrega o id da trilha, e **não é possível restaurar um progresso na trilha errada**.
 
 ### Testes (13)

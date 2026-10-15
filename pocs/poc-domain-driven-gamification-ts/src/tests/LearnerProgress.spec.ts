@@ -8,11 +8,12 @@ const cooking = new CareerLadder(culinaria.trackId, culinaria.levels);
 const languages = new CareerLadder(idiomas.trackId, idiomas.levels);
 
 describe('LearnerProgress', () => {
-  it('salto de múltiplos níveis: 0 ➔ 3000 XP vai direto ao terceiro nível', () => {
+  it('promoção nível a nível: 0 ➔ 3000 XP passa por Cozinheiro e chega a Sous-chef, em ordem', () => {
     const p = new LearnerProgress('u1', cooking);
     const promotion = p.addExperience(3000);
     expect(p.level.id).toBe('sous-chef');
     expect(promotion).toMatchObject({ from: { id: 'ajudante' }, to: { id: 'sous-chef' }, levelsGained: 2 });
+    expect(promotion.promotions.map((l) => l.id)).toEqual(['cozinheiro', 'sous-chef']);
   });
 
   it('rejeita XP inválido e id vazio', () => {

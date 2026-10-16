@@ -1,0 +1,17 @@
+{
+  "title": "i18n tipado em React: nenhum texto fixo, nenhuma chave errada",
+  "summary": "Internacionalização sem biblioteca: textos em JSON por namespace, chaves checadas pelo TypeScript (erro de digitação não compila), paridade entre idiomas e <html lang> sincronizado.",
+  "problem": "Projetos com i18n costumam acumular textos fixos nos componentes, chaves digitadas erradas que só aparecem como texto quebrado em produção e idiomas com chaves faltando. Em geral, só se descobre isso olhando a tela.",
+  "result": "As chaves válidas são derivadas do JSON de referência (pt-BR), então t('footer.relase.title') é erro de compilação. Um idioma sem alguma chave não compila, e um teste confere a paridade completa (inclusive chaves a mais e parâmetros de interpolação). O idioma ativo vai para <html lang>.",
+  "tags": ["React 19", "TypeScript", "i18n", "Template literal types", "Vitest"],
+  "roadmap": "US14",
+  "date": "2026-10-16",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Troque PT/EN: todos os textos da página mudam, inclusive os botões de navegação, e o valor real de <html lang> aparece atualizado. A seção 'Chave inexistente não compila' mostra o erro que o TypeScript dá para uma chave digitada errado."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc (inclui o @ts-expect-error) + 8 testes\nyarn dev      # demo em http://localhost:5173"
+}

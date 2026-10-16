@@ -1,0 +1,17 @@
+{
+  "title": "Documentação de código como gate: TypeDoc + TSDoc",
+  "summary": "A documentação do domínio é gerada a partir do código (Markdown e HTML), e o CI falha se um export público ficar sem TSDoc ou se um {@link} apontar para um símbolo que não existe.",
+  "problem": "Documentação de código ou não é escrita, ou apodrece: um símbolo é renomeado e o link do comentário continua apontando para o nome antigo. Gerar páginas automaticamente não adianta se nada obriga a escrever o comentário.",
+  "result": "O TypeDoc gera uma página por entidade, value object e porta, com exemplos, exceções, parâmetros e retornos. Com a validação tratada como erro, um script prova os dois sentidos: o código documentado passa, e export sem TSDoc, método sem TSDoc e link quebrado são barrados, cada um com o aviso esperado. O HTML da demo sai com hash no nome dos assets.",
+  "tags": ["TypeScript", "TypeDoc", "TSDoc", "typedoc-plugin-markdown", "Clean Architecture"],
+  "roadmap": "US16",
+  "date": "2026-10-16",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a documentação gerada",
+      "note": "Documentação em HTML gerada do código do spike, com busca e navegação. Veja LevelLadder: exemplo de uso, exceções do create() e links entre os tipos."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # tsc + typedoc + 6 páginas conferidas + 3 violações barradas\nyarn build    # HTML em dist/ com hash nos assets"
+}

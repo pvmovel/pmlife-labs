@@ -1,0 +1,8 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "extends": ["./typedoc.json"],
+  "plugin": [],
+  "out": "dist",
+  "githubPages": false,
+  "hideGenerator": true
+}

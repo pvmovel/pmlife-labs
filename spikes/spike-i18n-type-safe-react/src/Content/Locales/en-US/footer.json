@@ -1,0 +1,12 @@
+{
+  "engine": "3D Engine",
+  "status": {
+    "online": "Server is up",
+    "offline": "Server is down"
+  },
+  "release": {
+    "title": "Release information",
+    "version": "Version",
+    "close": "Close"
+  }
+}

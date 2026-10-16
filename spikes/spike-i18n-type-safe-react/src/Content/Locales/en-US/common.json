@@ -1,0 +1,7 @@
+{
+  "appName": "My Platform",
+  "language": "Language",
+  "backToLabs": "← PMLife Labs",
+  "documentation": "Documentation",
+  "greeting": "Hi, {name}! You have {count} quests today."
+}

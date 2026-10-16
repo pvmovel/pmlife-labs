@@ -1,0 +1,11 @@
+{
+  "eyebrow": "Spike · typed i18n",
+  "title": "No hardcoded text, no wrong keys",
+  "lead": "Every text on this page comes from src/Content/Locales. Switch the language: everything changes instantly, including the document lang attribute.",
+  "liveTitle": "Live texts",
+  "htmlLang": "Document lang attribute",
+  "compileTitle": "A missing key does not compile",
+  "compileLead": "Valid keys are derived from the pt-BR JSON. A typo becomes a compile error instead of broken text in production:",
+  "parityTitle": "Parity between languages",
+  "parityLead": "If en-US does not have exactly the same keys as pt-BR, the build fails, and a test checks the same thing at runtime."
+}

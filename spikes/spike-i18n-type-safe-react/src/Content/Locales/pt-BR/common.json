@@ -1,0 +1,7 @@
+{
+  "appName": "Minha Plataforma",
+  "language": "Idioma",
+  "backToLabs": "← PMLife Labs",
+  "documentation": "Documentação",
+  "greeting": "Olá, {name}! Você tem {count} missões hoje."
+}

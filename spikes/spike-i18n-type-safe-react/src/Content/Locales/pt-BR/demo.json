@@ -1,0 +1,11 @@
+{
+  "eyebrow": "Spike · i18n tipado",
+  "title": "Nenhum texto fixo, nenhuma chave errada",
+  "lead": "Todos os textos desta página vêm de src/Content/Locales. Troque o idioma: tudo muda na hora, inclusive o atributo lang do documento.",
+  "liveTitle": "Textos ao vivo",
+  "htmlLang": "Atributo lang do documento",
+  "compileTitle": "Chave inexistente não compila",
+  "compileLead": "As chaves válidas são derivadas do JSON pt-BR. Um erro de digitação vira erro de compilação, e não um texto quebrado em produção:",
+  "parityTitle": "Paridade entre idiomas",
+  "parityLead": "Se o en-US não tiver exatamente as mesmas chaves do pt-BR, o build falha, e um teste confere o mesmo em tempo de execução."
+}

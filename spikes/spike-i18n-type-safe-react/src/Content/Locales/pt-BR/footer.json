@@ -1,0 +1,12 @@
+{
+  "engine": "Motor 3D",
+  "status": {
+    "online": "Servidor no ar",
+    "offline": "Servidor fora do ar"
+  },
+  "release": {
+    "title": "Informações da versão",
+    "version": "Versão",
+    "close": "Fechar"
+  }
+}

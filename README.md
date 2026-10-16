@@ -30,6 +30,9 @@ Regra prática: se a pergunta é **"dá para o produto fazer isso?"**, é PoC. S
 | :--- | :--- |
 | [`spikes/spike-php-env-security-hostgator`](spikes/spike-php-env-security-hostgator) | Credenciais fora do webroot em hospedagem compartilhada, erros PDO sanitizados e headers de segurança via `.htaccess` |
 | [`spikes/spike-eslint-clean-arch-boundaries`](spikes/spike-eslint-clean-arch-boundaries) | Fronteiras da Clean Architecture verificadas pelo ESLint (`eslint-plugin-boundaries`), com prova automática de que cada violação é bloqueada |
+| [`spikes/spike-sql-versioned-migrations`](spikes/spike-sql-versioned-migrations) | Migrations SQL versionadas por dialeto (MySQL e PostgreSQL), runner PHP e repositório PDO, com demo ao vivo no banco do labs |
+| [`spikes/spike-clean-arch-frontend-ts`](spikes/spike-clean-arch-frontend-ts) | Fatia vertical de Clean Architecture no front (Port, Adapter, caso de uso, Composition Root, hook e componente) |
+| [`spikes/spike-i18n-type-safe-react`](spikes/spike-i18n-type-safe-react) | i18n tipado em React sem biblioteca: chaves checadas em compilação, namespaces por arquivo, paridade entre idiomas e `<html lang>` sincronizado |
 
 ## 📊 Benchmarks
 

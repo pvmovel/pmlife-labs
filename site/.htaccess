@@ -37,9 +37,14 @@ DirectoryIndex index.html index.php
     # --- Cache: nenhum visitante deve ver versão antiga depois de um deploy ---
     # Arquivos SEM hash no nome (HTML do catálogo e das demos, CSS do site, saída do CI, JSON):
     # sempre revalidados com o servidor (no-cache = usa o cache só se não mudou).
-    <FilesMatch "\.(html|css|txt|json)$">
+    <FilesMatch "\.(html|txt|json)$">
         Header set Cache-Control "no-cache"
     </FilesMatch>
+    # CSS do site (labs.css, hljs.css) não tem hash. A HostGator aplica max-age=14400 a CSS/JS em nível de
+    # servidor, e só um <If> (mesclado por último) consegue sobrescrever; um <FilesMatch> perde para ele.
+    <If "%{REQUEST_URI} =~ m#\.css$# && %{REQUEST_URI} !~ m#/dist/assets/#">
+        Header set Cache-Control "no-cache"
+    </If>
     # Assets gerados pelo Vite nas demos têm hash no nome: podem ficar em cache por 1 ano.
     <If "%{REQUEST_URI} =~ m#/dist/assets/#">
         Header set Cache-Control "public, max-age=31536000, immutable"

@@ -35,18 +35,14 @@ DirectoryIndex index.html index.php
     Header unset X-Powered-By
 
     # --- Cache: nenhum visitante deve ver versão antiga depois de um deploy ---
-    # Arquivos SEM hash no nome (HTML do catálogo e das demos, CSS do site, saída do CI, JSON):
-    # sempre revalidados com o servidor (no-cache = usa o cache só se não mudou).
+    # O domínio passa pelo Cloudflare: ele NÃO altera HTML (cf-cache-status: DYNAMIC), mas reescreve o
+    # Cache-Control de arquivos estáticos (CSS, JS, imagens, fontes) para no mínimo 4h ("Browser Cache TTL").
+    # Por isso: HTML/TXT/JSON sem hash -> no-cache; todo CSS/JS/asset -> nome com hash + cache longo.
     <FilesMatch "\.(html|txt|json)$">
         Header set Cache-Control "no-cache"
     </FilesMatch>
-    # CSS do site (labs.css, hljs.css) não tem hash. A HostGator aplica max-age=14400 a CSS/JS em nível de
-    # servidor, e só um <If> (mesclado por último) consegue sobrescrever; um <FilesMatch> perde para ele.
-    <If "%{REQUEST_URI} =~ m#\.css$# && %{REQUEST_URI} !~ m#/dist/assets/#">
-        Header set Cache-Control "no-cache"
-    </If>
-    # Assets gerados pelo Vite nas demos têm hash no nome: podem ficar em cache por 1 ano.
-    <If "%{REQUEST_URI} =~ m#/dist/assets/#">
+    # Assets com hash no nome: assets/labs.<hash>.css, assets/hljs.<hash>.css e dist/assets/ das demos (Vite).
+    <If "%{REQUEST_URI} =~ m#/dist/assets/# || %{REQUEST_URI} =~ m#/assets/[a-z]+\.[0-9a-f]{8}\.css$#">
         Header set Cache-Control "public, max-age=31536000, immutable"
     </If>
 </IfModule>

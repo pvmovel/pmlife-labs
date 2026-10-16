@@ -7,7 +7,8 @@
 // para que nada criado no labs fique fora do portfólio.
 //
 // Uso: node build.mjs <dir-de-saída>   (chamado por scripts/build-site.sh)
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, copyFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { execSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -197,8 +198,8 @@ function layout({ title, description, depth, body }) {
   <meta property="og:type" content="website">
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
-  <link rel="stylesheet" href="${up}assets/labs.css">
-  <link rel="stylesheet" href="${up}assets/hljs.css">
+  <link rel="stylesheet" href="${up}assets/${ASSETS.labs}">
+  <link rel="stylesheet" href="${up}assets/${ASSETS.hljs}">
 </head>
 <body>
   <header class="topbar">
@@ -397,15 +398,30 @@ ${renderReadme(item)}
 
 // ---------- build ----------
 
+/**
+ * Grava um asset com hash do conteúdo no nome (ex.: labs.3f2a91c0.css). O domínio passa pelo Cloudflare,
+ * que reescreve o Cache-Control de CSS/JS para no mínimo 4h: só um nome que muda a cada versão garante
+ * que nenhum visitante veja CSS antigo. Com hash, o arquivo pode ficar 1 ano em cache (immutable).
+ */
+function writeHashedAsset(base, ext, content) {
+  const hash = createHash('sha256').update(content).digest('hex').slice(0, 8);
+  const name = `${base}.${hash}.${ext}`;
+  writeFileSync(path.join(OUT, 'assets', name), content);
+  return name;
+}
+
 const items = readItems();
 
 mkdirSync(path.join(OUT, 'assets'), { recursive: true });
-copyFileSync(path.join(SITE_DIR, 'labs.css'), path.join(OUT, 'assets', 'labs.css'));
 const hljsStyles = path.join(SITE_DIR, 'node_modules', 'highlight.js', 'styles');
-writeFileSync(
-  path.join(OUT, 'assets', 'hljs.css'),
-  `${readFileSync(path.join(hljsStyles, 'github.css'), 'utf8')}\n@media (prefers-color-scheme: dark) {\n${readFileSync(path.join(hljsStyles, 'github-dark.css'), 'utf8')}\n}\n`,
-);
+const ASSETS = {
+  labs: writeHashedAsset('labs', 'css', readFileSync(path.join(SITE_DIR, 'labs.css'), 'utf8')),
+  hljs: writeHashedAsset(
+    'hljs',
+    'css',
+    `${readFileSync(path.join(hljsStyles, 'github.css'), 'utf8')}\n@media (prefers-color-scheme: dark) {\n${readFileSync(path.join(hljsStyles, 'github-dark.css'), 'utf8')}\n}\n`,
+  ),
+};
 
 writeFileSync(path.join(OUT, 'index.html'), renderHome(items));
 for (const item of items) {

@@ -64,7 +64,22 @@ jobs:
             fi
             echo "ok  $1 -> $code"
           }
+          header() { # header <caminho> <trecho obrigatório no Cache-Control>
+            local value
+            value=$(curl -sSI -A "pmlife-labs-smoke" "${LABS_URL}$1" | tr -d '\r' | grep -i '^cache-control:' | cut -d' ' -f2-) || true
+            case "$value" in
+              *"$2"*) echo "ok  $1 -> Cache-Control: $value" ;;
+              *) echo "::error::$1 -> Cache-Control '$value' (esperado conter '$2')"; fail=1 ;;
+            esac
+          }
           check "/" 200
+          # Cache: HTML/CSS sem hash sempre revalidados; assets com hash das demos em cache longo
+          header "/" "no-cache"
+          header "/catalogo/spike-i18n-type-safe-react/" "no-cache"
+          header "/assets/labs.css" "no-cache"
+          header "/spikes/spike-i18n-type-safe-react/dist/" "no-cache"
+          DEMO_JS=$(curl -sS "${LABS_URL}/spikes/spike-i18n-type-safe-react/dist/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          header "/spikes/spike-i18n-type-safe-react/dist/${DEMO_JS}" "immutable"
           check "/catalogo/spike-php-env-security-hostgator/" 200
           check "/catalogo/spike-eslint-clean-arch-boundaries/" 200
           check "/assets/labs.css" 200

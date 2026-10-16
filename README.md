@@ -82,9 +82,9 @@ As demos ao vivo usam um **MySQL real** na hospedagem, sem custo extra (incluíd
 
 ### Cache
 
-O `site/.htaccess` garante que **nenhum visitante veja versão antiga** depois de um deploy:
-- HTML, CSS do site, saída do CI e JSON vão com `Cache-Control: no-cache`, ou seja, sempre revalidados;
-- `dist/assets/` das demos, que têm hash no nome, ficam 1 ano em cache (`immutable`).
+O `site/.htaccess` e o gerador garantem que **nenhum visitante veja versão antiga** depois de um deploy:
+- HTML, saída do CI e JSON vão com `Cache-Control: no-cache` (o Cloudflare na frente do domínio não altera HTML);
+- **todo CSS/JS tem hash no nome** (`assets/labs.<hash>.css`, `dist/assets/` das demos) e fica 1 ano em cache (`immutable`). Isso é obrigatório porque o Cloudflare reescreve o cache de arquivos estáticos para no mínimo 4h: um `labs.css` sem hash ficaria velho por horas.
 
 O smoke test do deploy confere esses cabeçalhos. Toda demo nova deve gerar assets com hash (build do Vite) ou servir HTML/JSON sem cache.
 

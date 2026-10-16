@@ -76,13 +76,14 @@ jobs:
           # Cache: HTML/CSS sem hash sempre revalidados; assets com hash das demos em cache longo
           header "/" "no-cache"
           header "/catalogo/spike-i18n-type-safe-react/" "no-cache"
-          header "/assets/labs.css" "no-cache"
+          LABS_CSS=$(curl -sS "${LABS_URL}/" | grep -o 'assets/labs\.[0-9a-f]*\.css' | head -1)
+          [ -n "$LABS_CSS" ] && echo "ok  CSS do site com hash: $LABS_CSS" || { echo "::error::a home não referencia assets/labs.<hash>.css"; fail=1; }
+          header "/${LABS_CSS}" "immutable"
           header "/spikes/spike-i18n-type-safe-react/dist/" "no-cache"
           DEMO_JS=$(curl -sS "${LABS_URL}/spikes/spike-i18n-type-safe-react/dist/" | grep -o 'assets/index-[^"]*\.js' | head -1)
           header "/spikes/spike-i18n-type-safe-react/dist/${DEMO_JS}" "immutable"
           check "/catalogo/spike-php-env-security-hostgator/" 200
           check "/catalogo/spike-eslint-clean-arch-boundaries/" 200
-          check "/assets/labs.css" 200
           check "/catalogo/spike-sql-versioned-migrations/" 200
           check "/catalogo/spike-clean-arch-frontend-ts/" 200
           check "/catalogo/poc-domain-driven-gamification-ts/" 200

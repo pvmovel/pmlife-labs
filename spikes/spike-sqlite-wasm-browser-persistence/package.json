@@ -1,0 +1,28 @@
+{
+  "name": "spike-sqlite-wasm-browser-persistence",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Spike: SQLite WASM num Web Worker com VFS opfs-sahpool (OPFS sem COOP/COEP), schema local versionado e prova de persistência no Chrome headless",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "e2e": "node scripts/e2e.mjs",
+    "verify": "tsc --noEmit && vitest run --reporter=verbose && node scripts/e2e.mjs"
+  },
+  "dependencies": {
+    "@sqlite.org/sqlite-wasm": "^3.53.4-build2"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "puppeteer-core": "^24",
+    "typescript": "~5.9",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.4"
+  }
+}

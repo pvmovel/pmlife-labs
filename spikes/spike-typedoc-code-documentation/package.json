@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Spike: documentação de código gerada pelo TypeDoc a partir do TSDoc, com export sem documentação e link quebrado barrados no verify",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "docs:generate": "typedoc",

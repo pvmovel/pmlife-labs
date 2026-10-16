@@ -106,4 +106,27 @@ jobs:
           check "/spikes/spike-php-env-security-hostgator/src/db.php" 403
           check "/spikes/spike-php-env-security-hostgator/config/env.example.php" 403
           check "/.ftp-deploy-sync-state.json" 403
+          # US16: documentação gerada pelo TypeDoc (assets com hash injetado pelo build)
+          check "/catalogo/spike-typedoc-code-documentation/" 200
+          check "/spikes/spike-typedoc-code-documentation/dist/" 200
+          header "/spikes/spike-typedoc-code-documentation/dist/" "no-cache"
+          DOC_CSS=$(curl -sS "${LABS_URL}/spikes/spike-typedoc-code-documentation/dist/" | grep -o 'assets/style\.[0-9a-f]\{8\}\.css' | head -1)
+          [ -n "$DOC_CSS" ] && header "/spikes/spike-typedoc-code-documentation/dist/${DOC_CSS}" "immutable" || { echo "::error::a demo do TypeDoc não referencia assets/style.<hash>.css"; fail=1; }
+          check "/spikes/spike-typedoc-code-documentation/violations/BrokenLink.ts" 403
+          # US18: SQLite WASM (o .wasm precisa de application/wasm para compilar em streaming)
+          check "/catalogo/spike-sqlite-wasm-browser-persistence/" 200
+          check "/spikes/spike-sqlite-wasm-browser-persistence/dist/" 200
+          check "/spikes/spike-sqlite-wasm-browser-persistence/src/Infrastructure/sqlite.worker.ts" 403
+          # HTML -> index-<hash>.js -> sqlite.worker-<hash>.js -> sqlite3-<hash>.wasm
+          SQL_BASE="${LABS_URL}/spikes/spike-sqlite-wasm-browser-persistence/dist"
+          ENTRY=$(curl -sS "${SQL_BASE}/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          WORKER=$(curl -sS "${SQL_BASE}/${ENTRY}" | grep -o 'sqlite\.worker-[A-Za-z0-9_-]*\.js' | head -1)
+          WASM=$(curl -sS "${SQL_BASE}/assets/${WORKER}" | grep -o 'sqlite3-[A-Za-z0-9_-]*\.wasm' | head -1)
+          if [ -n "$WASM" ]; then
+            header "/spikes/spike-sqlite-wasm-browser-persistence/dist/assets/${WASM}" "immutable"
+            ctype=$(curl -sSI -A "pmlife-labs-smoke" "${LABS_URL}/spikes/spike-sqlite-wasm-browser-persistence/dist/assets/${WASM}" | tr -d '\r' | grep -i '^content-type:' | cut -d' ' -f2-)
+            case "$ctype" in application/wasm*) echo "ok  ${WASM} -> Content-Type: $ctype" ;; *) echo "::error::${WASM} -> Content-Type '$ctype' (esperado application/wasm)"; fail=1 ;; esac
+          else
+            echo "::error::não achei o .wasm referenciado pelo worker do SQLite"; fail=1
+          fi
           exit $fail

@@ -1,0 +1,10 @@
+{
+  "title": "Benchmark: SQLite WASM com OPFS no navegador",
+  "summary": "Quanto custa abrir, gravar e ler um banco SQLite no navegador com o VFS opfs-sahpool: abertura em ~140 ms e gravação avulsa em ~3,5 ms.",
+  "problem": "Antes de colocar o progresso do aluno num banco local, é preciso saber se a abertura atrasa o carregamento da página e se cada gravação é barata o bastante para acontecer a cada missão.",
+  "result": "Abertura total de ~140 ms, uma vez por carregamento e fora da thread da interface; 1.000 linhas inseridas numa transação em ~27 ms; gravação avulsa em ~3,5 ms. Nenhuma otimização necessária para o uso previsto.",
+  "tags": ["SQLite", "WebAssembly", "OPFS", "Benchmark"],
+  "roadmap": "US18",
+  "date": "2026-10-16",
+  "run": "cd spikes/spike-sqlite-wasm-browser-persistence\nyarn install --frozen-lockfile\nyarn e2e"
+}

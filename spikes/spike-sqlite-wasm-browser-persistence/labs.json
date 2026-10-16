@@ -1,0 +1,17 @@
+{
+  "title": "SQLite de verdade no navegador: progresso que sobrevive ao recarregar",
+  "summary": "SQLite compilado para WebAssembly, rodando num Web Worker e gravando no disco privado do navegador (OPFS), com schema versionado e sem nenhum header especial do servidor.",
+  "problem": "Guardar o progresso do aluno sem backend: localStorage é síncrono, pequeno e só guarda texto; IndexedDB não tem SQL. O VFS OPFS padrão do SQLite exige headers COOP/COEP, que bloqueariam recursos de outra origem.",
+  "result": "Com o VFS opfs-sahpool, o banco abre em cerca de 140 ms fora da thread da interface e persiste entre recarregamentos e entre aberturas do navegador. Isso foi provado num Chrome headless de verdade, e as migrations e o SQL têm testes no Node. Achado: o pool é exclusivo de uma aba, e uma segunda aba cai para memória.",
+  "tags": ["SQLite", "WebAssembly", "OPFS", "Web Worker", "TypeScript", "Vite", "Puppeteer"],
+  "roadmap": "US18",
+  "date": "2026-10-16",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Conclua missões e recarregue a página: o XP volta do banco local. 'Medir' roda o benchmark no seu navegador. Abra em duas abas para ver a exclusividade do pool."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # tsc + 10 testes + e2e no Chrome headless\nyarn dev      # demo em http://localhost:5173"
+}

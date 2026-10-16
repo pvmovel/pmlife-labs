@@ -1,0 +1,16 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/Domain", "src/Application/Ports"],
+  "entryPointStrategy": "expand",
+  "tsconfig": "tsconfig.json",
+  "plugin": ["typedoc-plugin-markdown"],
+  "out": "docs/code",
+  "name": "Documentação de código (spike)",
+  "readme": "none",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "validation": { "notExported": true, "invalidLink": true, "notDocumented": true },
+  "requiredToBeDocumented": ["Class", "Interface", "Function", "Method", "Constructor", "Property", "Accessor", "TypeAlias", "Enum", "Variable"],
+  "treatWarningsAsErrors": true,
+  "treatValidationWarningsAsErrors": true
+}

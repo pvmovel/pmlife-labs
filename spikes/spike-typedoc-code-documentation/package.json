@@ -1,0 +1,18 @@
+{
+  "name": "spike-typedoc-code-documentation",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Spike: documentação de código gerada pelo TypeDoc a partir do TSDoc, com export sem documentação e link quebrado barrados no verify",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "docs:generate": "typedoc",
+    "build": "node scripts/build-html.mjs",
+    "verify": "tsc --noEmit && typedoc && node scripts/check-docs.mjs"
+  },
+  "devDependencies": {
+    "typedoc": "^0.28.20",
+    "typedoc-plugin-markdown": "^4.14.0",
+    "typescript": "~5.9"
+  }
+}

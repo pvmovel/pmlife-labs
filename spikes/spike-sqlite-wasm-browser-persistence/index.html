@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SQLite WASM no navegador · PMLife Labs</title>
+  </head>
+  <body>
+    <main class="page">
+      <nav class="labs-nav" aria-label="PMLife Labs">
+        <a class="btn" href="../../../">← PMLife Labs</a>
+        <a class="btn" href="../../../catalogo/spike-sqlite-wasm-browser-persistence/">Documentação</a>
+      </nav>
+      <p class="eyebrow">Spike · persistência local</p>
+      <h1>O progresso sobrevive ao recarregar a página</h1>
+      <p class="lead">SQLite de verdade, compilado para WebAssembly, rodando num Web Worker e gravando no armazenamento privado do navegador (OPFS). Nenhum servidor envolvido.</p>
+
+      <p id="warning" class="warning" role="alert" hidden data-testid="warning"></p>
+
+      <section class="card">
+        <h2>Banco local</h2>
+        <dl class="pairs">
+          <dt>Armazenamento</dt><dd data-testid="mode">carregando…</dd>
+          <dt>SQLite</dt><dd data-testid="sqlite-version">—</dd>
+          <dt>Schema</dt><dd data-testid="schema">—</dd>
+          <dt>Abertura</dt><dd data-testid="timings">—</dd>
+        </dl>
+      </section>
+
+      <section class="card">
+        <h2>Progresso do aluno <span class="muted">(trilha fictícia "culinária")</span></h2>
+        <dl class="pairs">
+          <dt>XP</dt><dd data-testid="xp">—</dd>
+          <dt>Missões concluídas</dt><dd data-testid="missions">—</dd>
+          <dt>Leitura do banco</dt><dd data-testid="load-time">—</dd>
+        </dl>
+        <div class="actions">
+          <button type="button" id="complete" data-testid="complete" disabled>Concluir próxima missão (+150 XP)</button>
+          <button type="button" id="reload" data-testid="reload">Recarregar a página</button>
+          <button type="button" id="clear" data-testid="clear" disabled>Apagar dados</button>
+        </div>
+        <p class="muted">Conclua uma missão e recarregue (ou feche e abra a aba): o XP continua lá.</p>
+      </section>
+
+      <section class="card">
+        <h2>Desempenho neste navegador</h2>
+        <button type="button" id="bench" data-testid="bench" disabled>Medir</button>
+        <dl class="pairs" id="bench-result" data-testid="bench-result" hidden></dl>
+      </section>
+
+      <section class="card">
+        <h2>Sem OPFS</h2>
+        <p class="muted">Navegador sem OPFS (ou com o banco aberto em outra aba) cai para memória e avisa que o progresso não será salvo. <a href="?sem-opfs">Simular</a> · <a href="./">voltar ao normal</a></p>
+      </section>
+    </main>
+    <script type="module" src="/src/Presentation/main.ts"></script>
+  </body>
+</html>

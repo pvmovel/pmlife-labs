@@ -1,6 +1,9 @@
 # .htaccess da raiz do /labs (copiado para _site/ pelo scripts/build-site.sh)
 
 Options -Indexes
+
+# WebAssembly (SQLite WASM, US18): sem o MIME certo o navegador não compila em streaming
+AddType application/wasm .wasm
 DirectoryIndex index.html index.php
 
 # --- Só public/ e dist/ de cada poc/spike/benchmark ficam acessíveis (o catálogo fica em catalogo/) ---

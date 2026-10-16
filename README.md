@@ -80,6 +80,14 @@ As demos ao vivo usam um **MySQL real** na hospedagem, sem custo extra (incluíd
 - **credenciais fora do webroot e fora deste repositório:** `labs.production.env.php` (app) e `labs.admin.env.php` (admin), com permissão 600, localizados pela técnica do [`spike-php-env-security-hostgator`](spikes/spike-php-env-security-hostgator);
 - `error_log` e arquivos internos de cada item respondem 403.
 
+### Cache
+
+O `site/.htaccess` garante que **nenhum visitante veja versão antiga** depois de um deploy:
+- HTML, CSS do site, saída do CI e JSON vão com `Cache-Control: no-cache`, ou seja, sempre revalidados;
+- `dist/assets/` das demos, que têm hash no nome, ficam 1 ano em cache (`immutable`).
+
+O smoke test do deploy confere esses cabeçalhos. Toda demo nova deve gerar assets com hash (build do Vite) ou servir HTML/JSON sem cache.
+
 Convenções:
 
 - um item com **schema próprio** ganha banco próprio, sem dividir tabelas entre spikes;

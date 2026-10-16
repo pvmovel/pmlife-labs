@@ -45,7 +45,8 @@ Cada violação precisa gerar **exatamente** o aviso esperado. Se o TypeDoc deix
 2. **`{@link}` entre módulos.** O TypeDoc resolve pelo escopo do TypeScript: o link funciona se o símbolo está importado no arquivo. Quando não está, usa-se a referência completa `{@link "Domain/ValueObjects/LevelLadder"!LevelLadder | LevelLadder}`.
 3. **Documentação respeita a regra de dependência.** O `ProgressSnapshot` (domínio) citava o `ProgressRepository` (aplicação). Para resolver o link, o domínio teria que importar a aplicação, então o link saiu: quem aponta para o domínio é a porta, nunca o contrário.
 4. **Cache dos assets.** O HTML do TypeDoc usa nomes fixos (`assets/main.js`, `style.css`, `icons.svg`…). Atrás de um CDN que segura estáticos por horas, um deploy novo mostraria CSS e JS velhos. O `build-html.mjs` põe o hash do conteúdo no nome de cada asset, reescreve as páginas e falha se sobrar algum nome sem hash.
-5. **Versões.** `typedoc@0.28` aceita TypeScript 5.0 a 6.0 e exige Node 18 ou mais novo. O plugin de Markdown 4.x acompanha a 0.28.
+5. **Versões.** `typedoc@0.28` aceita TypeScript 5.0 a 6.0 e exige Node 18 ou mais novo. O plugin de Markdown 4.x acompanha a 0.28. O `build-html.mjs` usa `readdirSync` recursivo (Node 20+): num Node 16 ele reescrevia só as páginas da raiz, sem erro, então o script agora recusa Node antigo e o `package.json` declara `engines`.
+6. **Navegação do labs.** Toda demo do labs tem os botões `← PMLife Labs` e `Documentação` no topo. Como o HTML é do TypeDoc, o build injeta a barra em cada página, com os links relativos ajustados à profundidade (`dist/` ou `dist/classes/`).
 
 ## Demo
 

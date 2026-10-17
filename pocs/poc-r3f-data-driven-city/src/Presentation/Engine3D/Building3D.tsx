@@ -1,7 +1,12 @@
 // Um prédio: só traduz o dado (posição, tamanho, cor, rótulo) em objetos 3D. Nenhum prédio existe no código.
 import { Billboard, Text } from '@react-three/drei';
+import { MeshBasicMaterial } from 'three';
 import type { Building } from '../../Domain/City';
 import labelFont from '@fontsource/inter/files/inter-latin-600-normal.woff?url';
+
+// Material dos rótulos sem teste de profundidade: o troika deriva o material do texto a partir deste,
+// então o rótulo é desenhado por cima de qualquer prédio. (A prop material-depthTest não chega ao material derivado.)
+const LABEL_MATERIAL = new MeshBasicMaterial({ depthTest: false, depthWrite: false, transparent: true });
 
 export function Building3D({ building, label }: { building: Building; label: string }) {
   const [x, z] = building.position;
@@ -25,7 +30,7 @@ export function Building3D({ building, label }: { building: Building; label: str
           outlineWidth={0.04}
           outlineColor="#0b1120"
           renderOrder={10}
-          material-depthTest={false}
+          material={LABEL_MATERIAL}
         >
           {label}
         </Text>

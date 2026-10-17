@@ -1,0 +1,25 @@
+{
+  "nav": { "back": "← PMLife Labs", "docs": "Documentação" },
+  "page": {
+    "eyebrow": "PoC · motor 3D orientado a dados",
+    "title": "Uma cidade 3D para cada trilha, sem escrever código",
+    "lead": "Os prédios vêm de um arquivo JSON por trilha. Trocar de trilha troca a cidade inteira; um prédio novo é uma linha a mais no arquivo.",
+    "track": "Trilha",
+    "language": "Idioma",
+    "loading": "Carregando a cidade 3D…",
+    "sceneLabel": "Cidade 3D da trilha {track}, com {count} prédios. Arraste para girar.",
+    "dataTitle": "O arquivo que desenhou esta cidade",
+    "dataHint": "src/Content/Curriculum/{track}/buildings.json",
+    "error": "Não foi possível montar a cidade: {message}"
+  },
+  "tracks": { "culinaria": "Culinária", "idiomas": "Idiomas" },
+  "buildings": {
+    "mercado": "Mercado",
+    "cozinhaEscola": "Cozinha-escola",
+    "confeitaria": "Confeitaria",
+    "restaurante": "Restaurante",
+    "biblioteca": "Biblioteca",
+    "laboratorio": "Laboratório de conversação",
+    "intercambio": "Intercâmbio"
+  }
+}

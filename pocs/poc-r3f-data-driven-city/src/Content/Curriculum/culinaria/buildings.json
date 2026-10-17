@@ -1,0 +1,10 @@
+{
+  "trackId": "culinaria",
+  "labelKey": "tracks.culinaria",
+  "buildings": [
+    { "id": "mercado", "labelKey": "buildings.mercado", "position": [-6, 0], "size": [4, 2.5, 4], "color": "#e8590c" },
+    { "id": "cozinha-escola", "labelKey": "buildings.cozinhaEscola", "position": [0, 5], "size": [5, 2.5, 4], "color": "#2f9e44" },
+    { "id": "confeitaria", "labelKey": "buildings.confeitaria", "position": [6, 0], "size": [3, 3, 3], "color": "#d6336c" },
+    { "id": "restaurante", "labelKey": "buildings.restaurante", "position": [0, -5], "size": [6, 6, 4], "color": "#1971c2" }
+  ]
+}

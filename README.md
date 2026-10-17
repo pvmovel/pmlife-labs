@@ -23,6 +23,7 @@ Regra prática: se a pergunta é **"dá para o produto fazer isso?"**, é PoC. S
 | PoC | Tema |
 | :--- | :--- |
 | [`pocs/poc-domain-driven-gamification-ts`](pocs/poc-domain-driven-gamification-ts) | Motor de gamificação para qualquer trilha: níveis derivados do XP por escada configurável, salto de vários níveis, missões idempotentes e reidratação |
+| [`pocs/poc-r3f-data-driven-city`](pocs/poc-r3f-data-driven-city) | Motor 3D orientado a dados: uma cidade por trilha a partir de um JSON, validada no domínio, com sombras, fonte local e carregamento progressivo |
 
 ## 🧪 Spikes
 

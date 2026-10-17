@@ -1,0 +1,17 @@
+{
+  "title": "Uma cidade 3D para cada trilha, sem escrever código",
+  "summary": "O mesmo motor 3D desenha o campus de qualquer trilha a partir de um arquivo JSON: trocar de trilha troca a cidade, e um prédio novo é uma linha a mais no arquivo.",
+  "problem": "Cenas 3D costumam ter cada prédio escrito à mão no código. Criar o campus de outra profissão, concurso ou do ENEM viraria trabalho de programação, e cada mudança de layout, um deploy de código.",
+  "result": "Os prédios vêm de src/Content/Curriculum/<trilha>/buildings.json, são validados no domínio (sobreposição, cores, dimensões) e desenhados com sombras, fonte local e carregamento progressivo. A página abre com 72 KB, e os 289 KB do 3D chegam depois.",
+  "tags": ["React 19", "React Three Fiber", "Three.js", "drei", "Clean Architecture", "Vitest"],
+  "roadmap": "US19",
+  "date": "2026-10-17",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Alterne entre Culinária e Idiomas: mesma engine, cidades diferentes, e o JSON que desenhou cada uma aparece abaixo da cena. PT/EN muda até os rótulos 3D."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + 13 testes\nyarn dev      # demo em http://localhost:5173"
+}

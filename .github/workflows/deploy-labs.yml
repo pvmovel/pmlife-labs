@@ -129,4 +129,14 @@ jobs:
           else
             echo "::error::não achei o .wasm referenciado pelo worker do SQLite"; fail=1
           fi
+          # US19: cidade 3D orientada a dados (fonte local com hash, three.js em chunk separado)
+          check "/catalogo/poc-r3f-data-driven-city/" 200
+          check "/pocs/poc-r3f-data-driven-city/dist/" 200
+          header "/pocs/poc-r3f-data-driven-city/dist/" "no-cache"
+          check "/pocs/poc-r3f-data-driven-city/src/Content/Curriculum/culinaria/buildings.json" 403
+          CITY_BASE="${LABS_URL}/pocs/poc-r3f-data-driven-city/dist"
+          CITY_ENTRY=$(curl -sS "${CITY_BASE}/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          CITY_FONT=$(curl -sS "${CITY_BASE}/${CITY_ENTRY}" | grep -o 'CityCanvas3D-[A-Za-z0-9_-]*\.js' | head -1)
+          CITY_FONT=$(curl -sS "${CITY_BASE}/assets/${CITY_FONT}" | grep -o 'inter-latin-600-normal-[A-Za-z0-9_-]*\.woff' | head -1)
+          [ -n "$CITY_FONT" ] && header "/pocs/poc-r3f-data-driven-city/dist/assets/${CITY_FONT}" "immutable" || { echo "::error::não achei a fonte com hash da cidade 3D"; fail=1; }
           exit $fail

@@ -1,0 +1,25 @@
+{
+  "nav": { "back": "← PMLife Labs", "docs": "Documentation" },
+  "page": {
+    "eyebrow": "PoC · data-driven 3D engine",
+    "title": "A 3D city for every track, without writing code",
+    "lead": "Buildings come from one JSON file per track. Switching tracks swaps the whole city; a new building is one more line in the file.",
+    "track": "Track",
+    "language": "Language",
+    "loading": "Loading the 3D city…",
+    "sceneLabel": "3D city for the {track} track, with {count} buildings. Drag to rotate.",
+    "dataTitle": "The file that drew this city",
+    "dataHint": "src/Content/Curriculum/{track}/buildings.json",
+    "error": "Could not build the city: {message}"
+  },
+  "tracks": { "culinaria": "Cooking", "idiomas": "Languages" },
+  "buildings": {
+    "mercado": "Market",
+    "cozinhaEscola": "Teaching kitchen",
+    "confeitaria": "Bakery",
+    "restaurante": "Restaurant",
+    "biblioteca": "Library",
+    "laboratorio": "Conversation lab",
+    "intercambio": "Exchange"
+  }
+}

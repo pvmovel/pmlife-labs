@@ -2,8 +2,8 @@
   "trackId": "idiomas",
   "labelKey": "tracks.idiomas",
   "buildings": [
-    { "id": "biblioteca", "labelKey": "buildings.biblioteca", "position": [-5, -3], "size": [4, 5, 5], "color": "#5f3dc4" },
-    { "id": "laboratorio-conversacao", "labelKey": "buildings.laboratorio", "position": [4, -3], "size": [5, 3, 4], "color": "#0c8599" },
-    { "id": "intercambio", "labelKey": "buildings.intercambio", "position": [0, 5], "size": [4, 8, 4], "color": "#f08c00" }
+    { "id": "biblioteca", "labelKey": "buildings.biblioteca", "position": [-5, 3], "size": [4, 5, 5], "color": "#5f3dc4" },
+    { "id": "laboratorio-conversacao", "labelKey": "buildings.laboratorio", "position": [5, 3], "size": [5, 3, 4], "color": "#0c8599" },
+    { "id": "intercambio", "labelKey": "buildings.intercambio", "position": [0, -5], "size": [4, 8, 4], "color": "#f08c00" }
   ]
 }

@@ -34,7 +34,7 @@ src/
 | **Fonte local com hash** | Rótulos com a Inter (`@fontsource`, licença OFL) importada pelo código (`?url`). Ela sai do build com hash no nome e cache imutável. |
 | **Sombras de verdade** | `shadows` no `Canvas`, `castShadow` na luz, `castShadow`/`receiveShadow` nos objetos e a câmera de sombra cobrindo a cidade. |
 | **`frameloop="demand"`** | Uma cidade parada não precisa de 60 quadros por segundo: a cena só redesenha quando a câmera ou o dado mudam. |
-| **Rótulos legíveis** | `Billboard` (sempre de frente para a câmera) e sem teste de profundidade (nunca somem atrás de outro prédio). |
+| **Rótulos legíveis** | `Billboard` (sempre de frente para a câmera) e material sem teste de profundidade (nunca somem atrás de outro prédio). |
 | **Acessibilidade** | O canvas tem `role="img"` e um `aria-label` traduzido ("Cidade 3D da trilha Culinária, com 4 prédios"). |
 
 ### Testes (13)
@@ -51,8 +51,9 @@ src/
 1. **`castShadow` sozinho não faz nada.** Sem `shadows` no `<Canvas>`, sem a luz projetando e sem a câmera de sombra cobrindo a área, a cena fica sem sombra e nenhum erro aparece.
 2. **O `Text` do drei, sem fonte, baixa a fonte de um CDN.** O motor de texto (troika) busca dados e fontes em `cdn.jsdelivr.net`: outra origem, sem controle de cache e indisponível offline. Com a fonte local, a página só chama o próprio servidor (conferido no Chrome). O troika lê `.woff`, não `.woff2`.
 3. **Fonte em `public/` não serve aqui.** Arquivo estático sem hash fica até 4 h em cache no CDN da hospedagem. Importada pelo código, a fonte ganha hash e cache imutável.
-4. **O layout é conteúdo, e conteúdo também precisa de regra.** Na primeira versão, o prédio mais alto ficava na frente e escondia os outros. A correção foi só no JSON (alto atrás, baixo na frente), sem tocar no código.
-5. **Testar 3D sem navegador.** O `@react-three/test-renderer` monta o grafo do three.js no Node; o `Text` (que baixa fonte e usa Worker) é trocado por um marcador no teste. O render real foi conferido no Chrome headless com WebGL por software.
+4. **`material-depthTest={false}` não chega ao texto.** O troika cria um material derivado e ignora essa prop: o rótulo continuava cortado pelos prédios da frente (pego na demo publicada). O que funciona é passar um `material` próprio, já sem teste de profundidade, que o troika usa como base.
+5. **O layout é conteúdo, e conteúdo também precisa de regra.** Na primeira versão, o prédio mais alto ficava na frente e escondia os outros (e o rótulo dele cobria o dos vizinhos). A correção foi só no JSON das duas trilhas (alto atrás, baixo na frente), sem tocar no código.
+6. **Testar 3D sem navegador.** O `@react-three/test-renderer` monta o grafo do three.js no Node; o `Text` (que baixa fonte e usa Worker) é trocado por um marcador no teste. O render real foi conferido no Chrome headless com WebGL por software.
 
 ## Demo
 

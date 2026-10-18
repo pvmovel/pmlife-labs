@@ -1,0 +1,69 @@
+{
+  "nav": {
+    "back": "← PMLife Labs",
+    "docs": "Documentation"
+  },
+  "page": {
+    "eyebrow": "PoC · interacting in the 3D campus",
+    "title": "Walk up to a building and interact",
+    "lead": "Getting close to a building shows a prompt: I shows its info, E enters the room and H opens the guide. Shortcuts don't fire while you type.",
+    "language": "Language",
+    "loading": "Loading the 3D campus…",
+    "sceneLabel": "3D campus with {count} buildings. {mode} mode.",
+    "position": "Avatar position",
+    "nearby": "Nearby building",
+    "nobody": "none",
+    "notesLabel": "Notes (test: type e, i or h here)",
+    "notesPlaceholder": "Type freely: shortcuts don't fire in this field",
+    "keysTitle": "Keys",
+    "keysMove": "W/S or ↑/↓: walk · A/D or ←/→: turn · C: Avatar ⇄ Orbital",
+    "keysInteract": "Near a building: I info · E enter the room",
+    "keysHelp": "H: student guide · Esc: close the open window"
+  },
+  "mode": {
+    "label": "Navigation",
+    "avatar": "Avatar",
+    "orbital": "Orbital"
+  },
+  "hud": {
+    "prompt": "Press [E] to Enter or [I] for Information",
+    "promptBuilding": "{building}",
+    "close": "Close"
+  },
+  "buildings": {
+    "biblioteca": "Library",
+    "laboratorio": "Lab",
+    "auditorio": "Auditorium",
+    "cafeteria": "Cafeteria"
+  },
+  "info": {
+    "title": "About: {building}",
+    "biblioteca": "Supporting reading collection. Each track lists here the texts for each stage.",
+    "laboratorio": "Hands-on exercises: students apply what they read, with automatic grading.",
+    "auditorio": "Live and recorded lectures. Class presentations also happen here.",
+    "cafeteria": "Social space: class forum and informal meetups."
+  },
+  "rooms": {
+    "title": "Room: {building}",
+    "placeholder": "This is a preview of the room. The inner 3D scene is a future step; here you see the building's content and missions.",
+    "questsTitle": "Missions in this room",
+    "biblioteca": {
+      "q1": "Read the introduction",
+      "q2": "Summarize chapter 1 in five lines"
+    },
+    "laboratorio": {
+      "q1": "Solve the guided exercise",
+      "q2": "Review a classmate's exercise"
+    },
+    "auditorio": {
+      "q1": "Watch the opening lecture",
+      "q2": "Ask a question in the live session"
+    },
+    "cafeteria": {
+      "q1": "Introduce yourself in the class forum"
+    }
+  },
+  "help": {
+    "title": "Student Guide & Campus Controls"
+  }
+}

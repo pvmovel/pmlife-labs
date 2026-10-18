@@ -1,0 +1,25 @@
+{
+  "title": "Chegue perto de um prédio e interaja",
+  "summary": "No campus 3D, chegar perto de um prédio mostra o aviso \"Pressione [E] para Entrar ou [I] para Informações\"; H abre o guia do aluno. Os atalhos não disparam enquanto o aluno digita.",
+  "problem": "Num campus virtual, o aluno precisa saber com o que pode interagir e como, sem que os atalhos atrapalhem quando ele digita uma anotação ou uma resposta. As janelas também precisam funcionar com teclado e leitor de tela.",
+  "result": "A proximidade é medida até a parede de cada prédio (raio configurável no conteúdo) e só avisa a página quando muda. I, E e H abrem janelas acessíveis (foco preso, Esc, foco devolvido), uma por vez, com o avatar parado. O guia é um Markdown sanitizado. Um e2e com teclas reais prova os três cenários do Gherkin.",
+  "tags": [
+    "React Three Fiber",
+    "Three.js",
+    "Acessibilidade",
+    "Markdown",
+    "DOMPurify",
+    "Vitest",
+    "Puppeteer"
+  ],
+  "roadmap": "US21",
+  "date": "2026-10-18",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Ande com W até a Biblioteca e veja o aviso. I mostra as informações, E entra na sala, H abre o guia e Esc fecha. Digite e, i ou h no campo de anotações: nada abre."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + 34 testes + e2e no Chrome headless\nyarn dev      # demo em http://localhost:5173"
+}

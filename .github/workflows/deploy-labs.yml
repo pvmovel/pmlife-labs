@@ -149,4 +149,14 @@ jobs:
           AV_SCENE=$(curl -sS "${AV_BASE}/${AV_ENTRY}" | grep -o 'AvatarCanvas-[A-Za-z0-9_-]*\.js' | head -1)
           AV_FONT=$(curl -sS "${AV_BASE}/assets/${AV_SCENE}" | grep -o 'inter-latin-600-normal-[A-Za-z0-9_-]*\.woff' | head -1)
           [ -n "$AV_FONT" ] && header "/pocs/poc-r3f-third-person-avatar/dist/assets/${AV_FONT}" "immutable" || { echo "::error::não achei a fonte com hash do avatar 3D"; fail=1; }
+          # US21: proximidade e HUD (fonte local com hash no chunk da cena)
+          check "/catalogo/poc-r3f-proximity-interaction-hud/" 200
+          check "/pocs/poc-r3f-proximity-interaction-hud/dist/" 200
+          header "/pocs/poc-r3f-proximity-interaction-hud/dist/" "no-cache"
+          check "/pocs/poc-r3f-proximity-interaction-hud/src/Domain/Proximity.ts" 403
+          HUD_BASE="${LABS_URL}/pocs/poc-r3f-proximity-interaction-hud/dist"
+          HUD_ENTRY=$(curl -sS "${HUD_BASE}/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          HUD_SCENE=$(curl -sS "${HUD_BASE}/${HUD_ENTRY}" | grep -o 'AvatarCanvas-[A-Za-z0-9_-]*\.js' | head -1)
+          HUD_FONT=$(curl -sS "${HUD_BASE}/assets/${HUD_SCENE}" | grep -o 'inter-latin-600-normal-[A-Za-z0-9_-]*\.woff' | head -1)
+          [ -n "$HUD_FONT" ] && header "/pocs/poc-r3f-proximity-interaction-hud/dist/assets/${HUD_FONT}" "immutable" || { echo "::error::não achei a fonte com hash da PoC de proximidade"; fail=1; }
           exit $fail

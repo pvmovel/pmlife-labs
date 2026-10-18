@@ -1,0 +1,26 @@
+{
+  "nav": { "back": "← PMLife Labs", "docs": "Documentation" },
+  "page": {
+    "eyebrow": "PoC · 3D navigation",
+    "title": "Walk around the campus like in a game",
+    "lead": "A keyboard-controlled avatar, with the camera behind it, that doesn't go through buildings or leave the map. Switch to orbital view to see the campus from above.",
+    "language": "Language",
+    "loading": "Loading the 3D campus…",
+    "sceneLabel": "3D campus with {count} buildings. {mode} mode.",
+    "position": "Avatar position",
+    "heading": "Heading",
+    "keysTitle": "How to walk",
+    "keysMove": "W or ↑: forward · S or ↓: back",
+    "keysTurn": "A or ←: turn left · D or →: turn right",
+    "keysMode": "C: toggle Avatar ⇄ Orbital",
+    "keysOrbital": "In Orbital mode: drag to rotate and use the wheel (or pinch) to zoom.",
+    "touchNote": "On touch screens the demo opens in Orbital mode: the avatar can't walk by touch yet."
+  },
+  "mode": { "label": "Navigation", "avatar": "Avatar", "orbital": "Orbital" },
+  "buildings": {
+    "biblioteca": "Library",
+    "laboratorio": "Lab",
+    "auditorio": "Auditorium",
+    "cafeteria": "Cafeteria"
+  }
+}

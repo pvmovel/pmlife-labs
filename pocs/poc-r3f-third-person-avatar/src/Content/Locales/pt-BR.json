@@ -1,0 +1,26 @@
+{
+  "nav": { "back": "← PMLife Labs", "docs": "Documentação" },
+  "page": {
+    "eyebrow": "PoC · navegação 3D",
+    "title": "Ande pelo campus como num jogo",
+    "lead": "Um avatar controlado pelo teclado, com a câmera atrás dele, que não atravessa prédios nem sai do mapa. Troque para a visão orbital para ver o campus de cima.",
+    "language": "Idioma",
+    "loading": "Carregando o campus 3D…",
+    "sceneLabel": "Campus 3D com {count} prédios. Modo {mode}.",
+    "position": "Posição do avatar",
+    "heading": "Direção",
+    "keysTitle": "Como andar",
+    "keysMove": "W ou ↑: frente · S ou ↓: trás",
+    "keysTurn": "A ou ←: gira à esquerda · D ou →: gira à direita",
+    "keysMode": "C: alterna Avatar ⇄ Orbital",
+    "keysOrbital": "No modo Orbital: arraste para girar e use a roda (ou o gesto de pinça) para aproximar.",
+    "touchNote": "Em tela de toque a demo abre no modo Orbital: o avatar ainda não anda por toque."
+  },
+  "mode": { "label": "Navegação", "avatar": "Avatar", "orbital": "Orbital" },
+  "buildings": {
+    "biblioteca": "Biblioteca",
+    "laboratorio": "Laboratório",
+    "auditorio": "Auditório",
+    "cafeteria": "Cafeteria"
+  }
+}

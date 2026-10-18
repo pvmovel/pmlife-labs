@@ -1,0 +1,17 @@
+{
+  "title": "Ande pelo campus 3D como num jogo",
+  "summary": "Um avatar controlado por WASD ou setas, com a câmera logo atrás, que não atravessa prédios nem sai do mapa, e uma visão orbital para ver o campus de cima.",
+  "problem": "Num campus virtual, só girar a câmera não dá a sensação de estar lá. Andar com um personagem exige colisão confiável (sem atravessar paredes nem num computador lento), uma câmera que acompanhe sem enjoar e um jeito de voltar à visão geral.",
+  "result": "A regra do movimento (giro, limites, colisão por eixo com subpassos) é TypeScript puro e testada sem navegador; a câmera suaviza igual a 30 ou a 144 FPS. Um e2e com teclas reais no Chrome prova que o avatar para na parede e na borda, e que Avatar ⇄ Orbital alterna pelo botão e pela tecla C.",
+  "tags": ["React Three Fiber", "Three.js", "drei", "KeyboardControls", "Vitest", "Puppeteer"],
+  "roadmap": "US20",
+  "date": "2026-10-18",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "W ou ↑ anda, A/D giram, C alterna Avatar ⇄ Orbital. Ande até a Biblioteca: o avatar para na parede. Em tela de toque a demo abre na visão orbital."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + 20 testes + e2e no Chrome headless\nyarn dev      # demo em http://localhost:5173"
+}

@@ -139,4 +139,14 @@ jobs:
           CITY_FONT=$(curl -sS "${CITY_BASE}/${CITY_ENTRY}" | grep -o 'CityCanvas3D-[A-Za-z0-9_-]*\.js' | head -1)
           CITY_FONT=$(curl -sS "${CITY_BASE}/assets/${CITY_FONT}" | grep -o 'inter-latin-600-normal-[A-Za-z0-9_-]*\.woff' | head -1)
           [ -n "$CITY_FONT" ] && header "/pocs/poc-r3f-data-driven-city/dist/assets/${CITY_FONT}" "immutable" || { echo "::error::não achei a fonte com hash da cidade 3D"; fail=1; }
+          # US20: avatar em 3ª pessoa (fonte local com hash no chunk da cena)
+          check "/catalogo/poc-r3f-third-person-avatar/" 200
+          check "/pocs/poc-r3f-third-person-avatar/dist/" 200
+          header "/pocs/poc-r3f-third-person-avatar/dist/" "no-cache"
+          check "/pocs/poc-r3f-third-person-avatar/src/Domain/Movement.ts" 403
+          AV_BASE="${LABS_URL}/pocs/poc-r3f-third-person-avatar/dist"
+          AV_ENTRY=$(curl -sS "${AV_BASE}/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          AV_SCENE=$(curl -sS "${AV_BASE}/${AV_ENTRY}" | grep -o 'AvatarCanvas-[A-Za-z0-9_-]*\.js' | head -1)
+          AV_FONT=$(curl -sS "${AV_BASE}/assets/${AV_SCENE}" | grep -o 'inter-latin-600-normal-[A-Za-z0-9_-]*\.woff' | head -1)
+          [ -n "$AV_FONT" ] && header "/pocs/poc-r3f-third-person-avatar/dist/assets/${AV_FONT}" "immutable" || { echo "::error::não achei a fonte com hash do avatar 3D"; fail=1; }
           exit $fail

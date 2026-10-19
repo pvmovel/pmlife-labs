@@ -1,0 +1,15 @@
+{
+  "course": "Clube de Astronomia (curso fictício)",
+  "passages": [
+    { "id": "lua-fases", "title": "As fases da Lua", "text": "A Lua não tem luz própria: ela reflete a luz do Sol. Conforme a Lua gira em torno da Terra, vemos partes diferentes da face iluminada. As quatro fases principais são lua nova, quarto crescente, lua cheia e quarto minguante, e o ciclo completo dura cerca de 29,5 dias." },
+    { "id": "lua-nova", "title": "Lua nova", "text": "Na lua nova, a Lua está entre a Terra e o Sol, com a face iluminada voltada para o Sol. Por isso ela quase não aparece no céu noturno. É a melhor fase para observar estrelas fracas e galáxias, porque o céu fica mais escuro." },
+    { "id": "eclipse-solar", "title": "Eclipse solar", "text": "O eclipse solar acontece na lua nova, quando a Lua passa exatamente na frente do Sol e projeta sua sombra na Terra. Nunca olhe para o Sol sem filtro próprio para eclipse: óculos escuros comuns não protegem os olhos." },
+    { "id": "eclipse-lunar", "title": "Eclipse lunar", "text": "O eclipse lunar acontece na lua cheia, quando a Terra fica entre o Sol e a Lua e a sombra da Terra cobre a Lua. A Lua pode ficar avermelhada. Ao contrário do eclipse solar, o lunar pode ser observado a olho nu, sem nenhum risco." },
+    { "id": "telescopio-tipos", "title": "Refrator ou refletor?", "text": "O telescópio refrator usa lentes e é bom para observar a Lua e os planetas, com pouca manutenção. O refletor usa espelhos, junta mais luz pelo mesmo preço e é melhor para objetos fracos como nebulosas, mas precisa de alinhamento dos espelhos de vez em quando." },
+    { "id": "binoculo", "title": "Comece com um binóculo", "text": "Para quem está começando, um binóculo 10x50 é um ótimo primeiro instrumento: mostra crateras da Lua, as luas de Júpiter e aglomerados de estrelas. É mais fácil de apontar do que um telescópio e serve também de dia." },
+    { "id": "cruzeiro-do-sul", "title": "Cruzeiro do Sul", "text": "O Cruzeiro do Sul é uma constelação pequena e fácil de achar no hemisfério sul. Prolongando o braço maior da cruz cerca de quatro vezes e meia, chega-se perto do polo sul celeste, o que ajuda a encontrar a direção sul à noite." },
+    { "id": "poluicao-luminosa", "title": "Poluição luminosa", "text": "A luz das cidades clareia o céu e esconde as estrelas fracas. Para observar melhor, procure um lugar longe de postes, deixe os olhos se acostumarem ao escuro por 20 minutos e use lanterna com luz vermelha." },
+    { "id": "clube-encontros", "title": "Encontros do clube", "text": "O clube se reúne no primeiro sábado de cada mês, às 19h, no observatório do parque. Os encontros são gratuitos e não é preciso ter telescópio: o clube empresta instrumentos durante a sessão." },
+    { "id": "clube-certificado", "title": "Certificado", "text": "Quem participar de pelo menos quatro encontros e concluir as três atividades de observação do caderno recebe o certificado de participação do Clube de Astronomia." }
+  ]
+}

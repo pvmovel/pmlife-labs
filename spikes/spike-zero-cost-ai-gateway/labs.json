@@ -1,0 +1,17 @@
+{
+  "title": "Tutor de IA a custo zero, com o material do curso",
+  "summary": "Um gateway de IA em PHP para hospedagem compartilhada: Gemini com failover para a Groq (free tier, sem billing), system prompt no servidor, limite por IP e teto global de cota, mais uma busca BM25 no navegador que manda os trechos certos do material.",
+  "problem": "Um tutor de IA parecia exigir servidor de IA, banco vetorial e cartão de crédito. E um endpoint público de IA é alvo fácil: o system prompt pode ser trocado pelo cliente, a cota gratuita acaba em minutos e o provedor cai.",
+  "result": "O prompt fica no servidor (um campo system forjado é ignorado); pergunta acima do limite recebe 429 sem chamar a IA; se o Gemini falha, a Groq responde. Os testes provam tudo sem gastar cota, inclusive um ponta a ponta HTTP com provedores falsos e o contador de uso num MySQL real.",
+  "tags": ["PHP 8.2", "Gemini", "Groq", "RAG", "BM25", "Rate limit", "TypeScript", "React"],
+  "roadmap": "US22a",
+  "date": "2026-10-18",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Pergunte sobre o Clube de Astronomia (curso fictício): aparecem a resposta, quem respondeu e os trechos usados. Há limite de perguntas por minuto e por dia."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + 14 testes TS + testes PHP (PHP 8.2)\nyarn api:dev  # php -S :8000\nyarn dev      # demo em http://localhost:5173"
+}

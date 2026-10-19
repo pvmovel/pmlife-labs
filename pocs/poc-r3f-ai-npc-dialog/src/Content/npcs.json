@@ -1,0 +1,6 @@
+{
+  "npcs": [
+    { "id": "guia", "labelKey": "npcs.guia.name", "persona": "museum_guide", "position": [0, 7], "color": "#e64980" },
+    { "id": "astronoma", "labelKey": "npcs.astronoma.name", "persona": "astronomer", "position": [9, 3], "color": "#7048e8" }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "back": "← PMLife Labs",
+    "docs": "Documentação"
+  },
+  "page": {
+    "eyebrow": "PoC · conversa com NPCs no campus 3D",
+    "title": "Converse com os personagens do campus",
+    "lead": "Chegue perto de um personagem e aperte E para conversar. A cada pergunta vão só as 3 últimas trocas, e o servidor confere a persona numa lista branca. Nesta demo as respostas são simuladas: nenhuma IA é chamada.",
+    "language": "Idioma",
+    "loading": "Carregando o campus 3D…",
+    "sceneLabel": "Campus 3D com {count} prédios e {npcs} personagens. Modo {mode}.",
+    "position": "Posição do avatar",
+    "nearby": "Por perto",
+    "nobody": "nenhum",
+    "keysTitle": "Teclas",
+    "keysMove": "W/S ou ↑/↓: anda · A/D ou ←/→: gira · C: Avatar ⇄ Orbital",
+    "keysInteract": "Perto de um prédio: I informações · E entrar na sala",
+    "keysHelp": "H: guia do aluno · Esc: fecha a janela aberta",
+    "keysTalk": "Perto de um personagem: E conversar"
+  },
+  "mode": {
+    "label": "Navegação",
+    "avatar": "Avatar",
+    "orbital": "Orbital"
+  },
+  "hud": {
+    "prompt": "Pressione [E] para Entrar ou [I] para Informações",
+    "promptBuilding": "{building}",
+    "close": "Fechar",
+    "promptNpc": "Pressione [E] para conversar"
+  },
+  "buildings": {
+    "biblioteca": "Biblioteca",
+    "laboratorio": "Laboratório",
+    "auditorio": "Auditório",
+    "cafeteria": "Cafeteria"
+  },
+  "info": {
+    "title": "Sobre: {building}",
+    "biblioteca": "Acervo de leituras de apoio. Cada trilha indica aqui os textos de cada etapa.",
+    "laboratorio": "Exercícios práticos: aqui o aluno aplica o que leu, com correção automática.",
+    "auditorio": "Aulas ao vivo e gravadas. As apresentações das turmas também acontecem aqui.",
+    "cafeteria": "Espaço de convivência: fórum da turma e encontros informais."
+  },
+  "rooms": {
+    "title": "Sala: {building}",
+    "placeholder": "Esta é uma prévia da sala. A cena 3D interna fica para uma etapa futura; aqui aparecem o conteúdo e as missões do prédio.",
+    "questsTitle": "Missões desta sala",
+    "biblioteca": {
+      "q1": "Ler o texto de introdução",
+      "q2": "Resumir o capítulo 1 em cinco linhas"
+    },
+    "laboratorio": {
+      "q1": "Resolver o exercício guiado",
+      "q2": "Corrigir o exercício de um colega"
+    },
+    "auditorio": {
+      "q1": "Assistir à aula de abertura",
+      "q2": "Fazer uma pergunta na sessão ao vivo"
+    },
+    "cafeteria": {
+      "q1": "Apresentar-se no fórum da turma"
+    }
+  },
+  "help": {
+    "title": "Guia do Aluno & Controles do Campus"
+  },
+  "npcs": {
+    "guia": {
+      "name": "Guia do Museu",
+      "greeting": "Olá! Pergunte o que quiser sobre o acervo."
+    },
+    "astronoma": {
+      "name": "Astrônoma",
+      "greeting": "Boa noite! Quer saber algo sobre o céu?"
+    }
+  },
+  "dialog": {
+    "title": "Conversa: {npc}",
+    "history": "Histórico da conversa",
+    "you": "Você",
+    "inputLabel": "Sua pergunta",
+    "placeholder": "Escreva e aperte Enter",
+    "send": "Enviar",
+    "thinking": "{npc} está pensando…",
+    "memory": "O personagem lembra das {max} últimas trocas ({count} na memória agora).",
+    "mock": "Respostas simuladas: nesta demo nenhuma IA é chamada.",
+    "errors": {
+      "INVALID_PERSONA": "Este personagem não está disponível.",
+      "INVALID_REQUEST": "Não deu para entender a pergunta. Tente reescrever.",
+      "RATE_LIMITED": "Muitas perguntas seguidas. Espere um pouco e tente de novo.",
+      "AI_UNAVAILABLE": "O personagem não pode responder agora. Tente de novo em instantes.",
+      "EMPTY": "Escreva uma pergunta.",
+      "TOO_LONG": "A pergunta passou de 500 caracteres.",
+      "NETWORK": "Sem conexão com o servidor."
+    }
+  }
+}

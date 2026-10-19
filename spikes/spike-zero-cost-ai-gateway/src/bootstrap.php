@@ -24,21 +24,55 @@ function personas(): array
     return ['tutor' => require __DIR__ . '/Ai/Personas/tutor.php'];
 }
 
+/**
+ * Os provedores na ordem do failover. Cada um tem timeout de 12 s: os dois juntos cabem no max_execution_time
+ * da hospedagem (~30 s). Com 20 s cada, um Gemini lento matava o PHP antes de a Groq responder.
+ *
+ * @param array<string, mixed> $env
+ * @return list<Spike\Ai\AiProvider>
+ */
+function build_providers(array $env, HttpClient $http): array
+{
+    $str = static fn (string $k, string $default = ''): string => is_string($env[$k] ?? null) ? $env[$k] : $default;
+    $providers = [];
+    foreach (array_map('trim', explode(',', $str('AI_PROVIDERS', 'gemini,groq'))) as $name) {
+        if ($name === 'gemini') {
+            $providers[] = new GeminiProvider($http, $str('GEMINI_API_KEY'), $str('GEMINI_MODEL', 'gemini-3.5-flash-lite'), $str('GEMINI_BASE_URL', 'https://generativelanguage.googleapis.com'));
+        } elseif ($name === 'groq') {
+            $providers[] = new GroqProvider($http, $str('GROQ_API_KEY'), $str('GROQ_MODEL', 'openai/gpt-oss-20b'), $str('GROQ_BASE_URL', 'https://api.groq.com/openai/v1'));
+        }
+    }
+    return $providers;
+}
+
+/**
+ * Saúde de cada provedor, ISOLADAMENTE (o failover esconderia a Groq enquanto o Gemini responde).
+ *
+ * @param array<string, mixed> $env
+ * @return list<array{provider: string, ok: bool, seconds: float, detail: string}>
+ */
+function check_providers(array $env, HttpClient $http): array
+{
+    $results = [];
+    foreach (build_providers($env, $http) as $provider) {
+        $t0 = microtime(true);
+        try {
+            $answer = $provider->complete('Responda só com a palavra: ok', 'Teste de saúde do gateway.', 200);
+            $results[] = ['provider' => $provider->name(), 'ok' => true, 'seconds' => microtime(true) - $t0, 'detail' => mb_substr($answer, 0, 40)];
+        } catch (Spike\Ai\AiUnavailable $e) {
+            $results[] = ['provider' => $provider->name(), 'ok' => false, 'seconds' => microtime(true) - $t0, 'detail' => $e->getMessage()];
+        }
+    }
+    return $results;
+}
+
 /** @param array<string, mixed> $env */
 function build_gateway(array $env, ?HttpClient $http = null): ChatGateway
 {
     $http ??= new CurlHttpClient();
     $str = static fn (string $k, string $default = ''): string => is_string($env[$k] ?? null) ? $env[$k] : $default;
     $int = static fn (string $k, int $default): int => is_int($env[$k] ?? null) ? $env[$k] : $default;
-
-    $providers = [];
-    foreach (array_map('trim', explode(',', $str('AI_PROVIDERS', 'gemini,groq'))) as $name) {
-        if ($name === 'gemini') {
-            $providers[] = new GeminiProvider($http, $str('GEMINI_API_KEY'), $str('GEMINI_MODEL', 'gemini-3.5-flash-lite'), $str('GEMINI_BASE_URL', 'https://generativelanguage.googleapis.com'));
-        } elseif ($name === 'groq') {
-            $providers[] = new GroqProvider($http, $str('GROQ_API_KEY'), $str('GROQ_MODEL', 'llama-3.1-8b-instant'), $str('GROQ_BASE_URL', 'https://api.groq.com/openai/v1'));
-        }
-    }
+    $providers = build_providers($env, $http);
 
     $limiter = new RateLimiter(
         new FileRateLimitStore($str('AI_RATE_LIMIT_FILE', sys_get_temp_dir() . '/spike-ai-rate-limit.json')),

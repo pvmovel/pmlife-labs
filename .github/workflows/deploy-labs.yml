@@ -165,7 +165,7 @@ jobs:
           check "/catalogo/spike-zero-cost-ai-gateway/" 200
           check "/spikes/spike-zero-cost-ai-gateway/dist/" 200
           header "/spikes/spike-zero-cost-ai-gateway/dist/" "no-cache"
-          for path in src/Ai/Personas/tutor.php src/bootstrap.php config/env.example.php migrations/mysql/001_create_ai_rate_limit.sql scripts/purge-rate-limit.php tests/run.php; do
+          for path in src/Ai/Personas/tutor.php src/bootstrap.php config/env.example.php migrations/mysql/001_create_ai_rate_limit.sql scripts/purge-rate-limit.php scripts/check-providers.php tests/run.php; do
             check "/spikes/spike-zero-cost-ai-gateway/${path}" 403
           done
           check "/spikes/spike-zero-cost-ai-gateway/public/ai_chat.php" 405 '{"status":"error","error":{"code":"METHOD_NOT_ALLOWED"}}'

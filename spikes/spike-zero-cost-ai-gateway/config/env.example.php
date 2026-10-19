@@ -9,7 +9,7 @@ return [
     'GEMINI_API_KEY' => 'change-me',
     'GEMINI_MODEL' => 'gemini-3.5-flash-lite',   // conferir em ai.google.dev/gemini-api/docs/models
     'GROQ_API_KEY' => 'change-me',
-    'GROQ_MODEL' => 'llama-3.1-8b-instant',      // conferir em console.groq.com/docs/models
+    'GROQ_MODEL' => 'openai/gpt-oss-20b',        // o Llama saiu do free tier em 16/08/2026; conferir em console.groq.com/docs/models
     'AI_MAX_TOKENS' => 600,
 
     // Proteção de cota: por IP e um teto global diário.

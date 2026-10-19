@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "back": "← PMLife Labs",
+    "docs": "Documentação"
+  },
+  "page": {
+    "eyebrow": "PoC · interação no modo orbital",
+    "title": "Clique num prédio, sem andar até ele",
+    "lead": "No modo Orbital, clique ou toque num prédio: ele fica destacado e o painel mostra Entrar e Informações (as teclas E e I também valem). Arrastar gira a câmera sem selecionar nada; × ou Esc desfaz a seleção.",
+    "language": "Idioma",
+    "loading": "Carregando o campus 3D…",
+    "sceneLabel": "Campus 3D com {count} prédios. Modo {mode}.",
+    "position": "Posição do avatar",
+    "nearby": "Prédio em foco",
+    "nobody": "nenhum",
+    "notesLabel": "Anotações (teste: digite e, i ou h aqui)",
+    "notesPlaceholder": "Digite à vontade: os atalhos não disparam neste campo",
+    "keysTitle": "Teclas",
+    "keysMove": "W/S ou ↑/↓: anda · A/D ou ←/→: gira · C: Avatar ⇄ Orbital",
+    "keysInteract": "Perto de um prédio: I informações · E entrar na sala",
+    "keysHelp": "H: guia do aluno · Esc: fecha a janela aberta",
+    "keysOrbital": "Orbital: clique ou toque num prédio · arraste gira · Esc desfaz a seleção"
+  },
+  "mode": {
+    "label": "Navegação",
+    "avatar": "Avatar",
+    "orbital": "Orbital"
+  },
+  "hud": {
+    "prompt": "Pressione [E] para Entrar ou [I] para Informações",
+    "promptBuilding": "{building}",
+    "close": "Fechar",
+    "promptOrbital": "Escolha uma ação ou use as teclas E e I",
+    "enter": "Entrar",
+    "info": "Informações",
+    "dismiss": "Desfazer a seleção"
+  },
+  "buildings": {
+    "biblioteca": "Biblioteca",
+    "laboratorio": "Laboratório",
+    "auditorio": "Auditório",
+    "cafeteria": "Cafeteria"
+  },
+  "info": {
+    "title": "Sobre: {building}",
+    "biblioteca": "Acervo de leituras de apoio. Cada trilha indica aqui os textos de cada etapa.",
+    "laboratorio": "Exercícios práticos: aqui o aluno aplica o que leu, com correção automática.",
+    "auditorio": "Aulas ao vivo e gravadas. As apresentações das turmas também acontecem aqui.",
+    "cafeteria": "Espaço de convivência: fórum da turma e encontros informais."
+  },
+  "rooms": {
+    "title": "Sala: {building}",
+    "placeholder": "Esta é uma prévia da sala. A cena 3D interna fica para uma etapa futura; aqui aparecem o conteúdo e as missões do prédio.",
+    "questsTitle": "Missões desta sala",
+    "biblioteca": {
+      "q1": "Ler o texto de introdução",
+      "q2": "Resumir o capítulo 1 em cinco linhas"
+    },
+    "laboratorio": {
+      "q1": "Resolver o exercício guiado",
+      "q2": "Corrigir o exercício de um colega"
+    },
+    "auditorio": {
+      "q1": "Assistir à aula de abertura",
+      "q2": "Fazer uma pergunta na sessão ao vivo"
+    },
+    "cafeteria": {
+      "q1": "Apresentar-se no fórum da turma"
+    }
+  },
+  "help": {
+    "title": "Guia do Aluno & Controles do Campus"
+  }
+}

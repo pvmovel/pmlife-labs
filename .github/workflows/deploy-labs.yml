@@ -159,6 +159,16 @@ jobs:
           HUD_SCENE=$(curl -sS "${HUD_BASE}/${HUD_ENTRY}" | grep -o 'AvatarCanvas-[A-Za-z0-9_-]*\.js' | head -1)
           HUD_FONT=$(curl -sS "${HUD_BASE}/assets/${HUD_SCENE}" | grep -o 'inter-latin-600-normal-[A-Za-z0-9_-]*\.woff' | head -1)
           [ -n "$HUD_FONT" ] && header "/pocs/poc-r3f-proximity-interaction-hud/dist/assets/${HUD_FONT}" "immutable" || { echo "::error::não achei a fonte com hash da PoC de proximidade"; fail=1; }
+          # US27: seleção de prédios no modo orbital (fonte local com hash no chunk da cena)
+          check "/catalogo/poc-r3f-orbital-building-picking/" 200
+          check "/pocs/poc-r3f-orbital-building-picking/dist/" 200
+          header "/pocs/poc-r3f-orbital-building-picking/dist/" "no-cache"
+          check "/pocs/poc-r3f-orbital-building-picking/src/Presentation/Engine3D/picking.ts" 403
+          ORB_BASE="${LABS_URL}/pocs/poc-r3f-orbital-building-picking/dist"
+          ORB_ENTRY=$(curl -sS "${ORB_BASE}/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          ORB_SCENE=$(curl -sS "${ORB_BASE}/${ORB_ENTRY}" | grep -o 'AvatarCanvas-[A-Za-z0-9_-]*\.js' | head -1)
+          ORB_FONT=$(curl -sS "${ORB_BASE}/assets/${ORB_SCENE}" | grep -o 'inter-latin-600-normal-[A-Za-z0-9_-]*\.woff' | head -1)
+          [ -n "$ORB_FONT" ] && header "/pocs/poc-r3f-orbital-building-picking/dist/assets/${ORB_FONT}" "immutable" || { echo "::error::não achei a fonte com hash da PoC do modo orbital"; fail=1; }
           # US22b: NPCs com diálogo (mock PHP, sem IA). Persona inventada ➔ 400 INVALID_PERSONA prova a lista branca.
           check "/catalogo/poc-r3f-ai-npc-dialog/" 200
           check "/pocs/poc-r3f-ai-npc-dialog/dist/" 200

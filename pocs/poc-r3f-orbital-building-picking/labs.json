@@ -1,0 +1,25 @@
+{
+  "title": "Clique num prédio, sem andar até ele",
+  "summary": "No modo orbital do campus 3D, clicar ou tocar num prédio o seleciona e mostra Entrar e Informações, por botão ou pelas teclas E e I. Arrastar para girar a câmera não seleciona nada.",
+  "problem": "No modo orbital (a vista geral, e o modo em que o celular abre o campus) o aluno não tinha como interagir: entrar num prédio ou ler as informações exigia andar com o avatar até ele, o que no toque nem é possível.",
+  "result": "O alvo passa a depender do modo: proximidade do avatar no modo Avatar, seleção por clique ou toque no Orbital. O clique é separado do arraste pelo deslocamento do ponteiro (até 6 px); o Esc já tratado por uma janela não desfaz a seleção. Um e2e com mouse, arraste e toque reais prova os cenários do Gherkin.",
+  "tags": [
+    "React Three Fiber",
+    "Three.js",
+    "Raycasting",
+    "Touch",
+    "Acessibilidade",
+    "Vitest",
+    "Puppeteer"
+  ],
+  "roadmap": "US27",
+  "date": "2026-10-19",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Aperte C (ou o botão Orbital) e clique num prédio: aparecem Entrar e Informações. Arraste para girar a câmera: nada é selecionado. × ou Esc desfaz a seleção. No celular, a demo já abre no Orbital: toque num prédio."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + 45 testes + e2e com mouse, arraste e toque no Chrome headless\nyarn dev      # demo em http://localhost:5173"
+}

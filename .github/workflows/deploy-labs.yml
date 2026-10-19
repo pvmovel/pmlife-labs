@@ -159,4 +159,22 @@ jobs:
           HUD_SCENE=$(curl -sS "${HUD_BASE}/${HUD_ENTRY}" | grep -o 'AvatarCanvas-[A-Za-z0-9_-]*\.js' | head -1)
           HUD_FONT=$(curl -sS "${HUD_BASE}/assets/${HUD_SCENE}" | grep -o 'inter-latin-600-normal-[A-Za-z0-9_-]*\.woff' | head -1)
           [ -n "$HUD_FONT" ] && header "/pocs/poc-r3f-proximity-interaction-hud/dist/assets/${HUD_FONT}" "immutable" || { echo "::error::não achei a fonte com hash da PoC de proximidade"; fail=1; }
+          # US22a: gateway de IA. Pedido INVÁLIDO de propósito, com SQL na pergunta: o nosso 400 prova que o endpoint
+          # está no ar, que o env fora do webroot carregou (sem ele seria 500) e que o mod_security não barrou o SQL,
+          # sem gastar nenhuma cota de IA.
+          check "/catalogo/spike-zero-cost-ai-gateway/" 200
+          check "/spikes/spike-zero-cost-ai-gateway/dist/" 200
+          header "/spikes/spike-zero-cost-ai-gateway/dist/" "no-cache"
+          for path in src/Ai/Personas/tutor.php src/bootstrap.php config/env.example.php migrations/mysql/001_create_ai_rate_limit.sql scripts/purge-rate-limit.php tests/run.php; do
+            check "/spikes/spike-zero-cost-ai-gateway/${path}" 403
+          done
+          check "/spikes/spike-zero-cost-ai-gateway/public/ai_chat.php" 405 '{"status":"error","error":{"code":"METHOD_NOT_ALLOWED"}}'
+          AI_BODY='{"persona":"smoke-test-inexistente","message":"Como funciona o RLS? SELECT * FROM alunos WHERE id = 1 UNION SELECT senha FROM usuarios; DROP TABLE x; --"}'
+          ai=$(curl -sS -A "pmlife-labs-smoke" -o - -w '\n%{http_code}' -X POST -H 'Content-Type: application/json' --data "$AI_BODY" "${LABS_URL}/spikes/spike-zero-cost-ai-gateway/public/ai_chat.php") || true
+          ai_code=${ai##*$'\n'}; ai_body=${ai%$'\n'*}
+          if [ "$ai_code" = "400" ] && [ "$ai_body" = '{"status":"error","error":{"code":"INVALID_REQUEST"}}' ]; then
+            echo "ok  POST ai_chat.php com SQL -> 400 INVALID_REQUEST (endpoint no ar, env carregado, mod_security não barrou)"
+          else
+            echo "::error::POST ai_chat.php -> HTTP $ai_code (esperado 400 INVALID_REQUEST): ${ai_body:0:200}"; fail=1
+          fi
           exit $fail

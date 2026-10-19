@@ -26,6 +26,7 @@ Regra prática: se a pergunta é **"dá para o produto fazer isso?"**, é PoC. S
 | [`pocs/poc-r3f-data-driven-city`](pocs/poc-r3f-data-driven-city) | Motor 3D orientado a dados: uma cidade por trilha a partir de um JSON, validada no domínio, com sombras, fonte local e carregamento progressivo |
 | [`pocs/poc-r3f-third-person-avatar`](pocs/poc-r3f-third-person-avatar) | Avatar em 3ª pessoa com WASD/setas, colisão com prédios e limites do mapa, câmera que persegue e alternância para a visão orbital |
 | [`pocs/poc-r3f-proximity-interaction-hud`](pocs/poc-r3f-proximity-interaction-hud) | Aviso ao chegar perto de um prédio, atalhos I/E/H seguros na digitação, modais acessíveis e guia do aluno em Markdown sanitizado |
+| [`pocs/poc-r3f-ai-npc-dialog`](pocs/poc-r3f-ai-npc-dialog) | NPCs 3D com conversa: aviso "E para conversar", memória curta de 3 trocas e lista branca de personas no servidor (`INVALID_PERSONA`) |
 
 ## 🧪 Spikes
 

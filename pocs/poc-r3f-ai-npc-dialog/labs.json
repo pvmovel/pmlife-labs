@@ -1,0 +1,25 @@
+{
+  "title": "Converse com os personagens do campus",
+  "summary": "No campus 3D, chegar perto de um personagem mostra \"Pressione [E] para conversar\"; E abre uma conversa em que o personagem responde com a própria voz e lembra das 3 últimas trocas.",
+  "problem": "Um NPC com IA precisa de personalidade própria sem expor o prompt no navegador, não pode aceitar qualquer persona que o cliente invente e precisa lembrar do contexto da conversa sem mandar o histórico inteiro a cada pergunta (cota e tempo do provedor).",
+  "result": "O conteúdo diz só o NOME da persona; o servidor confere numa lista branca e devolve 400 INVALID_PERSONA para o resto. A cada pergunta vão só as 3 últimas trocas, e o servidor revalida o histórico. Nesta demo um mock PHP responde no lugar da IA, citando a pergunta anterior para provar que a memória chegou. Um e2e com teclas reais e o PHP de verdade prova o caminho inteiro.",
+  "tags": [
+    "React Three Fiber",
+    "Three.js",
+    "PHP 8.2",
+    "Clean Architecture",
+    "Acessibilidade",
+    "Vitest",
+    "Puppeteer"
+  ],
+  "roadmap": "US22b",
+  "date": "2026-10-19",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Ande com W até o Guia do Museu e aperte E. Faça duas perguntas: a segunda resposta cita a primeira. A Astrônoma fica à direita, perto do Auditório. As respostas são simuladas (nenhuma IA é chamada)."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify    # fronteiras + tsc + 56 testes + testes do mock PHP + e2e no Chrome headless com php -S\nyarn api:dev   # mock PHP em http://localhost:8000 (PHP 8.2)\nyarn dev       # demo em http://localhost:5173"
+}

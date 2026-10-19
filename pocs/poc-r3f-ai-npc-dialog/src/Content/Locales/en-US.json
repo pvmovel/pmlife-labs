@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "back": "← PMLife Labs",
+    "docs": "Documentation"
+  },
+  "page": {
+    "eyebrow": "PoC · talking to NPCs in the 3D campus",
+    "title": "Talk to the campus characters",
+    "lead": "Walk up to a character and press E to talk. Each question carries only the last 3 exchanges, and the server checks the persona against an allow list. In this demo the answers are simulated: no AI is called.",
+    "language": "Language",
+    "loading": "Loading the 3D campus…",
+    "sceneLabel": "3D campus with {count} buildings and {npcs} characters. {mode} mode.",
+    "position": "Avatar position",
+    "nearby": "Nearby",
+    "nobody": "none",
+    "keysTitle": "Keys",
+    "keysMove": "W/S or ↑/↓: walk · A/D or ←/→: turn · C: Avatar ⇄ Orbital",
+    "keysInteract": "Near a building: I info · E enter the room",
+    "keysHelp": "H: student guide · Esc: close the open window",
+    "keysTalk": "Near a character: E talk"
+  },
+  "mode": {
+    "label": "Navigation",
+    "avatar": "Avatar",
+    "orbital": "Orbital"
+  },
+  "hud": {
+    "prompt": "Press [E] to Enter or [I] for Information",
+    "promptBuilding": "{building}",
+    "close": "Close",
+    "promptNpc": "Press [E] to talk"
+  },
+  "buildings": {
+    "biblioteca": "Library",
+    "laboratorio": "Lab",
+    "auditorio": "Auditorium",
+    "cafeteria": "Cafeteria"
+  },
+  "info": {
+    "title": "About: {building}",
+    "biblioteca": "Supporting reading collection. Each track lists here the texts for each stage.",
+    "laboratorio": "Hands-on exercises: students apply what they read, with automatic grading.",
+    "auditorio": "Live and recorded lectures. Class presentations also happen here.",
+    "cafeteria": "Social space: class forum and informal meetups."
+  },
+  "rooms": {
+    "title": "Room: {building}",
+    "placeholder": "This is a preview of the room. The inner 3D scene is a future step; here you see the building's content and missions.",
+    "questsTitle": "Missions in this room",
+    "biblioteca": {
+      "q1": "Read the introduction",
+      "q2": "Summarize chapter 1 in five lines"
+    },
+    "laboratorio": {
+      "q1": "Solve the guided exercise",
+      "q2": "Review a classmate's exercise"
+    },
+    "auditorio": {
+      "q1": "Watch the opening lecture",
+      "q2": "Ask a question in the live session"
+    },
+    "cafeteria": {
+      "q1": "Introduce yourself in the class forum"
+    }
+  },
+  "help": {
+    "title": "Student Guide & Campus Controls"
+  },
+  "npcs": {
+    "guia": {
+      "name": "Museum Guide",
+      "greeting": "Hello! Ask me anything about the collection."
+    },
+    "astronoma": {
+      "name": "Astronomer",
+      "greeting": "Good evening! Want to know something about the sky?"
+    }
+  },
+  "dialog": {
+    "title": "Talking to: {npc}",
+    "history": "Conversation history",
+    "you": "You",
+    "inputLabel": "Your question",
+    "placeholder": "Type and press Enter",
+    "send": "Send",
+    "thinking": "{npc} is thinking…",
+    "memory": "The character remembers the last {max} exchanges ({count} in memory now).",
+    "mock": "Simulated answers: no AI is called in this demo.",
+    "errors": {
+      "INVALID_PERSONA": "This character is not available.",
+      "INVALID_REQUEST": "Couldn't understand the question. Try rephrasing it.",
+      "RATE_LIMITED": "Too many questions in a row. Wait a moment and try again.",
+      "AI_UNAVAILABLE": "The character can't answer right now. Try again shortly.",
+      "EMPTY": "Type a question.",
+      "TOO_LONG": "The question is over 500 characters.",
+      "NETWORK": "No connection to the server."
+    }
+  }
+}

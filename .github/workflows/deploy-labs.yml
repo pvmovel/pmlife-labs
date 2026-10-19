@@ -159,6 +159,33 @@ jobs:
           HUD_SCENE=$(curl -sS "${HUD_BASE}/${HUD_ENTRY}" | grep -o 'AvatarCanvas-[A-Za-z0-9_-]*\.js' | head -1)
           HUD_FONT=$(curl -sS "${HUD_BASE}/assets/${HUD_SCENE}" | grep -o 'inter-latin-600-normal-[A-Za-z0-9_-]*\.woff' | head -1)
           [ -n "$HUD_FONT" ] && header "/pocs/poc-r3f-proximity-interaction-hud/dist/assets/${HUD_FONT}" "immutable" || { echo "::error::não achei a fonte com hash da PoC de proximidade"; fail=1; }
+          # US22b: NPCs com diálogo (mock PHP, sem IA). Persona inventada ➔ 400 INVALID_PERSONA prova a lista branca.
+          check "/catalogo/poc-r3f-ai-npc-dialog/" 200
+          check "/pocs/poc-r3f-ai-npc-dialog/dist/" 200
+          header "/pocs/poc-r3f-ai-npc-dialog/dist/" "no-cache"
+          for path in api/npc_mock.php api/personas.php tests/npc_mock_test.php src/Content/npcs.json; do
+            check "/pocs/poc-r3f-ai-npc-dialog/${path}" 403
+          done
+          NPC_BASE="${LABS_URL}/pocs/poc-r3f-ai-npc-dialog/dist"
+          NPC_ENTRY=$(curl -sS "${NPC_BASE}/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          NPC_SCENE=$(curl -sS "${NPC_BASE}/${NPC_ENTRY}" | grep -o 'AvatarCanvas-[A-Za-z0-9_-]*\.js' | head -1)
+          NPC_FONT=$(curl -sS "${NPC_BASE}/assets/${NPC_SCENE}" | grep -o 'inter-latin-600-normal-[A-Za-z0-9_-]*\.woff' | head -1)
+          [ -n "$NPC_FONT" ] && header "/pocs/poc-r3f-ai-npc-dialog/dist/assets/${NPC_FONT}" "immutable" || { echo "::error::não achei a fonte com hash da PoC de NPCs"; fail=1; }
+          check "/pocs/poc-r3f-ai-npc-dialog/public/npc_chat.php" 405 '{"status":"error","error":{"code":"METHOD_NOT_ALLOWED"}}'
+          npc=$(curl -sS -A "pmlife-labs-smoke" -o - -w '\n%{http_code}' -X POST -H 'Content-Type: application/json' --data '{"persona":"smoke-test-inexistente","message":"oi"}' "${LABS_URL}/pocs/poc-r3f-ai-npc-dialog/public/npc_chat.php") || true
+          npc_code=${npc##*$'\n'}; npc_body=${npc%$'\n'*}
+          if [ "$npc_code" = "400" ] && [ "$npc_body" = '{"status":"error","error":{"code":"INVALID_PERSONA"}}' ]; then
+            echo "ok  POST npc_chat.php com persona inventada -> 400 INVALID_PERSONA"
+          else
+            echo "::error::POST npc_chat.php -> HTTP $npc_code (esperado 400 INVALID_PERSONA): ${npc_body:0:200}"; fail=1
+          fi
+          npc=$(curl -sS -A "pmlife-labs-smoke" -o - -w '\n%{http_code}' -X POST -H 'Content-Type: application/json' --data '{"persona":"astronomer","message":"E o segundo?","history":[{"question":"Qual o maior planeta?","answer":"Júpiter."}]}' "${LABS_URL}/pocs/poc-r3f-ai-npc-dialog/public/npc_chat.php") || true
+          npc_code=${npc##*$'\n'}; npc_body=${npc%$'\n'*}
+          if [ "$npc_code" = "200" ] && grep -q 'Qual o maior planeta?' <<<"$npc_body"; then
+            echo "ok  POST npc_chat.php com histórico -> 200 citando a pergunta anterior"
+          else
+            echo "::error::POST npc_chat.php com histórico -> HTTP $npc_code: ${npc_body:0:200}"; fail=1
+          fi
           # US22a: gateway de IA. Pedido INVÁLIDO de propósito, com SQL na pergunta: o nosso 400 prova que o endpoint
           # está no ar, que o env fora do webroot carregou (sem ele seria 500) e que o mod_security não barrou o SQL,
           # sem gastar nenhuma cota de IA.

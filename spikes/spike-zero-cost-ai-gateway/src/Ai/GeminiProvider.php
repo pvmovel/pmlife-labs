@@ -11,7 +11,7 @@ final class GeminiProvider implements AiProvider
         private string $apiKey,
         private string $model,
         private string $baseUrl = 'https://generativelanguage.googleapis.com',
-        private int $timeout = 20,
+        private int $timeout = 12,
     ) {
     }
 
@@ -32,7 +32,7 @@ final class GeminiProvider implements AiProvider
             'generationConfig' => ['maxOutputTokens' => $maxTokens, 'temperature' => 0.3],
         ], $this->timeout);
         if ($res['status'] !== 200) {
-            throw new AiUnavailable("gemini: HTTP {$res['status']}");
+            throw new AiUnavailable(ProviderError::describe('gemini', $res));
         }
         $data = json_decode($res['body'], true);
         $text = '';

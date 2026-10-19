@@ -26,6 +26,7 @@ src/
     ├── FileRateLimitStore.php     contadores em arquivo com flock (demo do labs, sem banco novo)
     └── PdoRateLimitStore.php      contadores em MySQL (o store do produto) + migrations/mysql/001
 scripts/purge-rate-limit.php       Cron diário: apaga os contadores de dias anteriores
+scripts/check-providers.php        saúde de cada provedor, isoladamente (uma pergunta mínima a cada um)
 web/                               lado TS: BM25 sobre o material, caso de uso, adapters e o widget
 ```
 
@@ -35,8 +36,9 @@ web/                               lado TS: BM25 sobre o material, caso de uso, 
 | **System prompt no servidor** | O cliente escolhe só o nome da persona. Um campo `system` forjado é ignorado: o provedor recebe sempre o prompt do servidor. O prompt manda tratar os trechos como dados, não como instruções. |
 | **Rate limit antes da IA** | Pergunta barrada (429 `RATE_LIMITED`) não chama provedor nenhum. Há limite por IP (por minuto e por dia) e um **teto global diário**, que protege a cota mesmo se alguém forjar o IP. |
 | **Failover** | Se o Gemini falhar (cota, rede, resposta vazia), a Groq responde. Com os dois fora: 503 `AI_UNAVAILABLE`, sem detalhe interno na resposta (o detalhe vai para o log). |
-| **Limites da hospedagem** | Sem streaming; timeout do cURL de 20 s, abaixo do `max_execution_time` (~30 s); pergunta de até 500 caracteres e até 4 trechos de 700. |
-| **Free tier, sem billing** | Chaves e modelos no env (`GEMINI_MODEL`, `GROQ_MODEL`), conferidos nas páginas oficiais de modelos; nada fixo no código. |
+| **Limites da hospedagem** | Sem streaming; timeout **total** de 12 s por provedor, para os dois juntos (24 s no pior caso) caberem no `max_execution_time` (~30 s); pergunta de até 500 caracteres e até 4 trechos de 700. |
+| **Free tier, sem billing** | Chaves e modelos no env (`GEMINI_MODEL`, `GROQ_MODEL`), conferidos nas páginas oficiais de modelos. Padrões: `gemini-3.5-flash-lite` e `openai/gpt-oss-20b` (modelo de raciocínio: `reasoning_effort: low` e só a resposta final). |
+| **Diagnóstico e saúde** | O log do servidor diz o motivo de cada falha (`groq: HTTP 404 model_not_found`, `gemini: HTTP 429 RESOURCE_EXHAUSTED`, `gemini: timeout de 12 s (curl 28)`), sem chave. `scripts/check-providers.php` testa **cada provedor isoladamente**: o failover esconde a Groq enquanto o Gemini responde. |
 
 ### O que o `verify` prova
 
@@ -58,7 +60,9 @@ web/                               lado TS: BM25 sobre o material, caso de uso, 
 3. **Modelo de "raciocínio" pode devolver texto vazio.** Ao estourar o limite de tokens pensando, a resposta vem sem texto. O provedor trata isso como falha, e o failover entra.
 4. **A limpeza do Cron comparava janelas pelo prefixo.** A primeira versão apagaria também as janelas diárias de hoje (`d:` vem antes de `m:` na ordem alfabética), zerando o limite diário toda madrugada. O teste do store pegou o erro, e a limpeza agora compara só a data.
 5. **mod_security sem gastar cota.** O smoke test do deploy manda ao servidor real um pedido **inválido de propósito, com SQL na pergunta**, e espera o nosso `400 INVALID_REQUEST`. Isso prova que o endpoint está no ar, que o env carregou e que o WAF da hospedagem não barrou o SQL.
-6. **Contexto vindo do cliente não é confiável.** O RAG roda no navegador, então os "trechos" podem ser forjados. O tamanho é limitado e o prompt do servidor manda tratá-los como dados; no produto, a mesma busca pode rodar também no servidor.
+6. **O provedor reserva só foi testado no dia em que precisou.** Nas primeiras horas no ar, o Gemini respondia sempre, e a Groq nunca era chamada. No primeiro tropeço do Gemini (sem resposta em 20 s), a Groq devolveu **404**: o Llama 3.1 8B, o modelo padrão, **saiu do free tier da Groq em 16/08/2026** e só existe para contas enterprise. Correções: padrão `openai/gpt-oss-20b`, log com o motivo de cada falha e a verificação de saúde que testa os dois provedores separadamente.
+7. **Timeout de cada provedor × tempo do PHP.** Com 20 s para cada, um Gemini lento consumia o tempo todo, e o PHP (limite de ~30 s) morria antes de a Groq responder: o failover não salvava ninguém. Com 12 s cada, o pior caso é 24 s. Um teste garante essa soma.
+8. **Contexto vindo do cliente não é confiável.** O RAG roda no navegador, então os "trechos" podem ser forjados. O tamanho é limitado e o prompt do servidor manda tratá-los como dados; no produto, a mesma busca pode rodar também no servidor.
 
 ## Demo
 
@@ -70,5 +74,6 @@ Faça uma pergunta sobre o Clube de Astronomia (curso fictício) ou clique num e
 yarn install --frozen-lockfile
 yarn verify      # fronteiras + tsc + 14 testes TS + testes PHP (precisa de PHP 8.2 com curl; MySQL opcional via SPIKE_MYSQL_*)
 yarn api:dev     # php -S na porta 8000 (com ~/labs.development.env.php: copie config/env.example.php)
+php scripts/check-providers.php ~/labs.development.env.php   # saúde de cada provedor (gasta 1 pergunta de cada)
 yarn dev         # demo em http://localhost:5173
 ```

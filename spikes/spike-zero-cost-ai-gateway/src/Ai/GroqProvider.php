@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace Spike\Ai;
 
-/** Groq (API compatível com a da OpenAI). Modelo e chave vêm do env. */
+/**
+ * Groq (API compatível com a da OpenAI). Modelo e chave vêm do env.
+ * O Llama saiu do free tier em 16/08/2026: o padrão é o gpt-oss-20b, um modelo de raciocínio.
+ */
 final class GroqProvider implements AiProvider
 {
     public function __construct(
@@ -11,7 +14,7 @@ final class GroqProvider implements AiProvider
         private string $apiKey,
         private string $model,
         private string $baseUrl = 'https://api.groq.com/openai/v1',
-        private int $timeout = 20,
+        private int $timeout = 12,
     ) {
     }
 
@@ -25,14 +28,21 @@ final class GroqProvider implements AiProvider
         if ($this->apiKey === '') {
             throw new AiUnavailable('groq: sem chave');
         }
-        $res = $this->http->postJson(rtrim($this->baseUrl, '/') . '/chat/completions', ['Authorization' => 'Bearer ' . $this->apiKey], [
+        $body = [
             'model' => $this->model,
             'messages' => [['role' => 'system', 'content' => $system], ['role' => 'user', 'content' => $user]],
-            'max_tokens' => $maxTokens,
+            'max_completion_tokens' => $maxTokens,
             'temperature' => 0.3,
-        ], $this->timeout);
+        ];
+        if (str_starts_with($this->model, 'openai/gpt-oss')) {
+            // Modelo de raciocínio: pensa pouco (mais rápido e gasta menos tokens) e não devolve o raciocínio,
+            // só a resposta final em message.content.
+            $body['reasoning_effort'] = 'low';
+            $body['include_reasoning'] = false;
+        }
+        $res = $this->http->postJson(rtrim($this->baseUrl, '/') . '/chat/completions', ['Authorization' => 'Bearer ' . $this->apiKey], $body, $this->timeout);
         if ($res['status'] !== 200) {
-            throw new AiUnavailable("groq: HTTP {$res['status']}");
+            throw new AiUnavailable(ProviderError::describe('groq', $res));
         }
         $text = json_decode($res['body'], true)['choices'][0]['message']['content'] ?? '';
         if (!is_string($text) || trim($text) === '') {

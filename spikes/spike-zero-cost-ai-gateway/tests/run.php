@@ -151,7 +151,43 @@ $http = new FakeHttp([['status' => 200, 'body' => json_encode(['choices' => [['m
 $text = (new GroqProvider($http, 'k-groq', 'llama-x'))->complete('SYS', 'USR', 99);
 $r = $http->requests[0];
 check($text === 'oi' && $r['headers'] === ['Authorization' => 'Bearer k-groq'], 'Groq: chave como Bearer e texto da resposta');
-check($r['body']['messages'] === [['role' => 'system', 'content' => 'SYS'], ['role' => 'user', 'content' => 'USR']] && $r['body']['max_tokens'] === 99, 'Groq: system primeiro, depois a pergunta, e limite de tokens');
+check($r['body']['messages'] === [['role' => 'system', 'content' => 'SYS'], ['role' => 'user', 'content' => 'USR']] && $r['body']['max_completion_tokens'] === 99, 'Groq: system primeiro, depois a pergunta, e limite de tokens');
+check(!isset($r['body']['reasoning_effort']), 'Groq: modelo sem raciocínio não recebe parâmetros de raciocínio');
+$http = new FakeHttp([['status' => 200, 'body' => json_encode(['choices' => [['message' => ['content' => 'ok']]]])]]);
+(new GroqProvider($http, 'k', 'openai/gpt-oss-20b'))->complete('S', 'U', 200);
+$b = $http->requests[0]['body'];
+check($b['reasoning_effort'] === 'low' && $b['include_reasoning'] === false, 'Groq gpt-oss: raciocínio curto e só a resposta final (sem o raciocínio)');
+check(build_providers([], new FakeHttp([]))[1] instanceof GroqProvider, 'padrão sem env: Gemini e depois Groq');
+
+echo "--- diagnóstico no log (nunca na resposta)\n";
+$msg = static function (AiProvider $p): string {
+    try {
+        $p->complete('S', 'U', 10);
+        return 'sem erro';
+    } catch (AiUnavailable $e) {
+        return $e->getMessage();
+    }
+};
+check($msg(new GroqProvider(new FakeHttp([['status' => 404, 'body' => '{"error":{"message":"The model `llama-3.1-8b-instant` does not exist","type":"invalid_request_error","code":"model_not_found"}}']]), 'k', 'llama-3.1-8b-instant')) === 'groq: HTTP 404 model_not_found', 'Groq 404: o log diz model_not_found (o Llama saiu do free tier)');
+check($msg(new GeminiProvider(new FakeHttp([['status' => 429, 'body' => '{"error":{"code":429,"status":"RESOURCE_EXHAUSTED"}}']]), 'k', 'm')) === 'gemini: HTTP 429 RESOURCE_EXHAUSTED', 'Gemini 429: o log diz RESOURCE_EXHAUSTED (cota)');
+check($msg(new GeminiProvider(new FakeHttp([['status' => 0, 'body' => '', 'error' => 'timeout de 12 s (curl 28)']]), 'k', 'm')) === 'gemini: timeout de 12 s (curl 28)', 'sem resposta HTTP: o log diz se foi timeout (antes era só "HTTP 0")');
+
+echo "--- tempo: os dois provedores cabem no max_execution_time\n";
+$timeouts = array_map(static function (AiProvider $p): int {
+    $prop = new ReflectionProperty($p, 'timeout');
+    return $prop->getValue($p);
+}, build_providers([], new FakeHttp([])));
+// CURLOPT_TIMEOUT é o tempo TOTAL da chamada (a conexão está dentro dele): o pior caso é a soma dos timeouts.
+check(array_sum($timeouts) <= 24, 'Gemini e Groq estourando o tempo: ' . array_sum($timeouts) . ' s no pior caso, com folga nos 30 s do PHP (com 20 s cada, a Groq nunca respondia)');
+
+echo "--- saúde de cada provedor, isoladamente\n";
+$http = new FakeHttp([
+    ['status' => 0, 'body' => '', 'error' => 'timeout de 12 s (curl 28)'],
+    ['status' => 200, 'body' => json_encode(['choices' => [['message' => ['content' => 'ok']]]])],
+]);
+$health = check_providers(['GEMINI_API_KEY' => 'g', 'GROQ_API_KEY' => 'q'], $http);
+check($health[0]['provider'] === 'gemini' && !$health[0]['ok'] && $health[0]['detail'] === 'gemini: timeout de 12 s (curl 28)', 'saúde: Gemini fora aparece com o motivo');
+check($health[1]['provider'] === 'groq' && $health[1]['ok'] && count($http->requests) === 2, 'saúde: a Groq é testada mesmo com o Gemini fora (o failover a escondia)');
 try {
     (new GroqProvider(new FakeHttp([]), '', 'm'))->complete('S', 'U', 10);
     check(false, 'sem chave');

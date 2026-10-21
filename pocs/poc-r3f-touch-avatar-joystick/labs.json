@@ -1,0 +1,24 @@
+{
+  "title": "Ande com o avatar pelo toque",
+  "summary": "No celular, o botão Avatar mostra um joystick no canto da cena: arrastar para cima anda, para os lados gira e soltar para. Perto de um prédio, os botões Entrar e Informações completam a interação sem teclado.",
+  "problem": "No toque, o campus 3D só podia ser visto de cima (modo orbital): o avatar andava só pelo teclado, então o aluno no celular não conseguia explorar o campus nem chegar perto dos prédios.",
+  "result": "O joystick vira a mesma entrada do teclado (função pura com zona morta e 8 direções), então colisão, limites e câmera não mudam. Pointer Events com captura seguem um dedo só; com uma janela aberta o joystick some e o avatar para. Um e2e com toque real num celular emulado prova os cenários do Gherkin.",
+  "tags": [
+    "React Three Fiber",
+    "Three.js",
+    "Pointer Events",
+    "Touch",
+    "Vitest",
+    "Puppeteer"
+  ],
+  "roadmap": "US29",
+  "date": "2026-10-21",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "No celular (ou no DevTools em modo celular), toque em Avatar e arraste o joystick no canto inferior esquerdo. Ande até a Biblioteca e toque em Entrar. No computador, WASD e setas continuam valendo e o joystick não aparece."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + 60 testes + e2e com toque num celular emulado no Chrome headless\nyarn dev      # demo em http://localhost:5173"
+}

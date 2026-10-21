@@ -1,0 +1,79 @@
+{
+  "nav": {
+    "back": "← PMLife Labs",
+    "docs": "Documentation"
+  },
+  "page": {
+    "eyebrow": "PoC · avatar on mobile",
+    "title": "Walk the avatar by touch",
+    "lead": "On a phone, tap Avatar: a joystick shows up in the corner of the scene. Drag up to walk, sideways to turn and let go to stop. Get close to a building and tap Enter or Information. With mouse and keyboard, nothing changes.",
+    "language": "Language",
+    "loading": "Loading the 3D campus…",
+    "sceneLabel": "3D campus with {count} buildings. {mode} mode.",
+    "position": "Avatar position",
+    "nearby": "Building in focus",
+    "nobody": "none",
+    "notesLabel": "Notes (test: type e, i or h here)",
+    "notesPlaceholder": "Type freely: shortcuts don't fire in this field",
+    "keysTitle": "Keys",
+    "keysMove": "W/S or ↑/↓: walk · A/D or ←/→: turn · C: Avatar ⇄ Orbital",
+    "keysInteract": "Near a building: I info · E enter the room",
+    "keysHelp": "H: student guide · Esc: close the open window",
+    "keysOrbital": "Orbital: click or tap a building · drag rotates · Esc clears the selection",
+    "keysTouch": "On touch: the Avatar button turns on the joystick · drag up to walk, sideways to turn · let go to stop"
+  },
+  "mode": {
+    "label": "Navigation",
+    "avatar": "Avatar",
+    "orbital": "Orbital"
+  },
+  "hud": {
+    "prompt": "Press [E] to Enter or [I] for Information",
+    "promptTouch": "Tap Enter or Information",
+    "promptBuilding": "{building}",
+    "close": "Close",
+    "promptOrbital": "Pick an action or use the E and I keys",
+    "enter": "Enter",
+    "info": "Information",
+    "dismiss": "Clear the selection"
+  },
+  "joystick": {
+    "label": "Joystick: drag to walk and turn"
+  },
+  "buildings": {
+    "biblioteca": "Library",
+    "laboratorio": "Lab",
+    "auditorio": "Auditorium",
+    "cafeteria": "Cafeteria"
+  },
+  "info": {
+    "title": "About: {building}",
+    "biblioteca": "Supporting reading collection. Each track lists here the texts for each stage.",
+    "laboratorio": "Hands-on exercises: students apply what they read, with automatic grading.",
+    "auditorio": "Live and recorded lectures. Class presentations also happen here.",
+    "cafeteria": "Social space: class forum and informal meetups."
+  },
+  "rooms": {
+    "title": "Room: {building}",
+    "placeholder": "This is a preview of the room. The inner 3D scene is a future step; here you see the building's content and missions.",
+    "questsTitle": "Missions in this room",
+    "biblioteca": {
+      "q1": "Read the introduction",
+      "q2": "Summarize chapter 1 in five lines"
+    },
+    "laboratorio": {
+      "q1": "Solve the guided exercise",
+      "q2": "Review a classmate's exercise"
+    },
+    "auditorio": {
+      "q1": "Watch the opening lecture",
+      "q2": "Ask a question in the live session"
+    },
+    "cafeteria": {
+      "q1": "Introduce yourself in the class forum"
+    }
+  },
+  "help": {
+    "title": "Student Guide & Campus Controls"
+  }
+}

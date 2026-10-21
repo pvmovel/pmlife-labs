@@ -49,7 +49,7 @@ src/
 - abre no Orbital sem joystick; tocar em **Avatar** mostra o joystick no canto inferior esquerdo;
 - **arrastar para cima anda sem girar; soltar para**;
 - andando pelo toque até a Biblioteca aparece o aviso, que não cobre o joystick; tocar em **Entrar** abre a sala, o joystick some e o avatar fica parado; fechando, o joystick volta;
-- **arrastar para a esquerda e para a direita gira para o mesmo lado**; o arraste não rola a página;
+- **arrastar para a esquerda e para a direita gira para o mesmo lado**; o arraste não rola a página (o e2e rola até o joystick antes de tocar);
 - no computador, o joystick não aparece e o **W** continua andando;
 - nenhum erro e nenhuma requisição externa.
 
@@ -57,7 +57,8 @@ src/
 
 1. **O aviso no toque falava de teclas.** "Pressione [E]" não faz sentido no celular; o texto passou a ser "Toque em Entrar ou Informações".
 2. **O aviso disputava o espaço com o polegar.** No celular, o aviso centralizado embaixo cobria o joystick; no toque (`pointer: coarse`), ele sobe para o alto da cena.
-3. **Joystick × "tocar para andar".** O joystick é determinístico (mesma entrada que o teclado, testável sem navegador) e não conflita com o toque que seleciona prédios no Orbital. "Tocar no chão para andar" exigiria rota e desvio de prédios, e confundiria com o toque de seleção.
+3. **O toque fora da tela não chega a nada.** A 412 × 860, a cena fica no fim da página e o joystick, no canto de baixo dela. Com as fontes do runner do CI (mais largas), o texto acima quebrou em mais linhas e o centro do joystick caiu 1 px abaixo da tela: o e2e passava aqui e travava no CI. O e2e agora rola até o joystick antes de tocar (como o aluno faria) e falha com a causa se ele estiver fora da tela.
+4. **Joystick × "tocar para andar".** O joystick é determinístico (mesma entrada que o teclado, testável sem navegador) e não conflita com o toque que seleciona prédios no Orbital. "Tocar no chão para andar" exigiria rota e desvio de prédios, e confundiria com o toque de seleção.
 
 ## Demo
 

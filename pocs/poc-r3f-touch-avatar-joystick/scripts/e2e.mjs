@@ -61,11 +61,22 @@ try {
   const avatar = () => phone.$eval('[data-testid="avatar"]', (el) => ({ x: +el.dataset.x, z: +el.dataset.z, h: +el.dataset.heading }));
   const pressed = () => phone.$eval('[aria-pressed="true"][aria-keyshortcuts="C"]', (el) => el.textContent);
   const joystickBox = () => phone.$('[data-testid="joystick"]').then((el) => el?.boundingBox() ?? null);
-  /** Segura o dedo no joystick, puxado (dx, dy) a partir do centro, até a condição valer na página. */
+  const scrollY = () => phone.evaluate(() => window.scrollY);
+  let dragScrolled = false;
+  /**
+   * Segura o dedo no joystick, puxado (dx, dy) a partir do centro, até a condição valer na página.
+   * Antes, rola a página até o joystick ficar visível, como o aluno faria: a 412 × 860 a cena fica no fim da página e,
+   * com fontes mais largas (as do runner do CI), o centro do joystick caía abaixo da tela e o toque não chegava a nada.
+   */
   const holdUntil = async ([dx, dy], condition, arg) => {
+    await phone.$eval('[data-testid="joystick"]', (el) => el.scrollIntoView({ block: 'center' }));
+    await sleep(200);
     const box = await joystickBox();
     const cx = box.x + box.width / 2;
     const cy = box.y + box.height / 2;
+    const view = phone.viewport();
+    if (cy < 0 || cy > view.height) throw new Error(`o centro do joystick (y ${Math.round(cy)}) está fora da tela (${view.height} px)`);
+    const before = await scrollY();
     await phone.touchscreen.touchStart(cx, cy);
     try {
       for (let i = 1; i <= 5; i++) await phone.touchscreen.touchMove(cx + (dx * i) / 5, cy + (dy * i) / 5);
@@ -73,6 +84,7 @@ try {
     } finally {
       await phone.touchscreen.touchEnd();
     }
+    if ((await scrollY()) !== before) dragScrolled = true;
   };
   const read = (field) => `+document.querySelector('[data-testid="avatar"]').dataset.${field}`;
 
@@ -128,7 +140,7 @@ try {
   const h2 = (await avatar()).h;
   await holdUntil([PULL, 0], new Function('h', `return ${read('heading')} <= h`), h2 - 0.5);
   check((await avatar()).h <= h2 - 0.5, 'Gherkin: arrastar para a direita gira para a direita');
-  check((await phone.evaluate(() => window.scrollY)) === 0, 'arrastar o joystick não rola a página');
+  check(!dragScrolled, 'arrastar o joystick não rola a página');
 
   // ---------- Computador (mouse e teclado) ----------
   const desk = await browser.newPage();

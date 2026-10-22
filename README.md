@@ -43,6 +43,7 @@ Regra prática: se a pergunta é **"dá para o produto fazer isso?"**, é PoC. S
 | [`spikes/spike-sqlite-wasm-browser-persistence`](spikes/spike-sqlite-wasm-browser-persistence) | SQLite WASM num Web Worker gravando no OPFS (VFS `opfs-sahpool`, sem COOP/COEP), schema local versionado e persistência provada no Chrome headless |
 | [`spikes/spike-zero-cost-ai-gateway`](spikes/spike-zero-cost-ai-gateway) | Gateway de IA a custo zero em PHP (Gemini ➔ Groq, system prompt no servidor, limite por IP e teto global) + RAG lexical BM25 em TypeScript |
 | [`spikes/spike-php-session-auth-multitenant`](spikes/spike-php-session-auth-multitenant) | Contas e multi-tenant em PHP sem framework: sessão em cookie `__Host-`, Argon2id, CSRF, limite de tentativas por conta e IP, escopo de tenant no Repository e RLS no PostgreSQL |
+| [`spikes/spike-offline-first-progress-sync`](spikes/spike-offline-first-progress-sync) | Sincronização offline-first do progresso: fila local com chave de idempotência, união das missões e XP derivado do catálogo; 300 sequências aleatórias convergem |
 
 ## 📊 Benchmarks
 

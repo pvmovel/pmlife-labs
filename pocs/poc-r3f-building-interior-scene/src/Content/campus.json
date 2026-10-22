@@ -1,0 +1,10 @@
+{
+  "halfSize": 15,
+  "start": { "x": 0, "z": 10, "heading": 3.141592653589793 },
+  "buildings": [
+    { "id": "biblioteca", "labelKey": "buildings.biblioteca", "position": [0, 0], "size": [6, 5, 4], "color": "#5f3dc4" },
+    { "id": "laboratorio", "labelKey": "buildings.laboratorio", "position": [-9, -6], "size": [4, 3, 5], "color": "#0c8599" },
+    { "id": "auditorio", "labelKey": "buildings.auditorio", "position": [9, -6], "size": [5, 4, 5], "color": "#e8590c" },
+    { "id": "cafeteria", "labelKey": "buildings.cafeteria", "position": [-9, 7], "size": [3, 2, 3], "color": "#2f9e44" }
+  ]
+}

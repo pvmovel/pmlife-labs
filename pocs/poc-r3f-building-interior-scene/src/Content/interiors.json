@@ -1,0 +1,22 @@
+{
+  "interiors": [
+    {
+      "buildingId": "biblioteca",
+      "halfSize": 6,
+      "doorX": 0,
+      "stations": [
+        { "id": "biblioteca-leitura", "titleKey": "rooms.biblioteca.q1", "rewardXp": 300, "position": [0, -2], "size": [3, 1, 1.2], "color": "#7048e8" },
+        { "id": "biblioteca-resumo", "titleKey": "rooms.biblioteca.q2", "rewardXp": 500, "position": [-3.8, 1.5], "size": [1.4, 1.2, 1.4], "color": "#9775fa" }
+      ]
+    },
+    {
+      "buildingId": "laboratorio",
+      "halfSize": 5,
+      "doorX": 0,
+      "stations": [
+        { "id": "laboratorio-guiado", "titleKey": "rooms.laboratorio.q1", "rewardXp": 400, "position": [0, -1.5], "size": [2.5, 1, 1.2], "color": "#0c8599" },
+        { "id": "laboratorio-revisao", "titleKey": "rooms.laboratorio.q2", "rewardXp": 600, "position": [3, 1], "size": [1.2, 1, 1.2], "color": "#22b8cf" }
+      ]
+    }
+  ]
+}

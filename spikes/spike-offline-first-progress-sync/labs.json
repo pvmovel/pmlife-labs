@@ -1,0 +1,25 @@
+{
+  "title": "O mesmo progresso em dois aparelhos, mesmo offline",
+  "summary": "Sincronização offline-first do progresso: a missão vale na hora no aparelho, entra numa fila com chave de idempotência e é enviada quando a rede volta. O merge é a união das missões e o XP é sempre derivado do catálogo, então nada se perde e nada conta em dobro.",
+  "problem": "O aluno conclui missões no celular sem internet e no computador da escola. \"O último a gravar vence\" apaga o que foi feito offline; somar o XP de cada envio conta em dobro quando uma resposta se perde e o aparelho reenvia; e quem chama a API direto pode inventar missões.",
+  "result": "Missões concluídas só crescem, então o merge é a união (comutativa, associativa, idempotente) e o XP é derivado do catálogo. A fila só esvazia com a confirmação do servidor. 300 sequências aleatórias com 3 aparelhos, quedas e respostas perdidas sempre convergem; uma mutação que esvazia a fila cedo demais é pega. A demo prova o roteiro com cliques reais no Chrome.",
+  "tags": [
+    "TypeScript",
+    "Offline-first",
+    "Idempotência",
+    "Sincronização",
+    "React",
+    "Vitest",
+    "Puppeteer"
+  ],
+  "roadmap": "US31",
+  "date": "2026-10-22",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Ponha o celular Offline e conclua missões; entre na conta pelo computador de visitante; use \"Perde a resposta\" e volte ao Online para ver o reenvio sem XP em dobro."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + 17 testes (300 sequências aleatórias) + e2e da demo no Chrome headless\nyarn dev      # demo em http://localhost:5173"
+}

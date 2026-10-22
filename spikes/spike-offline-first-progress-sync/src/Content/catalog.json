@@ -1,0 +1,9 @@
+{
+  "trackId": "clube-astronomia",
+  "quests": [
+    { "id": "fases-da-lua", "title": "Fases da Lua", "rewardXp": 300 },
+    { "id": "constelacoes", "title": "Constelações do verão", "rewardXp": 500 },
+    { "id": "montar-telescopio", "title": "Montar o telescópio", "rewardXp": 700 },
+    { "id": "eclipse", "title": "Observar um eclipse", "rewardXp": 1000 }
+  ]
+}

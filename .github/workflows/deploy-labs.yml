@@ -224,6 +224,13 @@ jobs:
           else
             echo "::error::POST ai_chat.php -> HTTP $ai_code (esperado 400 INVALID_REQUEST): ${ai_body:0:200}"; fail=1
           fi
+          # US31: sincronização offline-first (demo estática; código-fonte bloqueado; bundle com hash imutável).
+          check "/catalogo/spike-offline-first-progress-sync/" 200
+          check "/spikes/spike-offline-first-progress-sync/dist/" 200
+          header "/spikes/spike-offline-first-progress-sync/dist/" "no-cache"
+          check "/spikes/spike-offline-first-progress-sync/src/Domain/ProgressMerge.ts" 403
+          SYNC_JS=$(curl -sS "${LABS_URL}/spikes/spike-offline-first-progress-sync/dist/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          [ -n "$SYNC_JS" ] && header "/spikes/spike-offline-first-progress-sync/dist/${SYNC_JS}" "immutable" || { echo "::error::a demo de sincronização não referencia assets/index-<hash>.js"; fail=1; }
           # US30: contas e multi-tenant. Sem demo ao vivo de propósito (um cadastro público seria alvo de abuso): os
           # endpoints e o código ficam bloqueados (403) no servidor, e a prova é a execução do verify no catálogo.
           check "/catalogo/spike-php-session-auth-multitenant/" 200

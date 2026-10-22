@@ -28,6 +28,7 @@ Regra prática: se a pergunta é **"dá para o produto fazer isso?"**, é PoC. S
 | [`pocs/poc-r3f-proximity-interaction-hud`](pocs/poc-r3f-proximity-interaction-hud) | Aviso ao chegar perto de um prédio, atalhos I/E/H seguros na digitação, modais acessíveis e guia do aluno em Markdown sanitizado |
 | [`pocs/poc-r3f-orbital-building-picking`](pocs/poc-r3f-orbital-building-picking) | Modo orbital: clicar ou tocar num prédio o seleciona, com Entrar e Informações por botão ou tecla; arrastar a câmera não seleciona |
 | [`pocs/poc-r3f-touch-avatar-joystick`](pocs/poc-r3f-touch-avatar-joystick) | Joystick de toque para o avatar no celular: arrastar anda e gira, soltar para; um dedo só, zona morta e avatar parado com uma janela aberta |
+| [`pocs/poc-r3f-building-interior-scene`](pocs/poc-r3f-building-interior-scene) | Sala 3D do prédio: interiores orientados a dados, missões como estações, entrada com escurecer e volta diante da porta, com o mesmo avatar e joystick |
 | [`pocs/poc-r3f-ai-npc-dialog`](pocs/poc-r3f-ai-npc-dialog) | NPCs 3D com conversa: aviso "E para conversar", memória curta de 3 trocas e lista branca de personas no servidor (`INVALID_PERSONA`) |
 
 ## 🧪 Spikes

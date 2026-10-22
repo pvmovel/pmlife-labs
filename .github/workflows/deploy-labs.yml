@@ -224,6 +224,15 @@ jobs:
           else
             echo "::error::POST ai_chat.php -> HTTP $ai_code (esperado 400 INVALID_REQUEST): ${ai_body:0:200}"; fail=1
           fi
+          # US32: sala 3D do prédio (fonte local com hash no chunk da cena; o chunk da sala também tem hash)
+          check "/catalogo/poc-r3f-building-interior-scene/" 200
+          check "/pocs/poc-r3f-building-interior-scene/dist/" 200
+          header "/pocs/poc-r3f-building-interior-scene/dist/" "no-cache"
+          check "/pocs/poc-r3f-building-interior-scene/src/Domain/Interior.ts" 403
+          ROOM_BASE="${LABS_URL}/pocs/poc-r3f-building-interior-scene/dist"
+          ROOM_ENTRY=$(curl -sS "${ROOM_BASE}/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          ROOM_CHUNK=$(curl -sS "${ROOM_BASE}/${ROOM_ENTRY}" | grep -o 'InteriorCanvas-[A-Za-z0-9_-]*\.js' | head -1)
+          [ -n "$ROOM_CHUNK" ] && header "/pocs/poc-r3f-building-interior-scene/dist/assets/${ROOM_CHUNK}" "immutable" || { echo "::error::não achei o chunk com hash da sala 3D"; fail=1; }
           # US31: sincronização offline-first (demo estática; código-fonte bloqueado; bundle com hash imutável).
           check "/catalogo/spike-offline-first-progress-sync/" 200
           check "/spikes/spike-offline-first-progress-sync/dist/" 200

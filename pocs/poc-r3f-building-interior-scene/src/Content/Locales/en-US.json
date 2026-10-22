@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "back": "← PMLife Labs",
+    "docs": "Documentation"
+  },
+  "page": {
+    "eyebrow": "PoC · 3D building room",
+    "title": "Really walk into the building",
+    "lead": "Get close to the Library or the Lab and press E (or tap Enter): the screen fades and you are inside the room, with the missions as stations. Use a station with E, leave through the door or with Esc and get back to the campus in front of the door.",
+    "language": "Language",
+    "loading": "Loading the 3D campus…",
+    "sceneLabel": "3D campus with {count} buildings. {mode} mode.",
+    "position": "Avatar position",
+    "nearby": "Building in focus",
+    "nobody": "none",
+    "notesLabel": "Notes (test: type e, i or h here)",
+    "notesPlaceholder": "Type freely: shortcuts don't fire in this field",
+    "keysTitle": "Keys",
+    "keysMove": "W/S or ↑/↓: walk · A/D or ←/→: turn · C: Avatar ⇄ Orbital",
+    "keysInteract": "Near a building: I info · E enter the room",
+    "keysHelp": "H: student guide · Esc: close the open window",
+    "keysOrbital": "Orbital: click or tap a building · drag rotates · Esc clears the selection",
+    "keysTouch": "On touch: the Avatar button turns on the joystick · drag up to walk, sideways to turn · let go to stop",
+    "keysInterior": "In the room: E uses the station · Esc or the door take you back to the campus"
+  },
+  "mode": {
+    "label": "Navigation",
+    "avatar": "Avatar",
+    "orbital": "Orbital"
+  },
+  "hud": {
+    "prompt": "Press [E] to Enter or [I] for Information",
+    "promptTouch": "Tap Enter or Information",
+    "promptBuilding": "{building}",
+    "close": "Close",
+    "promptOrbital": "Pick an action or use the E and I keys",
+    "enter": "Enter",
+    "info": "Information",
+    "dismiss": "Clear the selection",
+    "list": "Mission list"
+  },
+  "joystick": {
+    "label": "Joystick: drag to walk and turn"
+  },
+  "buildings": {
+    "biblioteca": "Library",
+    "laboratorio": "Lab",
+    "auditorio": "Auditorium",
+    "cafeteria": "Cafeteria"
+  },
+  "info": {
+    "title": "About: {building}",
+    "biblioteca": "Supporting reading collection. Each track lists here the texts for each stage.",
+    "laboratorio": "Hands-on exercises: students apply what they read, with automatic grading.",
+    "auditorio": "Live and recorded lectures. Class presentations also happen here.",
+    "cafeteria": "Social space: class forum and informal meetups."
+  },
+  "rooms": {
+    "title": "Room: {building}",
+    "placeholder": "This is a preview of the room. The inner 3D scene is a future step; here you see the building's content and missions.",
+    "questsTitle": "Missions in this room",
+    "biblioteca": {
+      "q1": "Read the introduction",
+      "q2": "Summarize chapter 1 in five lines"
+    },
+    "laboratorio": {
+      "q1": "Solve the guided exercise",
+      "q2": "Review a classmate's exercise"
+    },
+    "auditorio": {
+      "q1": "Watch the opening lecture",
+      "q2": "Ask a question in the live session"
+    },
+    "cafeteria": {
+      "q1": "Introduce yourself in the class forum"
+    },
+    "alternative": "List of this room's missions (the same as the stations in the 3D room).",
+    "complete": "Complete",
+    "done": "Completed"
+  },
+  "help": {
+    "title": "Student Guide & Campus Controls"
+  },
+  "interior": {
+    "prompt": "Press [E] to use the station",
+    "promptTouch": "Tap Use",
+    "done": "✓ Mission completed",
+    "use": "Use",
+    "exitHint": "Inside the building: leave through the door (yellow strip) or press Esc",
+    "sceneLabel": "{building} room with {count} stations.",
+    "xp": "XP"
+  }
+}

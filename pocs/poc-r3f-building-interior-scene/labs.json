@@ -1,0 +1,26 @@
+{
+  "title": "Entre de verdade no prédio",
+  "summary": "Apertar E perto de um prédio abre a sala 3D com o mesmo avatar: as missões são estações, Usar (ou E) conclui e soma o XP, e a porta ou o Esc voltam ao campus diante da porta. Salas orientadas a dados e validadas, num chunk de ~1 KB.",
+  "problem": "No campus 3D, entrar num prédio era abrir um painel: o aluno saía do mundo para ler uma lista. Levar as missões para uma sala de verdade exige dados para cada sala, a mesma física e os mesmos controles do campus (inclusive no celular), voltar ao lugar certo e não pesar no celular.",
+  "result": "O interior vira um mini-campus no domínio, e o avatar, a colisão, a proximidade, a câmera e o joystick funcionam lá dentro sem código novo. Entrar leva ~0,5 s, o chunk da sala tem ~1 KB com gzip e a sala não pesa mais que o campus. A lista de missões continua como alternativa acessível. Um e2e com teclas, mouse e toque prova os 3 cenários do Gherkin.",
+  "tags": [
+    "React Three Fiber",
+    "Three.js",
+    "Dados",
+    "React.lazy",
+    "Desempenho",
+    "Touch",
+    "Vitest",
+    "Puppeteer"
+  ],
+  "roadmap": "US32",
+  "date": "2026-10-23",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Ande até a Biblioteca e aperte E: você entra na sala. Vá até a mesa e aperte E; saia pela faixa amarela ou com Esc. No Orbital, clique no Laboratório e em Entrar. No celular, toque num prédio e em Entrar."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + 76 testes + e2e com teclas, mouse, toque e orçamento de desempenho\nyarn dev      # demo em http://localhost:5173"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "spike-php-session-auth-multitenant",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Spike: contas e multi-tenant em PHP 8.2 sem framework (sessão em cookie seguro, Argon2id, CSRF, limite de tentativas e escopo de tenant no Repository), com RLS no PostgreSQL como segunda barreira",
+  "scripts": {
+    "verify": "php scripts/verify.php"
+  }
+}

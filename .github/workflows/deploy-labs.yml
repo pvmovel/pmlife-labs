@@ -224,4 +224,10 @@ jobs:
           else
             echo "::error::POST ai_chat.php -> HTTP $ai_code (esperado 400 INVALID_REQUEST): ${ai_body:0:200}"; fail=1
           fi
+          # US30: contas e multi-tenant. Sem demo ao vivo de propósito (um cadastro público seria alvo de abuso): os
+          # endpoints e o código ficam bloqueados (403) no servidor, e a prova é a execução do verify no catálogo.
+          check "/catalogo/spike-php-session-auth-multitenant/" 200
+          for path in http/api/login.php http/api/register.php http/api/me.php src/Auth/AuthService.php migrations/pgsql/004_enable_rls_progress_events.sql scripts/verify.php; do
+            check "/spikes/spike-php-session-auth-multitenant/${path}" 403
+          done
           exit $fail

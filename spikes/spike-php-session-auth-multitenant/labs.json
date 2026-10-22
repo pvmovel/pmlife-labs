@@ -1,0 +1,20 @@
+{
+  "title": "Contas e clientes separados, num PHP sem framework",
+  "summary": "Cadastro por código de convite da instituição, login por e-mail e senha com sessão em cookie seguro, CSRF e limite de tentativas, e um Repository que não deixa um cliente ler dados de outro, com RLS no PostgreSQL como segunda barreira.",
+  "problem": "Um SaaS para escolas precisa de contas e de clientes (tenants) isolados, mas roda numa hospedagem compartilhada com MySQL 5.7, que não tem Row Level Security, e sem orçamento para um provedor de identidade. Um filtro por tenant esquecido numa consulta basta para vazar dados de outra escola.",
+  "result": "O isolamento fica num lugar só: o repositório recusa SQL sem o filtro de tenant e preenche o tenant da sessão. Senha com Argon2id, sessão __Host- HttpOnly/Secure/SameSite, CSRF em todo POST e bloqueio após 5 erros por conta e IP. 104 checks contra MySQL e PostgreSQL reais, incluindo o RLS com um papel comum e um ponta a ponta HTTP com o cookie de verdade.",
+  "tags": [
+    "PHP 8.2",
+    "Sessões",
+    "Argon2id",
+    "CSRF",
+    "Multi-tenant",
+    "MySQL 5.7",
+    "PostgreSQL 16",
+    "RLS",
+    "OWASP ASVS"
+  ],
+  "roadmap": "US30",
+  "date": "2026-10-22",
+  "run": "docker run -d --rm --name spike-mysql \\\n  -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw \\\n  -p 127.0.0.1:13306:3306 mysql:5.7\ndocker run -d --rm --name spike-pg \\\n  -e POSTGRES_DB=spike -e POSTGRES_USER=spike -e POSTGRES_PASSWORD=spikepw \\\n  -p 127.0.0.1:15432:5432 postgres:16\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 \\\n  SPIKE_MYSQL_DB=spike SPIKE_MYSQL_USER=spike SPIKE_MYSQL_PASS=spikepw\nexport SPIKE_PGSQL_HOST=127.0.0.1 SPIKE_PGSQL_PORT=15432 \\\n  SPIKE_PGSQL_DB=spike SPIKE_PGSQL_USER=spike SPIKE_PGSQL_PASS=spikepw\nphp scripts/verify.php   # PHP 8.2 com pdo_mysql e pdo_pgsql\ndocker stop spike-mysql spike-pg"
+}

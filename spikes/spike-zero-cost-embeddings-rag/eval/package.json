@@ -1,0 +1,17 @@
+{
+  "name": "spike-zero-cost-embeddings-rag-eval",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Calcula, uma vez e fora do CI, os vetores do material e das perguntas com os modelos candidatos (baixados do Hugging Face) e mede o custo de cada um",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "vectors": "node compute-vectors.mjs"
+  },
+  "dependencies": {
+    "@huggingface/tokenizers": "0.2.0",
+    "@huggingface/transformers": "4.3.1"
+  }
+}

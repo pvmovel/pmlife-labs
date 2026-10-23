@@ -1,0 +1,27 @@
+{
+  "name": "spike-zero-cost-embeddings-rag",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Spike: busca semântica (embeddings) a custo zero para o Co-Pilot, comparada ao BM25 por recall@3 em 30 perguntas; modelos multilíngues no navegador, sozinhos e híbridos (RRF)",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "verify": "eslint . && tsc --noEmit && vitest run --reporter=verbose"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24",
+    "eslint": "^10.12.0",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-boundaries": "^7.2.0",
+    "typescript": "~5.9",
+    "typescript-eslint": "^8.71.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.4"
+  }
+}

@@ -246,4 +246,10 @@ jobs:
           for path in http/api/login.php http/api/register.php http/api/me.php src/Auth/AuthService.php migrations/pgsql/004_enable_rls_progress_events.sql scripts/verify.php; do
             check "/spikes/spike-php-session-auth-multitenant/${path}" 403
           done
+          # US33: busca semântica × BM25. Sem demo (o veredito é manter o BM25): a prova é a execução do verify no
+          # catálogo; o código, o material, os vetores e o eval/ ficam bloqueados (403).
+          check "/catalogo/spike-zero-cost-embeddings-rag/" 200
+          for path in src/Domain/Decision.ts src/Content/eval_questions.json src/Content/vectors/e5-small.json eval/compute-vectors.mjs; do
+            check "/spikes/spike-zero-cost-embeddings-rag/${path}" 403
+          done
           exit $fail

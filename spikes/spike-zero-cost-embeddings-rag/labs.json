@@ -1,0 +1,20 @@
+{
+  "title": "Busca semântica a custo zero: vale o download?",
+  "summary": "Comparação, com regra de decisão fixada antes de medir, entre o BM25 do Co-Pilot e buscas semânticas que rodam de graça no navegador (transformers multilíngues, modelo estático Matryoshka e busca híbrida RRF), por recall@3 em 30 perguntas.",
+  "problem": "O tutor de IA acha os trechos do material por palavras (BM25) e erra quando o aluno pergunta com outras palavras. Embeddings resolvem isso, mas costumam exigir API paga ou GPU; no navegador, os modelos multilíngues prontos têm 108 a 175 MB, e o orçamento é zero.",
+  "result": "BM25 acerta 24/30; o melhor modelo, 28/30 (+13,3 pontos), com 135 MB de download. Nenhuma opção de até 30 MB ganha os 15 pontos exigidos, e no material real o ganho foi menor ainda: fica o BM25. Os erros restantes são de conhecimento (\"estrelas cadentes\" = meteoros), resolvidos de graça escrevendo o material com os termos do aluno.",
+  "tags": [
+    "RAG",
+    "Embeddings",
+    "BM25",
+    "Busca híbrida (RRF)",
+    "Matryoshka",
+    "transformers.js",
+    "ONNX",
+    "TypeScript",
+    "Vitest"
+  ],
+  "roadmap": "US33",
+  "date": "2026-10-23",
+  "run": "yarn install --frozen-lockfile\nyarn verify   # ESLint + tsc + 18 testes; imprime a tabela de recall@3 e o veredito\n\n# opcional: recalcular os vetores com os modelos reais (~650 MB, uma vez, fora do CI)\ncd eval && yarn install --frozen-lockfile && yarn vectors"
+}

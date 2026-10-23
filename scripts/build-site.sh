@@ -54,7 +54,7 @@ for dir in "$ROOT"/pocs/*/ "$ROOT"/spikes/*/ "$ROOT"/benchmarks/*/; do
   fi
 
   mkdir -p "$OUT/$rel"
-  rsync -a --exclude node_modules --exclude '.git*' --exclude '*.env.php' --exclude '.env*' "$dir/" "$OUT/$rel/"
+  rsync -a --exclude node_modules --exclude '.cache-*' --exclude '.git*' --exclude '*.env.php' --exclude '.env*' "$dir/" "$OUT/$rel/"
 
   # Defesa em profundidade: toda pasta de primeiro nível que não seja public/ ou dist/ ganha "Require all denied".
   for sub in "$OUT/$rel"/*/; do

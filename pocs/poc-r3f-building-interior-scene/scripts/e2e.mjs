@@ -144,11 +144,18 @@ try {
   await placeIs('campus');
 
   // 4. Orbital ➔ Laboratório ➔ Entrar.
+  // Depois do Esc o avatar está diante da Biblioteca, então o aviso dela já está na tela: esperar o do Laboratório
+  // (e clicar de novo se a câmera ainda estava se movendo no primeiro clique).
   await page.keyboard.press('KeyC');
-  await sleep(800);
-  const lab = await screenPoint(page, 'laboratorio');
-  await page.mouse.click(lab.x, lab.y);
-  await page.waitForSelector('[data-testid="interaction-prompt"]', { timeout: 15000 });
+  const labPrompt = () => page.waitForFunction(() => document.querySelector('[data-testid="interaction-prompt"]')?.textContent.includes('Laboratório'), { timeout: 5000 }).then(() => true, () => false);
+  let labSelected = false;
+  for (let i = 0; i < 4 && !labSelected; i++) {
+    await sleep(800);
+    const lab = await screenPoint(page, 'laboratorio');
+    await page.mouse.click(lab.x, lab.y);
+    labSelected = await labPrompt();
+  }
+  if (!labSelected) throw new Error('o clique no Laboratório não o selecionou no Orbital');
   await page.$$eval('[data-testid="interaction-prompt"] button', (bs) => bs.find((b) => b.textContent.includes('Entrar'))?.click());
   await placeIs('interior:laboratorio');
   check(true, 'Gherkin: no Orbital, clicar no Laboratório e em Entrar abre a sala dele');

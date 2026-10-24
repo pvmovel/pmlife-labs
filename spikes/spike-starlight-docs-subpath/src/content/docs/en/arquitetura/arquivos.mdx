@@ -1,0 +1,12 @@
+---
+title: "File explorer"
+description: "Every folder and file in the repository, with what it does."
+---
+
+import FileExplorer from '../../../../components/FileExplorer';
+import { entries, tree } from '../../../../data/repo';
+import { explorerLabels } from '../../../../data/architecture';
+
+The tree below is generated at build time from the **repository map**, the same document CI checks on every change. Source code is not published, and internal details (server paths, environment files, credentials) are replaced by a generic text before publishing.
+
+<FileExplorer client:load tree={tree} entries={entries} labels={explorerLabels.en} lang="en" />

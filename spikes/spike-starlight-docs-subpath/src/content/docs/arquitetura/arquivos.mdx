@@ -1,0 +1,12 @@
+---
+title: "Explorador de arquivos"
+description: "Cada pasta e cada arquivo do repositório, com a sua função."
+---
+
+import FileExplorer from '../../../components/FileExplorer';
+import { entries, tree } from '../../../data/repo';
+import { explorerLabels } from '../../../data/architecture';
+
+A árvore abaixo é gerada no build a partir do **mapa do repositório**, o mesmo documento que o CI confere a cada mudança. O código-fonte não é publicado, e detalhes internos (caminhos do servidor, arquivos de ambiente, credenciais) são trocados por um texto genérico antes da publicação.
+
+<FileExplorer client:load tree={tree} entries={entries} labels={explorerLabels.pt} lang="pt" />

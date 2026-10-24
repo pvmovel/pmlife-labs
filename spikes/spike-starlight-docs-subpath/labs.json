@@ -1,0 +1,27 @@
+{
+  "title": "Documentação técnica viva, pública e sem vazamento",
+  "summary": "Astro Starlight num subcaminho de hospedagem compartilhada, em dois idiomas e com busca, com explorador de arquivos, diagrama das camadas e passo a passo interativos gerados do mapa do repositório, que é sanitizado no build com falha fechada.",
+  "problem": "Documentação para investidores e recrutadores envelhece rápido quando é escrita à parte, e gerá-la do repositório arrisca publicar caminhos do servidor e credenciais. O site mora num subcaminho atrás da Cloudflare, que guarda JS por 4 h, e a busca tem arquivos sem hash no nome.",
+  "result": "Mapa, camadas e números saem do repositório no build; um detalhe sensível que escape das regras derruba o build. A busca funciona no subcaminho nos dois idiomas, e dois builds com conteúdo diferente provam que os arquivos da busca sem hash não mudam (só o índice JSON, servido sem cache). 18 testes e um e2e no Chrome headless.",
+  "tags": [
+    "Astro",
+    "Starlight",
+    "React",
+    "TypeScript",
+    "Pagefind",
+    "i18n",
+    "Cache",
+    "Vitest",
+    "Puppeteer"
+  ],
+  "roadmap": "US34",
+  "date": "2026-10-24",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a documentação",
+      "note": "Projeto fictício. Experimente o explorador de arquivos (filtre por \"webroot\"), clique nas camadas, siga a colheita passo a passo, troque o idioma e use a busca."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # astro check + tsc + 18 testes + e2e no Chrome headless\nyarn dev      # http://localhost:4321"
+}

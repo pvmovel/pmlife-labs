@@ -1,0 +1,13 @@
+# Cache da documentação (vai para a raiz do site gerado). Os assets com hash ficam em assets/ (immutable, pela regra da
+# pasta de cima). A busca (Pagefind) tem arquivos SEM hash: o índice de entrada (JSON) e o pagefind.js/.pagefind, que só
+# mudam com a versão do Pagefind. Origem: no-cache para eles; os pedaços do índice (.pf_*) têm hash e são imutáveis.
+<IfModule mod_headers.c>
+    <FilesMatch "\.(pagefind|js|css|json)$">
+        <If "%{REQUEST_URI} =~ m#/pagefind/#">
+            Header set Cache-Control "no-cache"
+        </If>
+    </FilesMatch>
+    <FilesMatch "\.pf_(meta|index|fragment)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+</IfModule>

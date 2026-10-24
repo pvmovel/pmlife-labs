@@ -1,0 +1,11 @@
+---
+title: "Camadas"
+description: "As camadas da Clean Architecture e a matriz de imports."
+---
+
+import LayerDiagram from '../../../components/LayerDiagram';
+import { layers, layerLabels } from '../../../data/architecture';
+
+As dependências apontam **para dentro**: quanto mais interna a camada, menos ela conhece. O domínio não sabe que existe tela, rede ou banco. A regra não é só convenção: o ESLint a aplica, e um import proibido quebra o build.
+
+<LayerDiagram client:load layers={layers('pt')} labels={layerLabels.pt} />

@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.astro/
+.e2e-dist/
+.e2e-dist-2/

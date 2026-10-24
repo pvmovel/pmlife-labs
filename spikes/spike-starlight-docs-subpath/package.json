@@ -1,0 +1,36 @@
+{
+  "name": "spike-starlight-docs-subpath",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Spike: documentação técnica interativa com Astro Starlight num subcaminho de hospedagem compartilhada, em dois idiomas, com componentes React gerados de dados do repositório, sanitização e cache sem versão velha",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "test": "vitest run",
+    "e2e": "node scripts/e2e.mjs",
+    "verify": "astro check && tsc --noEmit && vitest run --reporter=verbose && node scripts/e2e.mjs",
+    "typecheck": "astro check && tsc --noEmit"
+  },
+  "dependencies": {
+    "@astrojs/react": "7.1.1",
+    "@astrojs/starlight": "0.42.7",
+    "astro": "7.4.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@emnapi/core": "1.11.3",
+    "@emnapi/runtime": "1.11.3",
+    "@types/node": "^24",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "puppeteer-core": "^24",
+    "typescript": "~5.9",
+    "vitest": "^5.0.4"
+  }
+}

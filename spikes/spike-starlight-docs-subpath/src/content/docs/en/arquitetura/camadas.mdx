@@ -1,0 +1,11 @@
+---
+title: "Layers"
+description: "The Clean Architecture layers and the import matrix."
+---
+
+import LayerDiagram from '../../../../components/LayerDiagram';
+import { layers, layerLabels } from '../../../../data/architecture';
+
+Dependencies point **inward**: the more internal the layer, the less it knows. The domain does not know there is a screen, a network or a database. The rule is not just a convention: ESLint enforces it, and a forbidden import breaks the build.
+
+<LayerDiagram client:load layers={layers('en')} labels={layerLabels.en} />

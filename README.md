@@ -46,6 +46,7 @@ Regra prática: se a pergunta é **"dá para o produto fazer isso?"**, é PoC. S
 | [`spikes/spike-php-session-auth-multitenant`](spikes/spike-php-session-auth-multitenant) | Contas e multi-tenant em PHP sem framework: sessão em cookie `__Host-`, Argon2id, CSRF, limite de tentativas por conta e IP, escopo de tenant no Repository e RLS no PostgreSQL |
 | [`spikes/spike-offline-first-progress-sync`](spikes/spike-offline-first-progress-sync) | Sincronização offline-first do progresso: fila local com chave de idempotência, união das missões e XP derivado do catálogo; 300 sequências aleatórias convergem |
 | [`spikes/spike-zero-cost-embeddings-rag`](spikes/spike-zero-cost-embeddings-rag) | Busca semântica a custo zero no navegador (transformers multilíngues, modelo estático Matryoshka, híbrida RRF) × BM25 por recall@3 em 30 perguntas, com a regra de decisão em código: fica o BM25 |
+| [`spikes/spike-starlight-docs-subpath`](spikes/spike-starlight-docs-subpath) | Documentação técnica com Astro Starlight num subcaminho, em dois idiomas e com busca: explorador de arquivos, diagrama das camadas e passo a passo gerados do mapa do repositório, com sanitização que falha fechada e cache sem versão velha |
 
 ## 📊 Benchmarks
 

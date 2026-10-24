@@ -1,0 +1,9 @@
+---
+title: "Quality and security"
+description: "Tests, delivery gates and care with data."
+---
+
+- **Automated tests** in every layer: the domain with no screen, use cases with fake Ports, adapters with contract tests.
+- **Gates on every pull request:** lint with the layer boundaries, type checking, tests and build. Without them, nothing is published.
+- **No stale version in the browser:** pages without cache and files with a hash in their name.
+- **Data:** credentials outside the public folder, nothing sensitive in the pages, and this documentation goes through a guard that prevents publishing server paths or environment files.

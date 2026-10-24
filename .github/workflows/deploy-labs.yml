@@ -252,4 +252,20 @@ jobs:
           for path in src/Domain/Decision.ts src/Content/eval_questions.json src/Content/vectors/e5-small.json eval/compute-vectors.mjs; do
             check "/spikes/spike-zero-cost-embeddings-rag/${path}" 403
           done
+          # US34: documentação Starlight num subcaminho. HTML no-cache nos dois idiomas, JS com hash imutável, índice da busca
+          # no-cache e a versão do pagefind.js no ar igual à do índice (a Cloudflare guarda JS por 4 h: se servir um velho, falha).
+          DOCS="/spikes/spike-starlight-docs-subpath/dist"
+          check "/catalogo/spike-starlight-docs-subpath/" 200
+          for page in "/" "/en/" "/arquitetura/arquivos/" "/en/arquitetura/arquivos/"; do
+            check "${DOCS}${page}" 200
+            header "${DOCS}${page}" "no-cache"
+          done
+          DOCS_JS=$(curl -sS "${LABS_URL}${DOCS}/" | grep -o 'assets/[^"]*\.js' | head -1)
+          [ -n "$DOCS_JS" ] && header "${DOCS}/${DOCS_JS}" "immutable" || { echo "::error::a documentação não referencia assets/<nome>.<hash>.js"; fail=1; }
+          header "${DOCS}/pagefind/pagefind-entry.json" "no-cache"
+          PF_LIVE=$(curl -sS "${LABS_URL}${DOCS}/pagefind/pagefind.js" | grep -o 'pagefind_version="[^"]*"' | cut -d'"' -f2)
+          PF_INDEX=$(curl -sS "${LABS_URL}${DOCS}/pagefind/pagefind-entry.json" | grep -o '"version":"[^"]*"' | cut -d'"' -f4)
+          if [ -n "$PF_LIVE" ] && [ "$PF_LIVE" = "$PF_INDEX" ]; then echo "ok  pagefind.js $PF_LIVE = índice $PF_INDEX"; else echo "::error::pagefind.js no ar ($PF_LIVE) diferente do índice ($PF_INDEX)"; fail=1; fi
+          check "/spikes/spike-starlight-docs-subpath/src/lib/structureMap.ts" 403
+          check "/spikes/spike-starlight-docs-subpath/fixtures/ESTRUTURA.md" 403
           exit $fail

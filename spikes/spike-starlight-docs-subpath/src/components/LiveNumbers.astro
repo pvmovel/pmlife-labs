@@ -1,0 +1,40 @@
+---
+// Números do projeto calculados no BUILD a partir do mapa do repositório: a cada deploy, a página mostra o estado atual,
+// sem JavaScript no navegador (é HTML pronto, servido com no-cache).
+import { stats } from '../data/repo';
+import pkg from '../../package.json';
+
+interface Props {
+  lang: 'pt' | 'en';
+}
+const { lang } = Astro.props;
+const t = lang === 'en'
+  ? { files: 'files described', layers: 'in the 4 layers', ok: 'with no findings', version: 'version', built: 'built on' }
+  : { files: 'arquivos descritos', layers: 'nas 4 camadas', ok: 'sem achados', version: 'versão', built: 'gerado em' };
+const inLayers = stats.byLayer.domain + stats.byLayer.application + stats.byLayer.infrastructure + stats.byLayer.presentation + stats.byLayer['composition-root'];
+const built = new Date().toISOString().slice(0, 10);
+const cards = [
+  [stats.files, t.files],
+  [inLayers, t.layers],
+  [stats.conformant, t.ok],
+  [pkg.version, t.version],
+];
+---
+
+<div data-testid="live-numbers" class="not-content numbers">
+  {cards.map(([value, label]) => (
+    <div class="card">
+      <strong>{value}</strong>
+      <span>{label}</span>
+    </div>
+  ))}
+</div>
+<p class="built">{t.built} {built}</p>
+
+<style>
+  .numbers { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 0.75rem; margin: 1rem 0 0.25rem; }
+  .card { border: 1px solid var(--sl-color-gray-5); border-radius: 0.5rem; padding: 0.75rem; display: flex; flex-direction: column; }
+  .card strong { font-size: 1.6rem; color: var(--sl-color-text-accent); }
+  .card span { font-size: 0.85rem; color: var(--sl-color-gray-2); }
+  .built { font-size: 0.8rem; color: var(--sl-color-gray-3); }
+</style>

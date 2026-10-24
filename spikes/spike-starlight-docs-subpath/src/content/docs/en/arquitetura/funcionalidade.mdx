@@ -1,0 +1,11 @@
+---
+title: "Follow a feature"
+description: "A harvest being recorded, end to end, across the layers."
+---
+
+import FeatureWalkthrough from '../../../../components/FeatureWalkthrough';
+import { walkSteps, walkLabels } from '../../../../data/architecture';
+
+From the teacher's click to the server write, in five steps. Use the buttons or the arrow keys.
+
+<FeatureWalkthrough client:load steps={walkSteps('en')} labels={walkLabels.en} />

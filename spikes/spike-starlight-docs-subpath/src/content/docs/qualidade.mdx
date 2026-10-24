@@ -1,0 +1,9 @@
+---
+title: "Qualidade e segurança"
+description: "Testes, gates de entrega e cuidado com os dados."
+---
+
+- **Testes automáticos** em cada camada: domínio sem tela, casos de uso com Ports falsos, adapters com teste de contrato.
+- **Gates em todo pull request:** lint com as fronteiras das camadas, checagem de tipos, testes e build. Sem eles, nada é publicado.
+- **Nenhuma versão velha no navegador:** páginas sem cache e arquivos com hash no nome.
+- **Dados:** credenciais fora da pasta pública, nada sensível nas páginas, e esta documentação passa por uma trava que impede publicar caminhos do servidor ou arquivos de ambiente.

@@ -38,15 +38,32 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 await build({ logLevel: 'warn', base: '/', build: { outDir: OUT, emptyOutDir: true } });
 const server = await preview({ logLevel: 'warn', build: { outDir: OUT }, preview: { port: PORT, strictPort: true } });
 
-async function screenPoint(page, id) {
+async function screenPoint(page, id, at = [0, 0.5, 0]) {
   const b = CAMPUS.buildings.find((x) => x.id === id);
   const box = await (await page.$('canvas')).boundingBox();
   const camera = new PerspectiveCamera(50, box.width / box.height, 0.1, 1000);
   camera.position.set(...OVERVIEW);
   camera.lookAt(0, 0, 0);
   camera.updateMatrixWorld();
-  const p = new Vector3(b.position[0], b.size[1] / 2, b.position[1]).project(camera);
+  // `at`: ponto do prédio em frações do tamanho (x e z a partir do centro, y a partir do chão).
+  const p = new Vector3(b.position[0] + at[0] * b.size[0], at[1] * b.size[1], b.position[1] + at[2] * b.size[2]).project(camera);
   return { x: box.x + ((p.x + 1) / 2) * box.width, y: box.y + ((1 - p.y) / 2) * box.height };
+}
+
+// Um ponto do prédio que esteja de fato sobre a cena: no runner, com outras fontes, o HUD cresce e pode cobrir o centro
+// do prédio (o clique cairia no painel, não no 3D). Testa o centro, o topo e as faces e devolve o primeiro descoberto.
+async function visiblePoint(page, id) {
+  const tried = [];
+  for (const at of [[0, 0.5, 0], [0, 0.95, 0], [0, 0.5, 0.45], [0.4, 0.5, 0.45], [-0.4, 0.5, 0.45], [0.4, 0.9, 0], [-0.4, 0.9, 0]]) {
+    const pt = await screenPoint(page, id, at);
+    const hit = await page.evaluate(({ x, y }) => {
+      const el = document.elementFromPoint(x, y);
+      return el ? `${el.tagName.toLowerCase()}${el.dataset.testid ? `[${el.dataset.testid}]` : ''}` : 'nada';
+    }, pt);
+    if (hit === 'canvas') return pt;
+    tried.push(`${at.join(',')} ➔ ${hit}`);
+  }
+  throw new Error(`nenhum ponto do prédio ${id} está descoberto na tela: ${tried.join('; ')}`);
 }
 
 let browser;
@@ -144,14 +161,23 @@ try {
   await placeIs('campus');
 
   // 4. Orbital ➔ Laboratório ➔ Entrar.
+  // Saindo da sala, a tela escurece e clareia: enquanto isso o atalho C fica desligado e a camada do escurecimento cobre
+  // a cena (achado do CI: num runner lento, o C se perdia e o clique caía no escurecimento). Espera o fim do escurecimento
+  // e confirma o modo Orbital pelo botão (aria-pressed) antes de clicar no prédio.
+  await page.waitForFunction(() => !document.querySelector('.fade.on'), { timeout: 30000 });
+  const orbitalOn = () => page.$$eval('button[aria-keyshortcuts="C"]', (bs) => bs.some((b) => b.textContent.includes('Orbital') && b.getAttribute('aria-pressed') === 'true'));
+  for (let i = 0; i < 5 && !(await orbitalOn()); i++) {
+    await page.keyboard.press('KeyC');
+    await page.waitForFunction(() => [...document.querySelectorAll('button[aria-keyshortcuts="C"]')].some((b) => b.textContent.includes('Orbital') && b.getAttribute('aria-pressed') === 'true'), { timeout: 3000 }).catch(() => undefined);
+  }
+  if (!(await orbitalOn())) throw new Error('a tecla C não ligou o modo Orbital');
   // Depois do Esc o avatar está diante da Biblioteca, então o aviso dela já está na tela: esperar o do Laboratório
-  // (e clicar de novo se a câmera ainda estava se movendo no primeiro clique).
-  await page.keyboard.press('KeyC');
+  // (e clicar de novo se a câmera ainda estava indo para a vista geral no primeiro clique).
   const labPrompt = () => page.waitForFunction(() => document.querySelector('[data-testid="interaction-prompt"]')?.textContent.includes('Laboratório'), { timeout: 5000 }).then(() => true, () => false);
   let labSelected = false;
   for (let i = 0; i < 4 && !labSelected; i++) {
     await sleep(800);
-    const lab = await screenPoint(page, 'laboratorio');
+    const lab = await visiblePoint(page, 'laboratorio');
     await page.mouse.click(lab.x, lab.y);
     labSelected = await labPrompt();
   }
@@ -170,7 +196,7 @@ try {
   // Como no e2e da US29: com as fontes do runner, a cena pode descer; o toque precisa cair dentro da tela.
   await phone.$eval('canvas', (el) => el.scrollIntoView({ block: 'center' }));
   await sleep(200);
-  const libPt = await screenPoint(phone, 'biblioteca');
+  const libPt = await visiblePoint(phone, 'biblioteca');
   await phone.touchscreen.tap(libPt.x, libPt.y);
   await phone.waitForSelector('[data-testid="interaction-prompt"]', { timeout: 15000 });
   for (const b of await phone.$$('[data-testid="interaction-prompt"] button')) if ((await b.evaluate((x) => x.textContent)).includes('Entrar')) await b.tap();

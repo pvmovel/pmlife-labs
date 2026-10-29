@@ -26,6 +26,13 @@ jobs:
       SPIKE_PGSQL_DB: spike
       SPIKE_PGSQL_USER: spike
       SPIKE_PGSQL_PASS: spikepw
+      # Servidores SMTP de teste (Mailpit) para o spike de recuperação de senha: um sem TLS e um com TLS implícito.
+      SPIKE_SMTP_HOST: 127.0.0.1
+      SPIKE_SMTP_PORT: 1025
+      SPIKE_MAILPIT_API: http://127.0.0.1:8025
+      SPIKE_SMTP_TLS_PORT: 1465
+      SPIKE_MAILPIT_TLS_API: http://127.0.0.1:8026
+      MAILPIT_IMAGE: axllent/mailpit:v1.27
 
     services:
       mysql:
@@ -89,6 +96,27 @@ jobs:
       - name: Sintaxe PHP (php -l)
         run: |
           git ls-files -z '*.php' | xargs -0 -r -n1 php -l
+
+      # O certificado é gerado aqui (por isso não é um service): o cliente SMTP o recebe como CA e verifica o servidor
+      # de verdade, sem desligar o verify_peer.
+      - name: Servidores SMTP de teste (Mailpit, sem e com TLS)
+        run: |
+          CERTS="$RUNNER_TEMP/smtp-tls"
+          mkdir -p "$CERTS"
+          openssl req -x509 -newkey rsa:2048 -nodes -days 1 -subj "/CN=127.0.0.1" \
+            -addext "subjectAltName=IP:127.0.0.1,DNS:localhost" -addext "basicConstraints=critical,CA:TRUE" \
+            -keyout "$CERTS/key.pem" -out "$CERTS/cert.pem" 2>/dev/null
+          chmod 644 "$CERTS/key.pem" "$CERTS/cert.pem"
+          docker run -d --name mailpit -e MP_SMTP_AUTH_ACCEPT_ANY=1 -e MP_SMTP_AUTH_ALLOW_INSECURE=1 \
+            -p 127.0.0.1:1025:1025 -p 127.0.0.1:8025:8025 "$MAILPIT_IMAGE"
+          docker run -d --name mailpit-tls -v "$CERTS:/certs:ro" -e MP_SMTP_AUTH_ACCEPT_ANY=1 \
+            -e MP_SMTP_TLS_CERT=/certs/cert.pem -e MP_SMTP_TLS_KEY=/certs/key.pem -e MP_SMTP_REQUIRE_TLS=1 \
+            -p 127.0.0.1:1465:1025 -p 127.0.0.1:8026:8025 "$MAILPIT_IMAGE"
+          echo "SPIKE_SMTP_CAFILE=$CERTS/cert.pem" >> "$GITHUB_ENV"
+          for api in "$SPIKE_MAILPIT_API" "$SPIKE_MAILPIT_TLS_API"; do
+            for i in $(seq 1 30); do curl -sf "$api/api/v1/info" > /dev/null && break; sleep 1; done
+            curl -sf "$api/api/v1/info" > /dev/null || { echo "::error::Mailpit não respondeu em $api"; exit 1; }
+          done
 
       - name: Configurar Node.js 24
         uses: actions/setup-node@v4

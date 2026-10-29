@@ -1,0 +1,9 @@
+{
+  "name": "spike-php-password-reset-email",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Spike: recuperar a senha com um código de 8 dígitos enviado por e-mail e digitado na mesma tela, em PHP 8.2 sem framework, com cliente SMTP próprio (TLS verificado) e o mesmo SQL no MySQL 5.7 e no PostgreSQL 16",
+  "scripts": {
+    "verify": "php scripts/verify.php"
+  }
+}

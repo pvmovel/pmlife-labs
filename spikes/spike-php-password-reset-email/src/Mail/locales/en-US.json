@@ -1,0 +1,16 @@
+{
+  "subject": "Your code to set a new password",
+  "lines": [
+    "Hello!",
+    "",
+    "We received a request to set a new password for your account.",
+    "Type this code on the same screen where you asked for it:",
+    "",
+    "    {code}",
+    "",
+    "The code is valid for {minutes} minutes and can be used only once.",
+    "If it wasn't you, ignore this e-mail: your password stays the same.",
+    "",
+    "This is an automatic e-mail. Do not reply."
+  ]
+}

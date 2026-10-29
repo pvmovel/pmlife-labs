@@ -1,0 +1,16 @@
+{
+  "subject": "Seu código para criar uma senha nova",
+  "lines": [
+    "Olá!",
+    "",
+    "Recebemos um pedido para criar uma senha nova na sua conta.",
+    "Digite este código na mesma tela em que você pediu:",
+    "",
+    "    {code}",
+    "",
+    "O código vale por {minutes} minutos e só pode ser usado uma vez.",
+    "Se não foi você, ignore este e-mail: a sua senha continua a mesma.",
+    "",
+    "Este e-mail é automático. Não responda."
+  ]
+}

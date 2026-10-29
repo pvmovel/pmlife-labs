@@ -1,0 +1,20 @@
+{
+  "title": "Recuperar a senha com um código por e-mail, sem framework",
+  "summary": "O aluno pede um código de 8 dígitos, recebe por e-mail e, na mesma tela, digita o código, a senha nova e a confirmação. Sem revelar quem tem conta, com código de uso único guardado só como HMAC, limites por conta e por IP, sessões antigas encerradas e um cliente SMTP próprio com TLS verificado.",
+  "problem": "Numa hospedagem compartilhada com PHP 8.2 e MySQL 5.7, sem Composer e sem orçamento para um serviço de e-mail transacional, quem esquece a senha perde a conta. A recuperação precisa ser segura (não revelar quem tem conta, não aceitar força bruta, não deixar sessões antigas abertas) e o e-mail precisa sair sem biblioteca externa.",
+  "result": "91 checks contra MySQL 5.7 (e 8.4 no CI), PostgreSQL 16 e um servidor SMTP de teste real, com e sem TLS. A resposta é igual com ou sem conta, e o e-mail só sai depois da resposta (o tempo do SMTP não revela nada). O código vale 15 min, serve uma vez e cai com 5 erros, inclusive com pedidos em paralelo. A troca derruba as sessões dos outros aparelhos pela versão das credenciais.",
+  "tags": [
+    "PHP 8.2",
+    "SMTP",
+    "TLS",
+    "HMAC",
+    "Rate limit",
+    "MySQL 5.7",
+    "PostgreSQL 16",
+    "Mailpit",
+    "OWASP ASVS"
+  ],
+  "roadmap": "US39",
+  "date": "2026-10-28",
+  "run": "mkdir -p /tmp/smtp-tls && openssl req -x509 -newkey rsa:2048 -nodes -days 1 \\\n  -subj \"/CN=127.0.0.1\" -addext \"subjectAltName=IP:127.0.0.1,DNS:localhost\" \\\n  -addext \"basicConstraints=critical,CA:TRUE\" \\\n  -keyout /tmp/smtp-tls/key.pem -out /tmp/smtp-tls/cert.pem && chmod 644 /tmp/smtp-tls/*.pem\ndocker run -d --rm --name spike-mysql -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw -p 127.0.0.1:13306:3306 mysql:5.7\ndocker run -d --rm --name spike-pg -e POSTGRES_DB=spike -e POSTGRES_USER=spike \\\n  -e POSTGRES_PASSWORD=spikepw -p 127.0.0.1:15432:5432 postgres:16\ndocker run -d --rm --name spike-mail -e MP_SMTP_AUTH_ACCEPT_ANY=1 -e MP_SMTP_AUTH_ALLOW_INSECURE=1 \\\n  -p 127.0.0.1:11025:1025 -p 127.0.0.1:18025:8025 axllent/mailpit:v1.27\ndocker run -d --rm --name spike-mail-tls -v /tmp/smtp-tls:/certs:ro -e MP_SMTP_AUTH_ACCEPT_ANY=1 \\\n  -e MP_SMTP_TLS_CERT=/certs/cert.pem -e MP_SMTP_TLS_KEY=/certs/key.pem -e MP_SMTP_REQUIRE_TLS=1 \\\n  -p 127.0.0.1:12025:1025 -p 127.0.0.1:19025:8025 axllent/mailpit:v1.27\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 SPIKE_MYSQL_DB=spike \\\n  SPIKE_MYSQL_USER=spike SPIKE_MYSQL_PASS=spikepw\nexport SPIKE_PGSQL_HOST=127.0.0.1 SPIKE_PGSQL_PORT=15432 SPIKE_PGSQL_DB=spike \\\n  SPIKE_PGSQL_USER=spike SPIKE_PGSQL_PASS=spikepw\nexport SPIKE_SMTP_HOST=127.0.0.1 SPIKE_SMTP_PORT=11025 SPIKE_MAILPIT_API=http://127.0.0.1:18025 \\\n  SPIKE_SMTP_TLS_PORT=12025 SPIKE_MAILPIT_TLS_API=http://127.0.0.1:19025 \\\n  SPIKE_SMTP_CAFILE=/tmp/smtp-tls/cert.pem\nphp scripts/verify.php   # PHP 8.2 com pdo_mysql, pdo_pgsql e openssl\ndocker stop spike-mysql spike-pg spike-mail spike-mail-tls"
+}

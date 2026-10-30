@@ -1,0 +1,14 @@
+{
+  "description": "Id do curso fora do formato (maiúsculas).",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/courseId",
+      "value": "Aurora.Concursos"
+    }
+  ],
+  "expect": [
+    "COURSE_ID_INVALID@/courseId"
+  ]
+}

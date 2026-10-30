@@ -1,0 +1,14 @@
+{
+  "description": "Título do curso em branco.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/texts/pt-BR/course.title",
+      "value": " "
+    }
+  ],
+  "expect": [
+    "TEXT_EMPTY@/texts/pt-BR/course.title"
+  ]
+}

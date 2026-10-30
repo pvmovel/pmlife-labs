@@ -1,0 +1,24 @@
+{
+  "description": "A camada não troca o id de um prédio.",
+  "base": "course",
+  "overlay": {
+    "schema": 1,
+    "kind": "overlay",
+    "courseId": "campus-demo",
+    "phases": {
+      "fase-1": {
+        "set": {
+          "buildings": {
+            "biblioteca": {
+              "id": "acervo"
+            }
+          }
+        }
+      }
+    }
+  },
+  "expect": [
+    "OVERLAY_FIELD_NOT_ALLOWED@/phases/fase-1/set/buildings/biblioteca/id"
+  ],
+  "expectMerged": []
+}

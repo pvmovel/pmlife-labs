@@ -1,0 +1,8 @@
+{
+  "trackId": "campus-demo",
+  "quests": [
+    { "id": "ler-o-guia", "buildingId": "biblioteca", "titleKey": "quests.ler-o-guia", "rewardXp": 100 },
+    { "id": "resumir", "buildingId": "biblioteca", "titleKey": "quests.resumir", "rewardXp": 150 },
+    { "id": "primeiro-experimento", "buildingId": "laboratorio", "titleKey": "quests.primeiro-experimento", "rewardXp": 200 }
+  ]
+}

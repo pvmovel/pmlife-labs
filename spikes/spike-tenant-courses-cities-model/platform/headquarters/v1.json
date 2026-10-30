@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "kind": "headquarters",
+  "titleKey": "hq.title",
+  "city": {
+    "halfSize": 14,
+    "spawn": { "x": 0, "z": 10, "heading": 3.141592653589793 },
+    "buildings": [
+      { "id": "matriculas", "role": "enrollment", "labelKey": "hq.buildings.enrollment", "position": [-7, -2], "size": [4, 4, 4], "color": "#22c55e" },
+      { "id": "institucional", "role": "institutional", "labelKey": "hq.buildings.institutional", "position": [0, -6], "size": [6, 7, 4], "color": "#0ea5e9" },
+      { "id": "secretaria", "role": "secretariat", "labelKey": "hq.buildings.secretariat", "position": [7, -2], "size": [4, 4, 4], "color": "#eab308" },
+      { "id": "portal-cursos", "role": "courses-portal", "labelKey": "hq.buildings.courses-portal", "position": [0, 3], "size": [4, 6, 2], "color": "#7c3aed" }
+    ]
+  },
+  "texts": {
+    "pt-BR": {
+      "hq.title": "Sede",
+      "hq.buildings.enrollment": "Matrículas",
+      "hq.buildings.institutional": "Institucional",
+      "hq.buildings.secretariat": "Secretaria do aluno",
+      "hq.buildings.courses-portal": "Portal dos cursos"
+    },
+    "en-US": {
+      "hq.title": "Headquarters",
+      "hq.buildings.enrollment": "Enrollment",
+      "hq.buildings.institutional": "About us",
+      "hq.buildings.secretariat": "Student office",
+      "hq.buildings.courses-portal": "Courses portal"
+    }
+  }
+}

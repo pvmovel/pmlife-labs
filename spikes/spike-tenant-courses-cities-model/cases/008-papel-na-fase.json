@@ -1,0 +1,14 @@
+{
+  "description": "A fase não tem prédios obrigatórios: um papel nela é recusado.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/phases/0/city/buildings/0/role",
+      "value": "board"
+    }
+  ],
+  "expect": [
+    "ROLE_NOT_ALLOWED(board)@/phases/0/city/buildings/0/role"
+  ]
+}

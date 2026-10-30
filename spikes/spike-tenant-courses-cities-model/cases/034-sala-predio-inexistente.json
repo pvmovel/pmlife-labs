@@ -1,0 +1,21 @@
+{
+  "description": "Sala de um prédio que não está na cidade do curso.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/city/interiors",
+      "value": [
+        {
+          "buildingId": "predio-x",
+          "halfSize": 5,
+          "doorX": 0,
+          "stations": []
+        }
+      ]
+    }
+  ],
+  "expect": [
+    "INTERIOR_BUILDING_UNKNOWN@/city/interiors/0/buildingId"
+  ]
+}

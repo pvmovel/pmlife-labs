@@ -1,0 +1,250 @@
+{
+    "schema": 1,
+    "kind": "course",
+    "courseId": "campus-demo",
+    "titleKey": "course.title",
+    "attributes": [],
+    "levels": [
+        {
+            "id": "iniciante",
+            "labelKey": "career.levels.iniciante",
+            "minXp": 0
+        },
+        {
+            "id": "explorador",
+            "labelKey": "career.levels.explorador",
+            "minXp": 200
+        },
+        {
+            "id": "mestre",
+            "labelKey": "career.levels.mestre",
+            "minXp": 450
+        }
+    ],
+    "city": {
+        "halfSize": 12,
+        "spawn": {
+            "x": 0,
+            "z": 8,
+            "heading": 3.141592653589793
+        },
+        "buildings": [
+            {
+                "id": "portal-fases",
+                "role": "phases-portal",
+                "labelKey": "course.buildings.phases-portal",
+                "position": [
+                    -4,
+                    -3
+                ],
+                "size": [
+                    4,
+                    6,
+                    4
+                ],
+                "color": "#7c3aed",
+                "locked": true
+            },
+            {
+                "id": "mural",
+                "role": "board",
+                "labelKey": "course.buildings.board",
+                "position": [
+                    4,
+                    -3
+                ],
+                "size": [
+                    4,
+                    3,
+                    2
+                ],
+                "color": "#f59e0b",
+                "locked": true
+            }
+        ]
+    },
+    "phases": [
+        {
+            "id": "fase-1",
+            "titleKey": "phases.fase-1",
+            "requires": [],
+            "city": {
+                "halfSize": 15,
+                "spawn": {
+                    "x": 0,
+                    "z": 8,
+                    "heading": 3.141592653589793
+                },
+                "buildings": [
+                    {
+                        "id": "biblioteca",
+                        "labelKey": "city.buildings.biblioteca",
+                        "position": [
+                            -6,
+                            -4
+                        ],
+                        "size": [
+                            6,
+                            4,
+                            6
+                        ],
+                        "color": "#38bdf8"
+                    },
+                    {
+                        "id": "laboratorio",
+                        "labelKey": "city.buildings.laboratorio",
+                        "position": [
+                            6,
+                            -4
+                        ],
+                        "size": [
+                            6,
+                            5,
+                            6
+                        ],
+                        "color": "#f97316",
+                        "interactionRadius": 3
+                    },
+                    {
+                        "id": "observatorio",
+                        "labelKey": "city.buildings.observatorio",
+                        "position": [
+                            0,
+                            -11
+                        ],
+                        "size": [
+                            5,
+                            5,
+                            4
+                        ],
+                        "color": "#64748b"
+                    }
+                ],
+                "npcs": [
+                    {
+                        "id": "guia",
+                        "labelKey": "npc.names.guia",
+                        "persona": "guia_campus",
+                        "position": [
+                            0,
+                            3
+                        ],
+                        "color": "#a3e635"
+                    }
+                ],
+                "interiors": [
+                    {
+                        "buildingId": "biblioteca",
+                        "halfSize": 6,
+                        "doorX": 0,
+                        "stations": [
+                            {
+                                "questId": "ler-o-guia",
+                                "position": [
+                                    -3,
+                                    -3
+                                ],
+                                "size": [
+                                    2,
+                                    1,
+                                    1
+                                ],
+                                "color": "#0ea5e9"
+                            },
+                            {
+                                "questId": "resumir",
+                                "position": [
+                                    3,
+                                    -3
+                                ],
+                                "size": [
+                                    2,
+                                    1,
+                                    1
+                                ],
+                                "color": "#0284c7"
+                            }
+                        ]
+                    },
+                    {
+                        "buildingId": "laboratorio",
+                        "halfSize": 5,
+                        "doorX": 1,
+                        "stations": [
+                            {
+                                "questId": "primeiro-experimento",
+                                "position": [
+                                    0,
+                                    -2
+                                ],
+                                "size": [
+                                    3,
+                                    1,
+                                    1
+                                ],
+                                "color": "#ea580c"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "quests": [
+                {
+                    "id": "ler-o-guia",
+                    "buildingId": "biblioteca",
+                    "titleKey": "quests.ler-o-guia",
+                    "rewardXp": 100,
+                    "locked": true
+                },
+                {
+                    "id": "resumir",
+                    "buildingId": "biblioteca",
+                    "titleKey": "quests.resumir",
+                    "rewardXp": 150,
+                    "locked": true
+                },
+                {
+                    "id": "primeiro-experimento",
+                    "buildingId": "laboratorio",
+                    "titleKey": "quests.primeiro-experimento",
+                    "rewardXp": 200,
+                    "locked": true
+                }
+            ]
+        }
+    ],
+    "texts": {
+        "pt-BR": {
+            "career.levels.explorador": "Explorador",
+            "career.levels.iniciante": "Iniciante",
+            "career.levels.mestre": "Mestre",
+            "city.buildings.biblioteca": "Biblioteca",
+            "city.buildings.laboratorio": "Laboratório",
+            "city.buildings.observatorio": "Observatório",
+            "course.buildings.board": "Mural",
+            "course.buildings.phases-portal": "Portal das fases",
+            "course.title": "Campus de demonstração",
+            "npc.names.guia": "Guia do campus",
+            "phases.fase-1": "Fase 1: o campus",
+            "quests.ler-o-guia": "Ler o guia do aluno",
+            "quests.primeiro-experimento": "Fazer o primeiro experimento",
+            "quests.resumir": "Resumir um capítulo"
+        },
+        "en-US": {
+            "career.levels.explorador": "Explorer",
+            "career.levels.iniciante": "Beginner",
+            "career.levels.mestre": "Master",
+            "city.buildings.biblioteca": "Library",
+            "city.buildings.laboratorio": "Lab",
+            "city.buildings.observatorio": "Observatory",
+            "course.buildings.board": "Board",
+            "course.buildings.phases-portal": "Phases portal",
+            "course.title": "Demo campus",
+            "npc.names.guia": "Campus guide",
+            "phases.fase-1": "Phase 1: the campus",
+            "quests.ler-o-guia": "Read the student guide",
+            "quests.primeiro-experimento": "Run the first experiment",
+            "quests.resumir": "Summarize a chapter"
+        }
+    }
+}

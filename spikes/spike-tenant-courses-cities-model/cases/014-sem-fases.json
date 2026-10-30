@@ -1,0 +1,14 @@
+{
+  "description": "Curso sem nenhuma fase.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/phases",
+      "value": []
+    }
+  ],
+  "expect": [
+    "PHASES_EMPTY@/phases"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "description": "Missão dando pontos num atributo que o curso não usa.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/phases/0/quests/0/attributes",
+      "value": {
+        "logica": 2
+      }
+    }
+  ],
+  "expect": [
+    "ATTRIBUTE_UNKNOWN@/phases/0/quests/0/attributes/logica"
+  ]
+}

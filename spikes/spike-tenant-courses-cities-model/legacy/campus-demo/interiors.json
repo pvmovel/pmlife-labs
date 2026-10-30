@@ -1,0 +1,18 @@
+{
+  "trackId": "campus-demo",
+  "interiors": [
+    {
+      "buildingId": "biblioteca", "halfSize": 6, "doorX": 0,
+      "stations": [
+        { "questId": "ler-o-guia", "position": [-3, -3], "size": [2, 1, 1], "color": "#0ea5e9" },
+        { "questId": "resumir", "position": [3, -3], "size": [2, 1, 1], "color": "#0284c7" }
+      ]
+    },
+    {
+      "buildingId": "laboratorio", "halfSize": 5, "doorX": 1,
+      "stations": [
+        { "questId": "primeiro-experimento", "position": [0, -2], "size": [3, 1, 1], "color": "#ea580c" }
+      ]
+    }
+  ]
+}

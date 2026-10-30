@@ -1,0 +1,6 @@
+{
+  "description": "A sede padrão da plataforma é válida.",
+  "base": "headquarters",
+  "mutations": [],
+  "expect": []
+}

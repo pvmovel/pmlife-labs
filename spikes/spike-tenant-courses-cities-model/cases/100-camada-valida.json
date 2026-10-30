@@ -1,0 +1,50 @@
+{
+  "description": "Camada válida: um prédio novo na fase, outra cor na biblioteca, um texto trocado e um novo.",
+  "base": "course",
+  "overlay": {
+    "schema": 1,
+    "kind": "overlay",
+    "courseId": "campus-demo",
+    "phases": {
+      "fase-1": {
+        "add": {
+          "buildings": [
+            {
+              "id": "cantina",
+              "labelKey": "city.buildings.cantina",
+              "position": [
+                10,
+                8
+              ],
+              "size": [
+                4,
+                3,
+                4
+              ],
+              "color": "#ef4444"
+            }
+          ]
+        },
+        "set": {
+          "buildings": {
+            "biblioteca": {
+              "color": "#1d4ed8"
+            }
+          }
+        }
+      }
+    },
+    "texts": {
+      "pt-BR": {
+        "course.title": "Campus da Aurora",
+        "city.buildings.cantina": "Cantina"
+      },
+      "en-US": {
+        "course.title": "Aurora campus",
+        "city.buildings.cantina": "Canteen"
+      }
+    }
+  },
+  "expect": [],
+  "expectMerged": []
+}

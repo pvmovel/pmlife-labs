@@ -1,0 +1,24 @@
+{
+  "description": "Duas fases com o mesmo id.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "copy",
+      "from": "/phases/0",
+      "path": "/phases/-"
+    },
+    {
+      "op": "set",
+      "path": "/phases/1/quests",
+      "value": []
+    },
+    {
+      "op": "set",
+      "path": "/phases/1/city/interiors",
+      "value": []
+    }
+  ],
+  "expect": [
+    "ID_DUPLICATE@/phases/1/id"
+  ]
+}

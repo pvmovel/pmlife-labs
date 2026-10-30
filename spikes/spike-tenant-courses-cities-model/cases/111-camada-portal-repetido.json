@@ -1,0 +1,34 @@
+{
+  "description": "Um segundo Portal das fases na cidade do curso.",
+  "base": "course",
+  "overlay": {
+    "schema": 1,
+    "kind": "overlay",
+    "courseId": "campus-demo",
+    "city": {
+      "add": {
+        "buildings": [
+          {
+            "id": "portal-2",
+            "role": "phases-portal",
+            "labelKey": "course.buildings.phases-portal",
+            "position": [
+              0,
+              -9
+            ],
+            "size": [
+              2,
+              2,
+              2
+            ],
+            "color": "#7c3aed"
+          }
+        ]
+      }
+    }
+  },
+  "expect": [],
+  "expectMerged": [
+    "ROLE_DUPLICATE(phases-portal)@/city/buildings/2/role"
+  ]
+}

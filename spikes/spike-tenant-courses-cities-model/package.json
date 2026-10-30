@@ -1,0 +1,9 @@
+{
+  "name": "spike-tenant-courses-cities-model",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Spike: sede da instituição, cursos com cidade e fases em documentos JSON versionados, prédios obrigatórios, vínculo com o curso-modelo (camada com itens travados) ou cópia, com o mesmo SQL no MySQL 5.7 e no PostgreSQL 16 com RLS",
+  "scripts": {
+    "verify": "php scripts/verify.php"
+  }
+}

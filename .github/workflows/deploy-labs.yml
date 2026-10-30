@@ -268,4 +268,10 @@ jobs:
           if [ -n "$PF_LIVE" ] && [ "$PF_LIVE" = "$PF_INDEX" ]; then echo "ok  pagefind.js $PF_LIVE = índice $PF_INDEX"; else echo "::error::pagefind.js no ar ($PF_LIVE) diferente do índice ($PF_INDEX)"; fail=1; fi
           check "/spikes/spike-starlight-docs-subpath/src/lib/structureMap.ts" 403
           check "/spikes/spike-starlight-docs-subpath/fixtures/ESTRUTURA.md" 403
+          # US35: sede, cursos com cidade e fases. Sem demo (publicar estrutura exige o admin de uma instituição): a prova
+          # é a execução do verify no catálogo; o endpoint, o código, os documentos e os casos ficam bloqueados (403).
+          check "/catalogo/spike-tenant-courses-cities-model/" 200
+          for path in http/api/courses.php src/Courses/CourseService.php src/Content/Overlay.php platform/courses/campus-demo/v1.json cases/000-valido-curso.json scripts/verify.php; do
+            check "/spikes/spike-tenant-courses-cities-model/${path}" 403
+          done
           exit $fail

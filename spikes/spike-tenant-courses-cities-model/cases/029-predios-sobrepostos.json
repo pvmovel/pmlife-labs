@@ -1,0 +1,17 @@
+{
+  "description": "Dois prédios da fase um em cima do outro.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/phases/0/city/buildings/1/position",
+      "value": [
+        -5,
+        -4
+      ]
+    }
+  ],
+  "expect": [
+    "BUILDINGS_OVERLAP@/phases/0/city/buildings/1"
+  ]
+}

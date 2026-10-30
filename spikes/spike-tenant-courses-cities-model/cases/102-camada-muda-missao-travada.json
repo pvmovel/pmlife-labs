@@ -1,0 +1,24 @@
+{
+  "description": "O XP de uma missão do curso-modelo (travada) não muda pela camada.",
+  "base": "course",
+  "overlay": {
+    "schema": 1,
+    "kind": "overlay",
+    "courseId": "campus-demo",
+    "phases": {
+      "fase-1": {
+        "set": {
+          "quests": {
+            "ler-o-guia": {
+              "rewardXp": 999
+            }
+          }
+        }
+      }
+    }
+  },
+  "expect": [
+    "OVERLAY_TARGET_LOCKED@/phases/fase-1/set/quests/ler-o-guia"
+  ],
+  "expectMerged": []
+}

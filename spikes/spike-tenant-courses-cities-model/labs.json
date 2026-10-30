@@ -1,0 +1,20 @@
+{
+  "title": "Sede, cursos com cidade e fases, e o vínculo com o curso-modelo",
+  "summary": "A instituição tem a sua sede em 3D e os seus cursos, cada um com a sua cidade e as suas fases (cada fase é uma cidade), em documentos JSON versionados no banco. Prédios obrigatórios validados, problemas com código e caminho, e o curso-modelo da plataforma chegando por vínculo (com uma camada da instituição que não toca no travado) ou por cópia para editar.",
+  "problem": "Uma plataforma de ensino em 3D para várias instituições precisa deixar cada uma montar a própria estrutura (sede, cursos, fases e missões) sem depender de uma versão nova do sistema, sem que uma veja a outra e sem perder o progresso já gravado dos alunos. Tudo numa hospedagem compartilhada com PHP 8.2 e MySQL 5.7, sem custo, e pronto para trocar para PostgreSQL.",
+  "result": "102 checks contra MySQL 5.7 (e 8.4 no CI) e PostgreSQL 16, com 52 casos de conformidade. A sede leva ao curso e o curso à fase pelos Portais; o curso de outra instituição é \"não encontrado\"; uma estrutura inválida é recusada com a lista de problemas. Quando a versão nova do curso-modelo quebra a camada da instituição, ela continua na anterior até o admin corrigir. A trilha de hoje vira a fase 1 com o mesmo id: o aluno continua com o mesmo XP.",
+  "tags": [
+    "PHP 8.2",
+    "JSON versionado",
+    "JSON Pointer",
+    "Multi-tenant",
+    "RLS",
+    "MySQL 5.7",
+    "PostgreSQL 16",
+    "Clean Architecture",
+    "Open/Closed"
+  ],
+  "roadmap": "US35",
+  "date": "2026-10-29",
+  "run": "docker run -d --rm --name spike-mysql -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw -p 127.0.0.1:13306:3306 mysql:5.7\ndocker run -d --rm --name spike-pg -e POSTGRES_DB=spike -e POSTGRES_USER=spike \\\n  -e POSTGRES_PASSWORD=spikepw -p 127.0.0.1:15432:5432 postgres:16\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 SPIKE_MYSQL_DB=spike \\\n  SPIKE_MYSQL_USER=spike SPIKE_MYSQL_PASS=spikepw\nexport SPIKE_PGSQL_HOST=127.0.0.1 SPIKE_PGSQL_PORT=15432 SPIKE_PGSQL_DB=spike \\\n  SPIKE_PGSQL_USER=spike SPIKE_PGSQL_PASS=spikepw\nphp scripts/verify.php   # PHP 8.2 com pdo_mysql e pdo_pgsql\ndocker stop spike-mysql spike-pg"
+}

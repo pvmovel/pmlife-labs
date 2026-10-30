@@ -1,0 +1,17 @@
+{
+  "description": "NPC em cima do ponto onde o aluno nasce.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/phases/0/city/npcs/0/position",
+      "value": [
+        0,
+        8
+      ]
+    }
+  ],
+  "expect": [
+    "NPC_ON_SPAWN@/phases/0/city/npcs/0"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "description": "Fase que exige ela mesma.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/phases/0/requires",
+      "value": [
+        "fase-1"
+      ]
+    }
+  ],
+  "expect": [
+    "PHASE_REQUIRES_SELF@/phases/0/requires/0"
+  ]
+}

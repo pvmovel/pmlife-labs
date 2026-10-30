@@ -1,0 +1,14 @@
+{
+  "description": "\"locked\" precisa ser verdadeiro ou falso.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/phases/0/quests/0/locked",
+      "value": "sim"
+    }
+  ],
+  "expect": [
+    "FIELD_TYPE@/phases/0/quests/0/locked"
+  ]
+}

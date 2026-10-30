@@ -1,0 +1,14 @@
+{
+  "description": "O XP dos níveis precisa crescer.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/levels/2/minXp",
+      "value": 200
+    }
+  ],
+  "expect": [
+    "LEVEL_XP_NOT_INCREASING@/levels/2/minXp"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "description": "Portal das fases fora da cidade do curso.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/city/buildings/0/position",
+      "value": [
+        11,
+        -3
+      ]
+    }
+  ],
+  "expect": [
+    "OUT_OF_MAP@/city/buildings/0"
+  ]
+}

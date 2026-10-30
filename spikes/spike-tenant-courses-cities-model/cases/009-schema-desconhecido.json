@@ -1,0 +1,14 @@
+{
+  "description": "Formato de documento que o servidor não conhece.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/schema",
+      "value": 2
+    }
+  ],
+  "expect": [
+    "SCHEMA_UNSUPPORTED@/schema"
+  ]
+}

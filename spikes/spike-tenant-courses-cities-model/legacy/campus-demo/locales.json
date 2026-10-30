@@ -1,0 +1,26 @@
+{
+  "pt-BR": {
+    "city.buildings.biblioteca": "Biblioteca",
+    "city.buildings.laboratorio": "Laboratório",
+    "career.levels.iniciante": "Iniciante",
+    "career.levels.explorador": "Explorador",
+    "career.levels.mestre": "Mestre",
+    "quests.ler-o-guia": "Ler o guia do aluno",
+    "quests.resumir": "Resumir um capítulo",
+    "quests.primeiro-experimento": "Fazer o primeiro experimento",
+    "npc.names.guia": "Guia do campus",
+    "hud.menu.open": "Abrir o menu"
+  },
+  "en-US": {
+    "city.buildings.biblioteca": "Library",
+    "city.buildings.laboratorio": "Lab",
+    "career.levels.iniciante": "Beginner",
+    "career.levels.explorador": "Explorer",
+    "career.levels.mestre": "Master",
+    "quests.ler-o-guia": "Read the student guide",
+    "quests.resumir": "Summarize a chapter",
+    "quests.primeiro-experimento": "Run the first experiment",
+    "npc.names.guia": "Campus guide",
+    "hud.menu.open": "Open the menu"
+  }
+}

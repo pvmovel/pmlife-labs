@@ -1,0 +1,34 @@
+{
+  "description": "Fase 2 exigindo a fase 1 é válido.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "copy",
+      "from": "/phases/0",
+      "path": "/phases/-"
+    },
+    {
+      "op": "set",
+      "path": "/phases/1/id",
+      "value": "fase-2"
+    },
+    {
+      "op": "set",
+      "path": "/phases/1/quests",
+      "value": []
+    },
+    {
+      "op": "set",
+      "path": "/phases/1/city/interiors",
+      "value": []
+    },
+    {
+      "op": "set",
+      "path": "/phases/1/requires",
+      "value": [
+        "fase-1"
+      ]
+    }
+  ],
+  "expect": []
+}

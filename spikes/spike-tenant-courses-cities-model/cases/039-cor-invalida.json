@@ -1,0 +1,14 @@
+{
+  "description": "Cor fora do formato #rrggbb.",
+  "base": "headquarters",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/city/buildings/0/color",
+      "value": "verde"
+    }
+  ],
+  "expect": [
+    "COLOR_INVALID@/city/buildings/0/color"
+  ]
+}

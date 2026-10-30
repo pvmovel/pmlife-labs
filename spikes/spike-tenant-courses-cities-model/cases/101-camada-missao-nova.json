@@ -1,0 +1,50 @@
+{
+  "description": "Missão nova num prédio da plataforma não travado, com a estação na sala que já existe.",
+  "base": "course",
+  "overlay": {
+    "schema": 1,
+    "kind": "overlay",
+    "courseId": "campus-demo",
+    "phases": {
+      "fase-1": {
+        "add": {
+          "quests": [
+            {
+              "id": "debate",
+              "buildingId": "biblioteca",
+              "titleKey": "quests.debate",
+              "rewardXp": 50
+            }
+          ],
+          "stations": {
+            "biblioteca": [
+              {
+                "questId": "debate",
+                "position": [
+                  0,
+                  -4
+                ],
+                "size": [
+                  2,
+                  1,
+                  1
+                ],
+                "color": "#22c55e"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "texts": {
+      "pt-BR": {
+        "quests.debate": "Debater um capítulo"
+      },
+      "en-US": {
+        "quests.debate": "Discuss a chapter"
+      }
+    }
+  },
+  "expect": [],
+  "expectMerged": []
+}

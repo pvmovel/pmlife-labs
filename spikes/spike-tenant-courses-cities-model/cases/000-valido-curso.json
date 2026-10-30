@@ -1,0 +1,6 @@
+{
+  "description": "O curso-modelo de exemplo (migrado do formato de hoje) é válido.",
+  "base": "course",
+  "mutations": [],
+  "expect": []
+}

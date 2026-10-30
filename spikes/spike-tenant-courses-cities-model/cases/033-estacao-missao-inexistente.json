@@ -1,0 +1,15 @@
+{
+  "description": "Estação de uma missão que não existe (e a missão do prédio fica sem estação).",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/phases/0/city/interiors/1/stations/0/questId",
+      "value": "missao-x"
+    }
+  ],
+  "expect": [
+    "INTERIOR_QUEST_WITHOUT_STATION(primeiro-experimento)@/phases/0/city/interiors/1/stations",
+    "STATION_QUEST_UNKNOWN@/phases/0/city/interiors/1/stations/0/questId"
+  ]
+}

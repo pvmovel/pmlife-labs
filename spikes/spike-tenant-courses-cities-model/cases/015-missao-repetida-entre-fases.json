@@ -1,0 +1,21 @@
+{
+  "description": "O id da missão é único no curso inteiro (o progresso guarda curso + missão), não só na fase.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "copy",
+      "from": "/phases/0",
+      "path": "/phases/-"
+    },
+    {
+      "op": "set",
+      "path": "/phases/1/id",
+      "value": "fase-2"
+    }
+  ],
+  "expect": [
+    "ID_DUPLICATE@/phases/1/quests/0/id",
+    "ID_DUPLICATE@/phases/1/quests/1/id",
+    "ID_DUPLICATE@/phases/1/quests/2/id"
+  ]
+}

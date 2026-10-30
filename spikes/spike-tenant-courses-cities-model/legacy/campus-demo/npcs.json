@@ -1,0 +1,6 @@
+{
+  "trackId": "campus-demo",
+  "npcs": [
+    { "id": "guia", "labelKey": "npc.names.guia", "persona": "guia_campus", "position": [0, 3], "color": "#a3e635" }
+  ]
+}

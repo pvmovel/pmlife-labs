@@ -1,0 +1,15 @@
+{
+  "description": "Um papel da sede (Matrículas) na cidade do curso.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/city/buildings/1/role",
+      "value": "enrollment"
+    }
+  ],
+  "expect": [
+    "ROLE_NOT_ALLOWED(enrollment)@/city/buildings/1/role",
+    "ROLE_MISSING(board)@/city/buildings"
+  ]
+}

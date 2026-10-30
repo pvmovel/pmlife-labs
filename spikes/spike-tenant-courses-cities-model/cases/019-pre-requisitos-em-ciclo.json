@@ -1,0 +1,44 @@
+{
+  "description": "Duas fases que exigem uma a outra nunca liberam.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "copy",
+      "from": "/phases/0",
+      "path": "/phases/-"
+    },
+    {
+      "op": "set",
+      "path": "/phases/1/id",
+      "value": "fase-2"
+    },
+    {
+      "op": "set",
+      "path": "/phases/1/quests",
+      "value": []
+    },
+    {
+      "op": "set",
+      "path": "/phases/1/city/interiors",
+      "value": []
+    },
+    {
+      "op": "set",
+      "path": "/phases/0/requires",
+      "value": [
+        "fase-2"
+      ]
+    },
+    {
+      "op": "set",
+      "path": "/phases/1/requires",
+      "value": [
+        "fase-1"
+      ]
+    }
+  ],
+  "expect": [
+    "PHASE_CYCLE@/phases/0/requires",
+    "PHASE_CYCLE@/phases/1/requires"
+  ]
+}

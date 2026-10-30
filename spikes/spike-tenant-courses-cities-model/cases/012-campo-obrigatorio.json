@@ -1,0 +1,13 @@
+{
+  "description": "Missão sem o XP.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "remove",
+      "path": "/phases/0/quests/1/rewardXp"
+    }
+  ],
+  "expect": [
+    "FIELD_REQUIRED@/phases/0/quests/1/rewardXp"
+  ]
+}

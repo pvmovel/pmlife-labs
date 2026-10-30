@@ -1,0 +1,18 @@
+{
+  "description": "Sede sem prédios.",
+  "base": "headquarters",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/city/buildings",
+      "value": []
+    }
+  ],
+  "expect": [
+    "CITY_EMPTY@/city/buildings",
+    "ROLE_MISSING(enrollment)@/city/buildings",
+    "ROLE_MISSING(institutional)@/city/buildings",
+    "ROLE_MISSING(secretariat)@/city/buildings",
+    "ROLE_MISSING(courses-portal)@/city/buildings"
+  ]
+}

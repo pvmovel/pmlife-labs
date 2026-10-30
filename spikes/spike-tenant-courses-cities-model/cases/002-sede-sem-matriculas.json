@@ -1,0 +1,13 @@
+{
+  "description": "Gherkin: uma sede sem o prédio de Matrículas.",
+  "base": "headquarters",
+  "mutations": [
+    {
+      "op": "remove",
+      "path": "/city/buildings/0"
+    }
+  ],
+  "expect": [
+    "ROLE_MISSING(enrollment)@/city/buildings"
+  ]
+}

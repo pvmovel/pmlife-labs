@@ -1,0 +1,16 @@
+{
+  "description": "Pré-requisito que não é uma fase do curso.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/phases/0/requires",
+      "value": [
+        "fase-9"
+      ]
+    }
+  ],
+  "expect": [
+    "PHASE_UNKNOWN@/phases/0/requires/0"
+  ]
+}

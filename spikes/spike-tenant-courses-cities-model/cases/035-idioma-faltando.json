@@ -1,0 +1,13 @@
+{
+  "description": "Sem os textos em inglês.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "remove",
+      "path": "/texts/en-US"
+    }
+  ],
+  "expect": [
+    "TEXT_LOCALE_MISSING@/texts/en-US"
+  ]
+}

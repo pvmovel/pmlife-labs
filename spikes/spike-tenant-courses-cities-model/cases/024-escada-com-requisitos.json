@@ -1,0 +1,37 @@
+{
+  "description": "Escada com XP, atributos e fases exigidas é válida.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/attributes",
+      "value": [
+        "logica",
+        "comunicacao"
+      ]
+    },
+    {
+      "op": "set",
+      "path": "/phases/0/quests/0/attributes",
+      "value": {
+        "logica": 2,
+        "comunicacao": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "/levels/2/minAttributes",
+      "value": {
+        "logica": 2
+      }
+    },
+    {
+      "op": "set",
+      "path": "/levels/2/requiredPhases",
+      "value": [
+        "fase-1"
+      ]
+    }
+  ],
+  "expect": []
+}

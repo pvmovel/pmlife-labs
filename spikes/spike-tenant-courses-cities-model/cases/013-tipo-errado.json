@@ -1,0 +1,14 @@
+{
+  "description": "Tamanho da cidade da fase como texto.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/phases/0/city/halfSize",
+      "value": "15"
+    }
+  ],
+  "expect": [
+    "FIELD_TYPE@/phases/0/city/halfSize"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "description": "Tipo de documento que não é sede nem curso.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/kind",
+      "value": "campus"
+    }
+  ],
+  "expect": [
+    "KIND_UNSUPPORTED@/kind"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "description": "O primeiro nível precisa começar em 0 XP.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/levels/0/minXp",
+      "value": 10
+    }
+  ],
+  "expect": [
+    "LEVEL_FIRST_NOT_ZERO@/levels/0/minXp"
+  ]
+}

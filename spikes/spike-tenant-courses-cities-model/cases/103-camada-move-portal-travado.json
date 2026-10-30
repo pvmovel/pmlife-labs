@@ -1,0 +1,25 @@
+{
+  "description": "O Portal das fases (travado) não muda pela camada.",
+  "base": "course",
+  "overlay": {
+    "schema": 1,
+    "kind": "overlay",
+    "courseId": "campus-demo",
+    "city": {
+      "set": {
+        "buildings": {
+          "portal-fases": {
+            "position": [
+              0,
+              -6
+            ]
+          }
+        }
+      }
+    }
+  },
+  "expect": [
+    "OVERLAY_TARGET_LOCKED@/city/set/buildings/portal-fases"
+  ],
+  "expectMerged": []
+}

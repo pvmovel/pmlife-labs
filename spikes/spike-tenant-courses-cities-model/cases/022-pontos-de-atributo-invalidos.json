@@ -1,0 +1,23 @@
+{
+  "description": "Pontos de atributo zero numa missão.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/attributes",
+      "value": [
+        "logica"
+      ]
+    },
+    {
+      "op": "set",
+      "path": "/phases/0/quests/0/attributes",
+      "value": {
+        "logica": 0
+      }
+    }
+  ],
+  "expect": [
+    "ATTRIBUTE_POINTS_INVALID@/phases/0/quests/0/attributes/logica"
+  ]
+}

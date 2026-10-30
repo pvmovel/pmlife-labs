@@ -1,0 +1,14 @@
+{
+  "description": "Título da fase sem o texto em inglês.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "remove",
+      "path": "/texts/en-US/phases.fase-1"
+    }
+  ],
+  "expect": [
+    "TEXT_KEYS_MISMATCH@/texts/en-US/phases.fase-1",
+    "TEXT_KEY_MISSING@/phases/0/titleKey"
+  ]
+}

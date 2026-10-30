@@ -1,0 +1,14 @@
+{
+  "description": "Aluno nascendo dentro do Portal dos cursos.",
+  "base": "headquarters",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/city/spawn/z",
+      "value": 3
+    }
+  ],
+  "expect": [
+    "SPAWN_INSIDE_BUILDING@/city/spawn"
+  ]
+}

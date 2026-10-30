@@ -1,0 +1,15 @@
+{
+  "description": "Dois prédios de Matrículas na sede.",
+  "base": "headquarters",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/city/buildings/2/role",
+      "value": "enrollment"
+    }
+  ],
+  "expect": [
+    "ROLE_DUPLICATE(enrollment)@/city/buildings/2/role",
+    "ROLE_MISSING(secretariat)@/city/buildings"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "trackId": "campus-demo",
+  "levels": [
+    { "id": "iniciante", "labelKey": "career.levels.iniciante", "minXp": 0 },
+    { "id": "explorador", "labelKey": "career.levels.explorador", "minXp": 200 },
+    { "id": "mestre", "labelKey": "career.levels.mestre", "minXp": 450 }
+  ]
+}

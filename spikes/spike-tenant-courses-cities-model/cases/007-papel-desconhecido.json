@@ -1,0 +1,15 @@
+{
+  "description": "Um papel que não existe.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/city/buildings/1/role",
+      "value": "cantina"
+    }
+  ],
+  "expect": [
+    "ROLE_UNKNOWN@/city/buildings/1/role",
+    "ROLE_MISSING(board)@/city/buildings"
+  ]
+}

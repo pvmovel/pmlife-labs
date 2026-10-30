@@ -1,0 +1,13 @@
+{
+  "description": "Camada de outro curso.",
+  "base": "course",
+  "overlay": {
+    "schema": 1,
+    "kind": "overlay",
+    "courseId": "outro-curso"
+  },
+  "expect": [
+    "OVERLAY_COURSE_MISMATCH@/courseId"
+  ],
+  "expectMerged": []
+}

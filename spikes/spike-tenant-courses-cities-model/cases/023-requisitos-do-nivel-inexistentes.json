@@ -1,0 +1,24 @@
+{
+  "description": "Nível exigindo atributo e fase que não existem.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/levels/1/minAttributes",
+      "value": {
+        "comunicacao": 3
+      }
+    },
+    {
+      "op": "set",
+      "path": "/levels/1/requiredPhases",
+      "value": [
+        "fase-9"
+      ]
+    }
+  ],
+  "expect": [
+    "ATTRIBUTE_UNKNOWN@/levels/1/minAttributes/comunicacao",
+    "PHASE_UNKNOWN@/levels/1/requiredPhases/0"
+  ]
+}

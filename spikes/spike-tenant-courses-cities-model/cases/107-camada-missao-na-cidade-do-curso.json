@@ -1,0 +1,18 @@
+{
+  "description": "Missão só existe nas fases.",
+  "base": "course",
+  "overlay": {
+    "schema": 1,
+    "kind": "overlay",
+    "courseId": "campus-demo",
+    "city": {
+      "add": {
+        "quests": []
+      }
+    }
+  },
+  "expect": [
+    "OVERLAY_FIELD_NOT_ALLOWED@/city/add/quests"
+  ],
+  "expectMerged": []
+}

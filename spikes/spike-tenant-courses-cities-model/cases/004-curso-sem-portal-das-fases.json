@@ -1,0 +1,13 @@
+{
+  "description": "A cidade do curso sem o Portal das fases.",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "remove",
+      "path": "/city/buildings/0"
+    }
+  ],
+  "expect": [
+    "ROLE_MISSING(phases-portal)@/city/buildings"
+  ]
+}

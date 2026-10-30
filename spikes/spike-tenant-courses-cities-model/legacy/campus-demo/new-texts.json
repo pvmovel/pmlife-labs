@@ -1,0 +1,14 @@
+{
+  "pt-BR": {
+    "course.title": "Campus de demonstração",
+    "course.buildings.phases-portal": "Portal das fases",
+    "course.buildings.board": "Mural",
+    "phases.fase-1": "Fase 1: o campus"
+  },
+  "en-US": {
+    "course.title": "Demo campus",
+    "course.buildings.phases-portal": "Phases portal",
+    "course.buildings.board": "Board",
+    "phases.fase-1": "Phase 1: the campus"
+  }
+}

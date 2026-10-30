@@ -1,0 +1,14 @@
+{
+  "description": "XP fracionado (o servidor só soma inteiros).",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/phases/0/quests/0/rewardXp",
+      "value": 10.5
+    }
+  ],
+  "expect": [
+    "XP_NOT_POSITIVE@/phases/0/quests/0/rewardXp"
+  ]
+}

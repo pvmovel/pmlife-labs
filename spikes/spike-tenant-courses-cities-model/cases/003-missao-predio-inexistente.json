@@ -1,0 +1,15 @@
+{
+  "description": "Gherkin: uma missão apontando para um prédio inexistente (e a estação dela fica no prédio errado).",
+  "base": "course",
+  "mutations": [
+    {
+      "op": "set",
+      "path": "/phases/0/quests/0/buildingId",
+      "value": "predio-que-nao-existe"
+    }
+  ],
+  "expect": [
+    "QUEST_BUILDING_UNKNOWN@/phases/0/quests/0/buildingId",
+    "STATION_QUEST_OTHER_BUILDING@/phases/0/city/interiors/0/stations/0/questId"
+  ]
+}

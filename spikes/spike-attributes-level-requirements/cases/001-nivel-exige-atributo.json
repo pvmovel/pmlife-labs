@@ -1,0 +1,62 @@
+{
+  "course": "astro-demo",
+  "gherkin": "Nível exige atributo",
+  "description": "5000 XP e cálculo 20: não sobe para Observador (4000 XP e cálculo ≥ 30); faltam 10 de cálculo",
+  "versions": [
+    1
+  ],
+  "completions": [
+    {
+      "questId": "q-telescopio",
+      "version": 1
+    },
+    {
+      "questId": "q-orbitas",
+      "version": 1
+    }
+  ],
+  "attempts": [],
+  "expect": {
+    "attempts": [],
+    "xp": 5000,
+    "attributes": {
+      "calculo": 20,
+      "observacao": 20
+    },
+    "level": "Aprendiz",
+    "next": {
+      "level": "Observador",
+      "missing": {
+        "xp": 0,
+        "attributes": {
+          "calculo": 10
+        },
+        "phases": []
+      }
+    },
+    "phases": [
+      {
+        "id": "fase-1",
+        "status": "in-progress",
+        "version": 1,
+        "missingPhases": []
+      },
+      {
+        "id": "fase-2",
+        "status": "locked",
+        "version": 1,
+        "missingPhases": [
+          "fase-1"
+        ]
+      },
+      {
+        "id": "fase-3",
+        "status": "locked",
+        "version": 1,
+        "missingPhases": [
+          "fase-2"
+        ]
+      }
+    ]
+  }
+}

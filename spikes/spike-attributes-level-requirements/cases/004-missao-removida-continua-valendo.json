@@ -1,0 +1,68 @@
+{
+  "course": "astro-demo",
+  "description": "A v2 tira a q-diario: quem a fez na v1 continua com os pontos dela, e a fase concluída não recebe missão nova",
+  "versions": [
+    1,
+    2
+  ],
+  "completions": [
+    {
+      "questId": "q-telescopio",
+      "version": 1
+    },
+    {
+      "questId": "q-orbitas",
+      "version": 1
+    },
+    {
+      "questId": "q-diario",
+      "version": 1
+    }
+  ],
+  "attempts": [
+    "q-mapa-ceu"
+  ],
+  "expect": {
+    "attempts": [
+      "q-mapa-ceu!PHASE_CONCLUDED"
+    ],
+    "xp": 5500,
+    "attributes": {
+      "calculo": 20,
+      "observacao": 25
+    },
+    "level": "Aprendiz",
+    "next": {
+      "level": "Observador",
+      "missing": {
+        "xp": 0,
+        "attributes": {
+          "calculo": 10
+        },
+        "phases": []
+      }
+    },
+    "phases": [
+      {
+        "id": "fase-1",
+        "status": "concluded",
+        "version": 1,
+        "missingPhases": []
+      },
+      {
+        "id": "fase-2",
+        "status": "open",
+        "version": 2,
+        "missingPhases": []
+      },
+      {
+        "id": "fase-3",
+        "status": "locked",
+        "version": 2,
+        "missingPhases": [
+          "fase-2"
+        ]
+      }
+    ]
+  }
+}

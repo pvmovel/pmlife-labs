@@ -1,0 +1,33 @@
+{
+  "courseId": "astro-demo",
+  "attributes": ["calculo", "observacao"],
+  "levels": [
+    { "id": "Aprendiz", "minXp": 0 },
+    { "id": "Observador", "minXp": 4000, "minAttributes": { "calculo": 30 } },
+    { "id": "Astronomo", "minXp": 10000, "minAttributes": { "observacao": 40 }, "requiredPhases": ["fase-2"] }
+  ],
+  "phases": [
+    {
+      "id": "fase-1",
+      "requires": [],
+      "quests": [
+        { "id": "q-telescopio", "rewardXp": 3000, "attributes": { "observacao": 20 } },
+        { "id": "q-orbitas", "rewardXp": 2500, "attributes": { "calculo": 25 } },
+        { "id": "q-mapa-ceu", "rewardXp": 1000, "attributes": { "observacao": 10 } }
+      ]
+    },
+    {
+      "id": "fase-2",
+      "requires": ["fase-1"],
+      "quests": [
+        { "id": "q-cometas", "rewardXp": 3500, "attributes": { "calculo": 10, "observacao": 15 } },
+        { "id": "q-eclipse", "rewardXp": 2500, "attributes": { "calculo": 15 } }
+      ]
+    },
+    {
+      "id": "fase-3",
+      "requires": ["fase-2"],
+      "quests": [{ "id": "q-relatorio", "rewardXp": 3000, "attributes": { "observacao": 15 } }]
+    }
+  ]
+}

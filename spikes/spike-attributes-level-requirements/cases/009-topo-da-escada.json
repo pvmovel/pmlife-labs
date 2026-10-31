@@ -1,0 +1,64 @@
+{
+  "course": "astro-demo",
+  "description": "Todas as missões feitas: Astronomo, sem próximo nível",
+  "versions": [
+    1
+  ],
+  "completions": [
+    {
+      "questId": "q-telescopio",
+      "version": 1
+    },
+    {
+      "questId": "q-orbitas",
+      "version": 1
+    },
+    {
+      "questId": "q-diario",
+      "version": 1
+    },
+    {
+      "questId": "q-cometas",
+      "version": 1
+    },
+    {
+      "questId": "q-eclipse",
+      "version": 1
+    },
+    {
+      "questId": "q-relatorio",
+      "version": 1
+    }
+  ],
+  "attempts": [],
+  "expect": {
+    "attempts": [],
+    "xp": 14000,
+    "attributes": {
+      "calculo": 45,
+      "observacao": 50
+    },
+    "level": "Astronomo",
+    "next": null,
+    "phases": [
+      {
+        "id": "fase-1",
+        "status": "concluded",
+        "version": 1,
+        "missingPhases": []
+      },
+      {
+        "id": "fase-2",
+        "status": "concluded",
+        "version": 1,
+        "missingPhases": []
+      },
+      {
+        "id": "fase-3",
+        "status": "concluded",
+        "version": 1,
+        "missingPhases": []
+      }
+    ]
+  }
+}

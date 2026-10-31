@@ -1,0 +1,20 @@
+{
+  "title": "Atributos, níveis por requisitos e versões do curso",
+  "summary": "A progressão além do XP: um catálogo de atributos da instituição, uma escada em que cada nível exige XP, um mínimo de cada atributo e fases concluídas, fases com pré-requisitos e versões novas do curso publicadas com alunos no meio do caminho. Tudo derivado das missões concluídas, com as mesmas regras em TypeScript e PHP, provadas pelos mesmos casos de conformidade.",
+  "problem": "Só o XP não mede o que importa num curso: a instituição quer exigir atributos (observação, cálculo) e fases para cada nível, e muda o curso com os alunos no meio dele. O navegador (offline) e o servidor precisam chegar ao mesmo nível, sem gravar nada em dobro e sem perder o progresso já gravado, numa hospedagem com PHP 8.2 e MySQL 5.7, pronta para PostgreSQL.",
+  "result": "10 casos de conformidade com o mesmo resultado em TypeScript (21 testes) e PHP (17 checks), incluindo os três cenários da história: com 5000 XP e cálculo 20 o aluno não vira Observador e vê que faltam 10 de cálculo; a fase 2 aparece bloqueada com o motivo; e, no meio da fase 1 da v1, sai a v2: ele termina a fase na v1 e entra na fase 2 já na v2, com o que fez antes valendo. A migration das conclusões roda duas vezes sem mudar nenhuma linha de hoje, no MySQL 5.7, no 8.4 e no PostgreSQL 16.",
+  "tags": [
+    "TypeScript",
+    "PHP 8.2",
+    "Casos de conformidade",
+    "Gamificação",
+    "Versionamento",
+    "Offline-first",
+    "MySQL 5.7",
+    "PostgreSQL 16",
+    "Open/Closed"
+  ],
+  "roadmap": "US43",
+  "date": "2026-10-30",
+  "run": "yarn install --frozen-lockfile\nyarn verify   # ESLint + tsc + 21 testes + php php/verify.php (as regras)\n\n# com os bancos, como no CI\ndocker run -d --rm --name spike-mysql -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw -p 127.0.0.1:13306:3306 mysql:5.7\ndocker run -d --rm --name spike-pg -e POSTGRES_DB=spike -e POSTGRES_USER=spike \\\n  -e POSTGRES_PASSWORD=spikepw -p 127.0.0.1:15432:5432 postgres:16\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 SPIKE_MYSQL_DB=spike \\\n  SPIKE_MYSQL_USER=spike SPIKE_MYSQL_PASS=spikepw\nexport SPIKE_PGSQL_HOST=127.0.0.1 SPIKE_PGSQL_PORT=15432 SPIKE_PGSQL_DB=spike \\\n  SPIKE_PGSQL_USER=spike SPIKE_PGSQL_PASS=spikepw\nphp php/verify.php\ndocker stop spike-mysql spike-pg"
+}

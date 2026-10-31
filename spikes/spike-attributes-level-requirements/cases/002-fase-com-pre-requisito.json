@@ -1,0 +1,57 @@
+{
+  "course": "astro-demo",
+  "gherkin": "Fase com pré-requisito",
+  "description": "Sem a fase 1, a fase 2 aparece bloqueada com o motivo, e a missão dela é recusada",
+  "versions": [
+    1
+  ],
+  "completions": [],
+  "attempts": [
+    "q-cometas"
+  ],
+  "expect": {
+    "attempts": [
+      "q-cometas!PHASE_LOCKED"
+    ],
+    "xp": 0,
+    "attributes": {
+      "calculo": 0,
+      "observacao": 0
+    },
+    "level": "Aprendiz",
+    "next": {
+      "level": "Observador",
+      "missing": {
+        "xp": 4000,
+        "attributes": {
+          "calculo": 30
+        },
+        "phases": []
+      }
+    },
+    "phases": [
+      {
+        "id": "fase-1",
+        "status": "open",
+        "version": 1,
+        "missingPhases": []
+      },
+      {
+        "id": "fase-2",
+        "status": "locked",
+        "version": 1,
+        "missingPhases": [
+          "fase-1"
+        ]
+      },
+      {
+        "id": "fase-3",
+        "status": "locked",
+        "version": 1,
+        "missingPhases": [
+          "fase-2"
+        ]
+      }
+    ]
+  }
+}

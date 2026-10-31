@@ -1,0 +1,59 @@
+{
+  "course": "astro-demo",
+  "description": "Uma fase que ainda não começou é feita na versão atual (v2), com as recompensas dela; as 3 missões da v2 concluem a fase 1 e abrem a 2",
+  "versions": [
+    1,
+    2
+  ],
+  "completions": [],
+  "attempts": [
+    "q-mapa-ceu",
+    "q-telescopio",
+    "q-orbitas"
+  ],
+  "expect": {
+    "attempts": [
+      "q-mapa-ceu@2",
+      "q-telescopio@2",
+      "q-orbitas@2"
+    ],
+    "xp": 6500,
+    "attributes": {
+      "calculo": 25,
+      "observacao": 30
+    },
+    "level": "Aprendiz",
+    "next": {
+      "level": "Observador",
+      "missing": {
+        "xp": 0,
+        "attributes": {
+          "calculo": 5
+        },
+        "phases": []
+      }
+    },
+    "phases": [
+      {
+        "id": "fase-1",
+        "status": "concluded",
+        "version": 2,
+        "missingPhases": []
+      },
+      {
+        "id": "fase-2",
+        "status": "open",
+        "version": 2,
+        "missingPhases": []
+      },
+      {
+        "id": "fase-3",
+        "status": "locked",
+        "version": 2,
+        "missingPhases": [
+          "fase-2"
+        ]
+      }
+    ]
+  }
+}

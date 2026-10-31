@@ -1,0 +1,57 @@
+{
+  "course": "astro-demo",
+  "description": "Quem começa depois da v2 não consegue concluir a q-diario, que saiu do curso",
+  "versions": [
+    1,
+    2
+  ],
+  "completions": [],
+  "attempts": [
+    "q-diario"
+  ],
+  "expect": {
+    "attempts": [
+      "q-diario!QUEST_UNKNOWN"
+    ],
+    "xp": 0,
+    "attributes": {
+      "calculo": 0,
+      "observacao": 0
+    },
+    "level": "Aprendiz",
+    "next": {
+      "level": "Observador",
+      "missing": {
+        "xp": 4000,
+        "attributes": {
+          "calculo": 30
+        },
+        "phases": []
+      }
+    },
+    "phases": [
+      {
+        "id": "fase-1",
+        "status": "open",
+        "version": 2,
+        "missingPhases": []
+      },
+      {
+        "id": "fase-2",
+        "status": "locked",
+        "version": 2,
+        "missingPhases": [
+          "fase-1"
+        ]
+      },
+      {
+        "id": "fase-3",
+        "status": "locked",
+        "version": 2,
+        "missingPhases": [
+          "fase-2"
+        ]
+      }
+    ]
+  }
+}

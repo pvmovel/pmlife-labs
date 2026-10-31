@@ -1,0 +1,18 @@
+{
+  "courseId": "clima-demo",
+  "attributes": ["calculo", "comunicacao"],
+  "levels": [
+    { "id": "Curioso", "minXp": 0 },
+    { "id": "Meteorologista", "minXp": 3000, "minAttributes": { "comunicacao": 20 } }
+  ],
+  "phases": [
+    {
+      "id": "fase-1",
+      "requires": [],
+      "quests": [
+        { "id": "q-nuvens", "rewardXp": 1500, "attributes": { "comunicacao": 10 } },
+        { "id": "q-previsao", "rewardXp": 2000, "attributes": { "calculo": 15, "comunicacao": 10 } }
+      ]
+    }
+  ]
+}

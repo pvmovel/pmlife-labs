@@ -1,0 +1,74 @@
+{
+  "course": "astro-demo",
+  "description": "Cumpre o Astronomo (só XP nesta escada) mas não o Observador (cálculo): fica no Aprendiz, porque a escada é em ordem",
+  "versions": [
+    1
+  ],
+  "levels": [
+    {
+      "id": "Aprendiz",
+      "minXp": 0
+    },
+    {
+      "id": "Observador",
+      "minXp": 1000,
+      "minAttributes": {
+        "calculo": 30
+      }
+    },
+    {
+      "id": "Astronomo",
+      "minXp": 3000
+    }
+  ],
+  "completions": [
+    {
+      "questId": "q-telescopio",
+      "version": 1
+    }
+  ],
+  "attempts": [],
+  "expect": {
+    "attempts": [],
+    "xp": 3000,
+    "attributes": {
+      "calculo": 0,
+      "observacao": 20
+    },
+    "level": "Aprendiz",
+    "next": {
+      "level": "Observador",
+      "missing": {
+        "xp": 0,
+        "attributes": {
+          "calculo": 30
+        },
+        "phases": []
+      }
+    },
+    "phases": [
+      {
+        "id": "fase-1",
+        "status": "in-progress",
+        "version": 1,
+        "missingPhases": []
+      },
+      {
+        "id": "fase-2",
+        "status": "locked",
+        "version": 1,
+        "missingPhases": [
+          "fase-1"
+        ]
+      },
+      {
+        "id": "fase-3",
+        "status": "locked",
+        "version": 1,
+        "missingPhases": [
+          "fase-2"
+        ]
+      }
+    ]
+  }
+}

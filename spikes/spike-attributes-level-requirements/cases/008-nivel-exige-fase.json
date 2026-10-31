@@ -1,0 +1,69 @@
+{
+  "course": "astro-demo",
+  "description": "Para Astronomo faltam XP, observação e a fase 2 inteira: o HUD mostra os três",
+  "versions": [
+    1
+  ],
+  "completions": [
+    {
+      "questId": "q-telescopio",
+      "version": 1
+    },
+    {
+      "questId": "q-orbitas",
+      "version": 1
+    },
+    {
+      "questId": "q-diario",
+      "version": 1
+    },
+    {
+      "questId": "q-cometas",
+      "version": 1
+    }
+  ],
+  "attempts": [],
+  "expect": {
+    "attempts": [],
+    "xp": 8500,
+    "attributes": {
+      "calculo": 30,
+      "observacao": 35
+    },
+    "level": "Observador",
+    "next": {
+      "level": "Astronomo",
+      "missing": {
+        "xp": 1500,
+        "attributes": {
+          "observacao": 5
+        },
+        "phases": [
+          "fase-2"
+        ]
+      }
+    },
+    "phases": [
+      {
+        "id": "fase-1",
+        "status": "concluded",
+        "version": 1,
+        "missingPhases": []
+      },
+      {
+        "id": "fase-2",
+        "status": "in-progress",
+        "version": 1,
+        "missingPhases": []
+      },
+      {
+        "id": "fase-3",
+        "status": "locked",
+        "version": 1,
+        "missingPhases": [
+          "fase-2"
+        ]
+      }
+    ]
+  }
+}

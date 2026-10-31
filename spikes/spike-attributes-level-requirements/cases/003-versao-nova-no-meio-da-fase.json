@@ -1,0 +1,69 @@
+{
+  "course": "astro-demo",
+  "gherkin": "Versão nova no meio da fase",
+  "description": "No meio da fase 1 da v1, sai a v2: termina a fase 1 na v1 (a missão nova da v2 é recusada) e entra na fase 2 já na v2, com o progresso anterior valendo",
+  "versions": [
+    1,
+    2
+  ],
+  "completions": [
+    {
+      "questId": "q-telescopio",
+      "version": 1
+    },
+    {
+      "questId": "q-orbitas",
+      "version": 1
+    }
+  ],
+  "attempts": [
+    "q-mapa-ceu",
+    "q-diario",
+    "q-cometas"
+  ],
+  "expect": {
+    "attempts": [
+      "q-mapa-ceu!QUEST_NOT_IN_PHASE_VERSION",
+      "q-diario@1",
+      "q-cometas@2"
+    ],
+    "xp": 9000,
+    "attributes": {
+      "calculo": 30,
+      "observacao": 40
+    },
+    "level": "Observador",
+    "next": {
+      "level": "Astronomo",
+      "missing": {
+        "xp": 1000,
+        "attributes": {},
+        "phases": [
+          "fase-2"
+        ]
+      }
+    },
+    "phases": [
+      {
+        "id": "fase-1",
+        "status": "concluded",
+        "version": 1,
+        "missingPhases": []
+      },
+      {
+        "id": "fase-2",
+        "status": "in-progress",
+        "version": 2,
+        "missingPhases": []
+      },
+      {
+        "id": "fase-3",
+        "status": "locked",
+        "version": 2,
+        "missingPhases": [
+          "fase-2"
+        ]
+      }
+    ]
+  }
+}

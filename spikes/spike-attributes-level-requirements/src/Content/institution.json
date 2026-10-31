@@ -1,0 +1,5 @@
+{
+  "tenant": "escola-demo",
+  "attributes": ["calculo", "comunicacao", "instrumentos", "observacao"],
+  "courses": ["astro-demo", "clima-demo"]
+}

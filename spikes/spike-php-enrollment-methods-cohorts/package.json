@@ -1,0 +1,9 @@
+{
+  "name": "spike-php-enrollment-methods-cohorts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Spike: matrícula por curso com métodos como estratégias (livre, código de convite e aprovação), turmas por período, limite de erros no código, progresso só para matriculados e quem já tinha progresso matriculado pela migration, no MySQL 5.7 e no PostgreSQL 16 com RLS",
+  "scripts": {
+    "verify": "php scripts/verify.php"
+  }
+}

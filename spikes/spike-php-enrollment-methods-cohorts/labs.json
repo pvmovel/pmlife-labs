@@ -1,0 +1,20 @@
+{
+  "title": "Matrícula por curso e turmas",
+  "summary": "Cada curso da instituição tem o seu método de matrícula (livre, por código de convite ou com aprovação do admin), implementados como estratégias. O aluno entra na turma aberta do curso, só registra progresso no que está matriculado, e quem já estudava antes fica matriculado pela migration, sem perder nada.",
+  "problem": "Uma plataforma de ensino para várias instituições precisa deixar cada uma decidir, curso a curso, como o aluno entra: aberto a todos, com um código de convite que não pode ser adivinhado, ou com aprovação. Os alunos de um curso se agrupam em turmas por período, o progresso tem de respeitar a matrícula, e os alunos que já tinham progresso não podem ficar de fora. Tudo em PHP 8.2 e MySQL 5.7 numa hospedagem compartilhada, sem custo e pronto para PostgreSQL.",
+  "result": "69 checks no MySQL 5.7, no 8.4 e no PostgreSQL 16, incluindo os três cenários da história: a matrícula livre aparece no Portal dos cursos na hora; a matrícula com aprovação fica \"aguardando aprovação\" até o admin aprovar; e depois de 5 códigos errados do mesmo IP, até o código certo é recusado por um tempo. O código fica só como HMAC, a turma é a aberta no momento, uma instituição não vê nem aprova os pedidos da outra, e o RLS barra no banco o que a aplicação deixasse passar.",
+  "tags": [
+    "PHP 8.2",
+    "Strategy (Open/Closed)",
+    "Multi-tenant",
+    "RLS",
+    "Rate limit",
+    "HMAC",
+    "MySQL 5.7",
+    "PostgreSQL 16",
+    "Clean Architecture"
+  ],
+  "roadmap": "US44",
+  "date": "2026-10-31",
+  "run": "docker run -d --rm --name spike-mysql -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw -p 127.0.0.1:13306:3306 mysql:5.7\ndocker run -d --rm --name spike-pg -e POSTGRES_DB=spike -e POSTGRES_USER=spike \\\n  -e POSTGRES_PASSWORD=spikepw -p 127.0.0.1:15432:5432 postgres:16\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 SPIKE_MYSQL_DB=spike \\\n  SPIKE_MYSQL_USER=spike SPIKE_MYSQL_PASS=spikepw\nexport SPIKE_PGSQL_HOST=127.0.0.1 SPIKE_PGSQL_PORT=15432 SPIKE_PGSQL_DB=spike \\\n  SPIKE_PGSQL_USER=spike SPIKE_PGSQL_PASS=spikepw\nphp scripts/verify.php   # PHP 8.2 com pdo_mysql e pdo_pgsql\ndocker stop spike-mysql spike-pg"
+}

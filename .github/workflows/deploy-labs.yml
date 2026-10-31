@@ -280,4 +280,10 @@ jobs:
           for path in src/Domain/CourseProgress.ts src/Content/astro-demo/v1.json cases/003-versao-nova-no-meio-da-fase.json php/src/Progression.php php/verify.php migrations/mysql/002_add_course_version.sql; do
             check "/spikes/spike-attributes-level-requirements/${path}" 403
           done
+          # US44: matrícula por curso e turmas. Sem demo (matricular exige uma instituição e um admin): a prova é a
+          # execução do verify no catálogo; o endpoint, o código e as migrations ficam bloqueados (403).
+          check "/catalogo/spike-php-enrollment-methods-cohorts/" 200
+          for path in http/api/enrollments.php src/Enrollment/EnrollmentService.php src/Enrollment/CodeEnrollment.php migrations/mysql/003_create_enrollments.sql scripts/verify.php; do
+            check "/spikes/spike-php-enrollment-methods-cohorts/${path}" 403
+          done
           exit $fail

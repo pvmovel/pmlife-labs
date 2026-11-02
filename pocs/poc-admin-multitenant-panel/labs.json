@@ -1,0 +1,27 @@
+{
+  "title": "Painel de administração multi-instituição",
+  "summary": "O mesmo admin muda conforme quem entra: o master da plataforma cria e desativa instituições; o master de uma instituição cuida das pessoas, das matrículas e dos cursos dela; o autor publica só os cursos em que foi designado; o tutor só acompanha; o aluno é recusado.",
+  "problem": "Uma plataforma de ensino com várias instituições precisa de um painel em que cada papel veja e faça só o que lhe cabe, sem que os dados de uma instituição apareçam para outra, e com um layout que funcione no computador e no celular, nos dois idiomas e com leitor de tela.",
+  "result": "Uma regra só (papel × instituição × curso) decide a navegação, as ações e o estado; a ação fora do papel é recusada também no estado, como o servidor fará. Tabelas com busca sem acento, ordenação e paginação, formulário validado com o foco no primeiro erro, confirmação de ações destrutivas, auditoria, tema escuro e claro, gaveta no celular e pt/en, sem biblioteca de componentes. Testes de tela e um e2e no Chrome (teclado, celular e temas) provam os cenários.",
+  "tags": [
+    "React",
+    "TypeScript",
+    "RBAC",
+    "Multi-tenant",
+    "Acessibilidade",
+    "Responsivo",
+    "i18n",
+    "Vitest",
+    "Puppeteer"
+  ],
+  "roadmap": "US36",
+  "date": "2026-11-02",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Use \"Ver como\" no alto para trocar de papel: master da plataforma, master da instituição, autor, tutor e aluno. Tudo é falso e fica só na memória do navegador (recarregar volta ao início). No celular, o botão ☰ abre a navegação."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + testes + e2e no Chrome headless (teclado, celular, temas)\nyarn dev      # demo em http://localhost:5173"
+}

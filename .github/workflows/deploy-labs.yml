@@ -179,6 +179,16 @@ jobs:
           JOY_SCENE=$(curl -sS "${JOY_BASE}/${JOY_ENTRY}" | grep -o 'AvatarCanvas-[A-Za-z0-9_-]*\.js' | head -1)
           JOY_FONT=$(curl -sS "${JOY_BASE}/assets/${JOY_SCENE}" | grep -o 'inter-latin-600-normal-[A-Za-z0-9_-]*\.woff' | head -1)
           [ -n "$JOY_FONT" ] && header "/pocs/poc-r3f-touch-avatar-joystick/dist/assets/${JOY_FONT}" "immutable" || { echo "::error::não achei a fonte com hash da PoC do joystick de toque"; fail=1; }
+          # US36: painel de administração (o CSS e a fonte com hash; o código-fonte bloqueado)
+          check "/catalogo/poc-admin-multitenant-panel/" 200
+          check "/pocs/poc-admin-multitenant-panel/dist/" 200
+          header "/pocs/poc-admin-multitenant-panel/dist/" "no-cache"
+          check "/pocs/poc-admin-multitenant-panel/src/Domain/AdminAccess.ts" 403
+          ADM_BASE="${LABS_URL}/pocs/poc-admin-multitenant-panel/dist"
+          ADM_CSS=$(curl -sS "${ADM_BASE}/" | grep -o 'assets/index-[^"]*\.css' | head -1)
+          [ -n "$ADM_CSS" ] && header "/pocs/poc-admin-multitenant-panel/dist/${ADM_CSS}" "immutable" || { echo "::error::não achei o CSS com hash do painel de administração"; fail=1; }
+          ADM_FONT=$(curl -sS "${ADM_BASE}/${ADM_CSS}" | grep -o 'inter-latin-600-normal-[A-Za-z0-9_-]*\.woff2' | head -1)
+          [ -n "$ADM_FONT" ] && header "/pocs/poc-admin-multitenant-panel/dist/assets/${ADM_FONT}" "immutable" || { echo "::error::não achei a fonte com hash do painel de administração"; fail=1; }
           # US22b: NPCs com diálogo (mock PHP, sem IA). Persona inventada ➔ 400 INVALID_PERSONA prova a lista branca.
           check "/catalogo/poc-r3f-ai-npc-dialog/" 200
           check "/pocs/poc-r3f-ai-npc-dialog/dist/" 200

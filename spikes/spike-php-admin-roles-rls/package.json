@@ -1,0 +1,9 @@
+{
+  "name": "spike-php-admin-roles-rls",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Spike: autorização do admin por papel × instituição × curso no servidor (master da plataforma fora do escopo de instituição, master da instituição, autor e tutor), primeiro master por SQL versionado, auditoria que só cresce e isolamento entre instituições, no MySQL 5.7 e no PostgreSQL 16 com RLS e dois usuários de banco",
+  "scripts": {
+    "verify": "php scripts/verify.php"
+  }
+}

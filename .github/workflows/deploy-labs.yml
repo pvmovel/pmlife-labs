@@ -296,4 +296,10 @@ jobs:
           for path in http/api/enrollments.php src/Enrollment/EnrollmentService.php src/Enrollment/CodeEnrollment.php migrations/mysql/003_create_enrollments.sql scripts/verify.php; do
             check "/spikes/spike-php-enrollment-methods-cohorts/${path}" 403
           done
+          # US36: autorização do admin (papel × instituição). Sem demo (o admin exige uma sessão com papel): a prova é a
+          # execução do verify no catálogo; o endpoint, o código, as migrations e o SQL de ops/ ficam bloqueados (403).
+          check "/catalogo/spike-php-admin-roles-rls/" 200
+          for path in http/api/admin.php src/Access/AdminPolicy.php src/Platform/PlatformRepository.php migrations/pgsql/003_enable_rls_admin.sql ops/first_platform_admin.sql scripts/verify.php; do
+            check "/spikes/spike-php-admin-roles-rls/${path}" 403
+          done
           exit $fail

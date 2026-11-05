@@ -1,0 +1,29 @@
+{
+  "title": "Editor da cidade e dos interiores dos prédios",
+  "summary": "O master de uma instituição monta o mundo 3D dos seus cursos no admin: arrasta os prédios numa planta vista de cima (ou os move com o teclado), monta o interior de cada prédio com estações de missão e objetos de parede, vê os problemas na hora e publica uma versão validada, com rascunho e pré-visualização 3D.",
+  "problem": "Cada instituição precisa montar a cidade e as salas dos prédios dos seus cursos sem esperar uma versão nova da plataforma, sem publicar nada quebrado para os alunos e sem que uma instituição veja o trabalho da outra. O editor também precisa funcionar só com o teclado e no celular.",
+  "result": "Uma planta em SVG, em metros: arrastar ou usar as setas, com os campos ao lado e a mesma validação do servidor rodando a cada edição. Cada problema aponta o item. Rascunho e publicação, com a visão do aluno. Os objetos de parede entram num campo opcional, que o totem de vídeo vai usar. O 3D só é baixado quando a pré-visualização abre. Testes de domínio e de tela e um e2e no Chrome (teclado, mouse, WebGL, celular e tema) provam os cenários.",
+  "tags": [
+    "React",
+    "TypeScript",
+    "SVG",
+    "React Three Fiber",
+    "Editor visual",
+    "Validação de domínio",
+    "Acessibilidade",
+    "Responsivo",
+    "i18n",
+    "Vitest",
+    "Puppeteer"
+  ],
+  "roadmap": "US37",
+  "date": "2026-11-05",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Escolha um documento na lista (a sede, a cidade do curso ou a Fase 1). Arraste os prédios ou use Tab e as setas; Enter num prédio abre o interior. Na Fase 1, a Biblioteca já tem um quadro na parede: acrescente estações e publique. \"Instituição (demonstração)\" troca de instituição para mostrar o isolamento. Tudo é falso e fica só na memória do navegador (recarregar volta ao início)."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + testes + e2e no Chrome headless (teclado, mouse, WebGL, celular)\nyarn dev      # demo em http://localhost:5173"
+}

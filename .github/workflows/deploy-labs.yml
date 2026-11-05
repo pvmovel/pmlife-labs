@@ -189,6 +189,17 @@ jobs:
           [ -n "$ADM_CSS" ] && header "/pocs/poc-admin-multitenant-panel/dist/${ADM_CSS}" "immutable" || { echo "::error::não achei o CSS com hash do painel de administração"; fail=1; }
           ADM_FONT=$(curl -sS "${ADM_BASE}/${ADM_CSS}" | grep -o 'inter-latin-600-normal-[A-Za-z0-9_-]*\.woff2' | head -1)
           [ -n "$ADM_FONT" ] && header "/pocs/poc-admin-multitenant-panel/dist/assets/${ADM_FONT}" "immutable" || { echo "::error::não achei a fonte com hash do painel de administração"; fail=1; }
+          # US37: editor da cidade e dos interiores (só front, dados falsos). O HTML sem cache; o CSS e o pedaço do 3D
+          # (carregado sob demanda) com hash e imutáveis; o código-fonte bloqueado.
+          check "/catalogo/poc-admin-campus-interior-editor/" 200
+          check "/pocs/poc-admin-campus-interior-editor/dist/" 200
+          header "/pocs/poc-admin-campus-interior-editor/dist/" "no-cache"
+          check "/pocs/poc-admin-campus-interior-editor/src/Domain/validateWorld.ts" 403
+          ED_BASE="${LABS_URL}/pocs/poc-admin-campus-interior-editor/dist"
+          ED_JS=$(curl -sS "${ED_BASE}/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          [ -n "$ED_JS" ] && header "/pocs/poc-admin-campus-interior-editor/dist/${ED_JS}" "immutable" || { echo "::error::não achei o bundle com hash do editor do mundo"; fail=1; }
+          ED_3D=$(curl -sS "${ED_BASE}/${ED_JS}" | grep -o 'Preview3D-[A-Za-z0-9_-]*\.js' | head -1)
+          [ -n "$ED_3D" ] && header "/pocs/poc-admin-campus-interior-editor/dist/assets/${ED_3D}" "immutable" || { echo "::error::o bundle do editor não referencia o pedaço do 3D (Preview3D-<hash>.js)"; fail=1; }
           # US22b: NPCs com diálogo (mock PHP, sem IA). Persona inventada ➔ 400 INVALID_PERSONA prova a lista branca.
           check "/catalogo/poc-r3f-ai-npc-dialog/" 200
           check "/pocs/poc-r3f-ai-npc-dialog/dist/" 200

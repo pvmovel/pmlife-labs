@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "back": "← PMLife Labs",
+    "docs": "Documentação"
+  },
+  "page": {
+    "eyebrow": "PoC · totem de vídeo na parede",
+    "title": "Assista à aula na parede da sala",
+    "lead": "Uma sala de uma escola de inglês fictícia, com totens de vídeo do YouTube presos às paredes. Chegue perto de um totem e aperte E (ou toque em Assistir, ou clique nele): o vídeo abre em tela cheia, com só o básico do ambiente, e a cena para de desenhar até você fechar.",
+    "language": "Idioma",
+    "loading": "Carregando a sala 3D…",
+    "sceneLabel": "Sala 3D com {count} totens de vídeo: {titles}.",
+    "nearby": "Totem em foco",
+    "nobody": "nenhum",
+    "keysTitle": "Teclas",
+    "keysMove": "W/S ou ↑/↓: anda · A/D ou ←/→: gira",
+    "keysInteract": "Perto de um totem: E assiste ao vídeo · Esc fecha o vídeo",
+    "keysClick": "Clique ou toque num totem para assistir",
+    "keysTouch": "No toque: o joystick no canto anda e gira; Assistir abre o vídeo",
+    "frames": "Quadros desenhados"
+  },
+  "totems": {
+    "listening": "Listening: um vídeo da aula",
+    "removed": "Vídeo removido (demonstra o aviso)"
+  },
+  "hud": {
+    "watch": "Assistir",
+    "nearTotem": "Totem de vídeo",
+    "close": "Fechar"
+  },
+  "player": {
+    "label": "Vídeo: {title}",
+    "frameTitle": "Player do YouTube: {title}",
+    "brand": "PMLife",
+    "loading": "Carregando o vídeo…",
+    "privacy": "Player do YouTube sem cookies de rastreamento antes do play.",
+    "openOnYouTube": "Abrir no YouTube",
+    "failed": {
+      "unavailable": "Este vídeo não está disponível: ele foi removido, é privado ou o endereço mudou. Avise a sua instituição.",
+      "embedBlocked": "Este vídeo não pode ser exibido aqui: o dono não permite que ele toque fora do YouTube, ou ele foi removido ou ficou privado. Avise a sua instituição.",
+      "noResponse": "O vídeo não carregou. A rede pode estar bloqueando o YouTube, ou a internet caiu."
+    }
+  },
+  "config": {
+    "title": "Configurar o totem (o que o master da instituição faz no editor)",
+    "totem": "Totem",
+    "link": "Link do YouTube",
+    "linkHint": "Aceita youtu.be/…, youtube.com/watch?v=… e …/embed/…; o resto do link (como si=) é descartado.",
+    "videoId": "ID que será guardado: {id}",
+    "noId": "Ainda não é um link de vídeo do YouTube.",
+    "wall": "Parede",
+    "offset": "Posição na parede (m)",
+    "publish": "Publicar a sala",
+    "published": "Publicado: o totem toca o vídeo {id}.",
+    "refused": "Não publicado: {problems}",
+    "walls": {
+      "north": "norte",
+      "east": "leste",
+      "south": "sul",
+      "west": "oeste"
+    },
+    "problems": {
+      "VIDEO_ID_INVALID": "o link não é de um vídeo do YouTube (nada foi gravado)",
+      "TOTEM_ON_DOOR": "o totem {totem} está sobre a porta",
+      "TOTEM_OUTSIDE": "o totem {totem} sai da parede",
+      "TOTEMS_OVERLAP": "o totem {totem} está sobre outro totem",
+      "ID_DUPLICATE": "o id do totem {totem} se repete"
+    }
+  },
+  "joystick": {
+    "label": "Joystick: arraste para andar e girar"
+  }
+}

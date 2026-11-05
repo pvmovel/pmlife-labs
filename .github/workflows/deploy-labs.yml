@@ -200,6 +200,17 @@ jobs:
           [ -n "$ED_JS" ] && header "/pocs/poc-admin-campus-interior-editor/dist/${ED_JS}" "immutable" || { echo "::error::não achei o bundle com hash do editor do mundo"; fail=1; }
           ED_3D=$(curl -sS "${ED_BASE}/${ED_JS}" | grep -o 'Preview3D-[A-Za-z0-9_-]*\.js' | head -1)
           [ -n "$ED_3D" ] && header "/pocs/poc-admin-campus-interior-editor/dist/assets/${ED_3D}" "immutable" || { echo "::error::o bundle do editor não referencia o pedaço do 3D (Preview3D-<hash>.js)"; fail=1; }
+          # US38: totem de vídeo na parede (só front; o player é o do YouTube, sem cookies). O HTML sem cache; o bundle e o
+          # pedaço da sala 3D (carregado sob demanda) com hash e imutáveis; o código-fonte bloqueado.
+          check "/catalogo/poc-r3f-wall-totem-youtube/" 200
+          check "/pocs/poc-r3f-wall-totem-youtube/dist/" 200
+          header "/pocs/poc-r3f-wall-totem-youtube/dist/" "no-cache"
+          check "/pocs/poc-r3f-wall-totem-youtube/src/Domain/YouTube.ts" 403
+          TT_BASE="${LABS_URL}/pocs/poc-r3f-wall-totem-youtube/dist"
+          TT_JS=$(curl -sS "${TT_BASE}/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          [ -n "$TT_JS" ] && header "/pocs/poc-r3f-wall-totem-youtube/dist/${TT_JS}" "immutable" || { echo "::error::não achei o bundle com hash do totem de vídeo"; fail=1; }
+          TT_3D=$(curl -sS "${TT_BASE}/${TT_JS}" | grep -o 'RoomCanvas-[A-Za-z0-9_-]*\.js' | head -1)
+          [ -n "$TT_3D" ] && header "/pocs/poc-r3f-wall-totem-youtube/dist/assets/${TT_3D}" "immutable" || { echo "::error::o bundle do totem não referencia o pedaço da sala 3D (RoomCanvas-<hash>.js)"; fail=1; }
           # US22b: NPCs com diálogo (mock PHP, sem IA). Persona inventada ➔ 400 INVALID_PERSONA prova a lista branca.
           check "/catalogo/poc-r3f-ai-npc-dialog/" 200
           check "/pocs/poc-r3f-ai-npc-dialog/dist/" 200

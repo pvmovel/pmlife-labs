@@ -1,0 +1,8 @@
+{
+  "halfSize": 6,
+  "doorX": 0,
+  "totems": [
+    { "id": "totem-listening", "kind": "totem", "wall": "north", "offset": 0, "width": 2.4, "videoId": "aziM2ePu1O8", "titleKey": "totems.listening" },
+    { "id": "totem-removido", "kind": "totem", "wall": "east", "offset": -1, "width": 2, "videoId": "zzzzzzzzzz0", "titleKey": "totems.removed" }
+  ]
+}

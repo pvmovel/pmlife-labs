@@ -4,3 +4,4 @@ dist/
 *.log
 *.env.php
 _site/
+.e2e-shots/

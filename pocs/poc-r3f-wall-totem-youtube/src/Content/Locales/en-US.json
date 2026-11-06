@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "back": "← PMLife Labs",
+    "docs": "Documentation"
+  },
+  "page": {
+    "eyebrow": "PoC · video totem on the wall",
+    "title": "Watch the lesson on the room wall",
+    "lead": "A room of a fictional English school for Brazilians, with YouTube video totems on the walls. Walk up to a totem and press E (or tap Watch, or click it): the video opens in full screen, with only the basics of the environment, and the scene stops drawing until you close it.",
+    "language": "Language",
+    "loading": "Loading the 3D room…",
+    "sceneLabel": "3D room with {count} video totems: {titles}.",
+    "nearby": "Totem in focus",
+    "nobody": "none",
+    "keysTitle": "Keys",
+    "keysMove": "W/S or ↑/↓: walk · A/D or ←/→: turn",
+    "keysInteract": "Near a totem: E watches the video · Esc closes the video",
+    "keysClick": "Click or tap a totem to watch",
+    "keysTouch": "On touch: the corner joystick walks and turns; Watch opens the video",
+    "frames": "Frames drawn"
+  },
+  "totems": {
+    "listening": "Listening: a lesson video",
+    "removed": "Removed video (shows the warning)"
+  },
+  "hud": {
+    "watch": "Watch",
+    "nearTotem": "Video totem",
+    "close": "Close"
+  },
+  "player": {
+    "label": "Video: {title}",
+    "frameTitle": "YouTube player: {title}",
+    "brand": "PMLife",
+    "loading": "Loading the video…",
+    "privacy": "YouTube player without tracking cookies before play.",
+    "openOnYouTube": "Open on YouTube",
+    "failed": {
+      "unavailable": "This video is not available: it was removed, is private or the address changed. Let your institution know.",
+      "embedBlocked": "This video cannot be shown here: its owner does not allow it outside YouTube, or it was removed or made private. Let your institution know.",
+      "noResponse": "The video did not load. The network may be blocking YouTube, or the connection dropped."
+    }
+  },
+  "config": {
+    "title": "Set up the totem (what the institution master does in the editor)",
+    "totem": "Totem",
+    "link": "YouTube link",
+    "linkHint": "Accepts youtu.be/…, youtube.com/watch?v=… and …/embed/…; the rest of the link (like si=) is dropped.",
+    "videoId": "ID to be stored: {id}",
+    "noId": "Not a YouTube video link yet.",
+    "wall": "Wall",
+    "offset": "Position on the wall (m)",
+    "publish": "Publish the room",
+    "published": "Published: the totem plays video {id}.",
+    "refused": "Not published: {problems}",
+    "walls": {
+      "north": "north",
+      "east": "east",
+      "south": "south",
+      "west": "west"
+    },
+    "problems": {
+      "VIDEO_ID_INVALID": "the link is not a YouTube video (nothing was stored)",
+      "TOTEM_ON_DOOR": "totem {totem} is on the door",
+      "TOTEM_OUTSIDE": "totem {totem} goes past the wall",
+      "TOTEMS_OVERLAP": "totem {totem} is on top of another totem",
+      "ID_DUPLICATE": "totem id {totem} is repeated"
+    }
+  },
+  "joystick": {
+    "label": "Joystick: drag to walk and turn"
+  }
+}

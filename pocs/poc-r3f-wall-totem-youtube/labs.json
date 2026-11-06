@@ -1,0 +1,29 @@
+{
+  "title": "Totem de vídeo na parede da sala",
+  "summary": "O aluno chega perto de um totem preso à parede da sala 3D e aperta E (ou toca em Assistir, ou clica nele): o vídeo do YouTube abre em tela cheia, com só o básico do ambiente, e a cena para de desenhar até ele fechar. O master cola o link do YouTube, e só o ID do vídeo é guardado.",
+  "problem": "A instituição quer pôr a aula em vídeo dentro da sala do curso, sem o aluno sair do ambiente e sem custo de hospedagem. O vídeo precisa abrir de um jeito que funcione no teclado, no mouse e no toque, sem pesar na bateria, sem rastrear alunos menores antes do play, e sem a plataforma guardar links livres ou HTML colados pelo admin.",
+  "result": "O totem é um tipo novo do mesmo objeto de parede do editor do mundo, com as mesmas regras de posição. O link colado vira só o ID no domínio. O player é o youtube-nocookie e avisa pronto ou erro por postMessage, sem script do YouTube na página. Com o vídeo aberto, a cena desenha 0 quadros. O vídeo indisponível e a rede bloqueada mostram um aviso com o link. Testes de domínio e de tela e um e2e no Chrome (teclado, clique, toque, celular, com um player falso na mesma origem) provam os cenários.",
+  "tags": [
+    "React Three Fiber",
+    "Three.js",
+    "YouTube",
+    "postMessage",
+    "LGPD",
+    "Validação de domínio",
+    "Acessibilidade",
+    "Touch",
+    "i18n",
+    "Vitest",
+    "Puppeteer"
+  ],
+  "roadmap": "US38",
+  "date": "2026-11-05",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Ande até o totem da parede do fundo (W ou o joystick) e aperte E, toque em Assistir ou clique nele; Esc fecha. O totem da parede da direita aponta para um vídeo que não existe, para mostrar o aviso. Embaixo, cole outro link do YouTube (ou um de outro site, para ver a recusa) e publique. Os dados da escola são inventados."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + testes + e2e no Chrome headless (teclado, clique, toque, celular)\nyarn dev      # demo em http://localhost:5173"
+}

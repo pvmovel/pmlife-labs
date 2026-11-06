@@ -191,6 +191,15 @@ jobs:
           [ -n "$ADM_FONT" ] && header "/pocs/poc-admin-multitenant-panel/dist/assets/${ADM_FONT}" "immutable" || { echo "::error::não achei a fonte com hash do painel de administração"; fail=1; }
           # US37: editor da cidade e dos interiores (só front, dados falsos). O HTML sem cache; o CSS e o pedaço do 3D
           # (carregado sob demanda) com hash e imutáveis; o código-fonte bloqueado.
+          # US49: criar um curso do zero pelo admin. A demo (dist) sem cache e o bundle com hash imutável; o código fica
+          # bloqueado (403).
+          check "/catalogo/poc-admin-course-builder/" 200
+          check "/pocs/poc-admin-course-builder/dist/" 200
+          header "/pocs/poc-admin-course-builder/dist/" "no-cache"
+          check "/pocs/poc-admin-course-builder/src/Domain/validateCourse.ts" 403
+          check "/pocs/poc-admin-course-builder/src/Content/courseTemplate.json" 403
+          CB_JS=$(curl -sS "${LABS_URL}/pocs/poc-admin-course-builder/dist/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          [ -n "$CB_JS" ] && header "/pocs/poc-admin-course-builder/dist/${CB_JS}" "immutable" || { echo "::error::não achei o bundle com hash da PoC do curso"; fail=1; }
           check "/catalogo/poc-admin-campus-interior-editor/" 200
           check "/pocs/poc-admin-campus-interior-editor/dist/" 200
           header "/pocs/poc-admin-campus-interior-editor/dist/" "no-cache"

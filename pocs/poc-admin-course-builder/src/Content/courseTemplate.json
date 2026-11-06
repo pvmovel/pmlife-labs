@@ -1,0 +1,19 @@
+{
+  "courseId": "modelo",
+  "title": { "pt": "Curso novo", "en": "New course" },
+  "attributes": [],
+  "levels": [
+    { "id": "nivel-1", "label": { "pt": "Iniciante", "en": "Beginner" }, "minXp": 0, "attributes": {}, "phases": [] }
+  ],
+  "phases": [
+    {
+      "id": "fase-1",
+      "title": { "pt": "Fase 1", "en": "Phase 1" },
+      "requires": [],
+      "buildings": [{ "id": "predio-1", "label": { "pt": "Sala de aula", "en": "Classroom" } }],
+      "quests": [
+        { "id": "missao-1", "title": { "pt": "Primeira missão", "en": "First mission" }, "buildingId": "predio-1", "xp": 100, "attributes": {} }
+      ]
+    }
+  ]
+}

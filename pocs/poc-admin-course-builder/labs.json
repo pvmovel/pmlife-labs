@@ -1,0 +1,19 @@
+{
+  "title": "Criar um curso do zero pelo admin",
+  "summary": "O master de uma instituição recém-criada monta o primeiro curso no admin: o \"Novo curso\" nasce de um modelo mínimo válido, e as abas do curso, das fases e das missões montam a escada de níveis, os pré-requisitos e as missões, com os problemas na hora, o rascunho, a publicação validada e a visão do aluno.",
+  "problem": "Uma instituição nova não tem cursos, e montar um curso não pode exigir uma versão nova da plataforma nem editar JSON. O master precisa criar o curso, as fases, as missões e os níveis, ver na hora o que impediria a publicação, e nada inválido pode chegar aos alunos. Só os masters criam cursos.",
+  "result": "O curso nasce de um modelo versionado (um JSON conferido pelo validador) e abre no editor. As abas montam o título, os atributos, a escada de níveis, as fases (ordem, pré-requisitos e prédios) e as missões. Cada problema aponta o campo e leva o foco até ele. A visão do aluno mostra as fases na ordem dos pré-requisitos, e o autor não cria cursos. 18 testes e um e2e de 18 checks no Chrome (teclado, celular e tema).",
+  "tags": [
+    "React 19",
+    "TypeScript",
+    "Clean Architecture",
+    "Edições puras",
+    "Validação com caminho (JSON Pointer)",
+    "Acessibilidade (abas ARIA)",
+    "Responsivo",
+    "i18n"
+  ],
+  "roadmap": "US49",
+  "date": "2026-11-06",
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + testes + e2e no Chrome headless (teclado, celular, tema)\nyarn dev      # demo em http://localhost:5173"
+}

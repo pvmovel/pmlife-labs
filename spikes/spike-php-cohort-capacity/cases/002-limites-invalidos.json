@@ -1,0 +1,41 @@
+{
+  "description": "Fora dos múltiplos de 4 ou da faixa: COHORT_LIMIT_INVALID; acima do teto: COHORT_LIMIT_ABOVE_CEILING.",
+  "kind": "limit",
+  "checks": [
+    [
+      0,
+      48,
+      "COHORT_LIMIT_INVALID"
+    ],
+    [
+      10,
+      48,
+      "COHORT_LIMIT_INVALID"
+    ],
+    [
+      13,
+      48,
+      "COHORT_LIMIT_INVALID"
+    ],
+    [
+      52,
+      48,
+      "COHORT_LIMIT_INVALID"
+    ],
+    [
+      2,
+      48,
+      "COHORT_LIMIT_INVALID"
+    ],
+    [
+      20,
+      16,
+      "COHORT_LIMIT_ABOVE_CEILING"
+    ],
+    [
+      16,
+      12,
+      "COHORT_LIMIT_ABOVE_CEILING"
+    ]
+  ]
+}

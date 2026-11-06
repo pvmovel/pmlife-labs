@@ -1,0 +1,22 @@
+{
+  "description": "Gherkin: a padrao com 30 alunos (de antes da US48) ganhou o limite 12; os 30 ficam, e a próxima vai para a turma-2.",
+  "kind": "choose",
+  "now": "2026-11-06 12:00:00",
+  "courseLimit": 12,
+  "ceiling": 12,
+  "cohorts": [
+    {
+      "id": 1,
+      "slug": "padrao",
+      "startsAt": "1970-01-01 00:00:00",
+      "endsAt": null,
+      "capacity": 12,
+      "enrolled": 30
+    }
+  ],
+  "expect": {
+    "kind": "new",
+    "slug": "turma-2",
+    "capacity": 12
+  }
+}

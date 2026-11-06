@@ -1,0 +1,30 @@
+{
+  "description": "O nome da turma seguinte pula os que já existem.",
+  "kind": "choose",
+  "now": "2026-11-06 12:00:00",
+  "courseLimit": 12,
+  "ceiling": 12,
+  "cohorts": [
+    {
+      "id": 1,
+      "slug": "turma-1",
+      "startsAt": "2026-01-01 00:00:00",
+      "endsAt": null,
+      "capacity": 12,
+      "enrolled": 12
+    },
+    {
+      "id": 2,
+      "slug": "turma-3",
+      "startsAt": "2026-01-01 00:00:00",
+      "endsAt": null,
+      "capacity": 12,
+      "enrolled": 12
+    }
+  ],
+  "expect": {
+    "kind": "new",
+    "slug": "turma-4",
+    "capacity": 12
+  }
+}

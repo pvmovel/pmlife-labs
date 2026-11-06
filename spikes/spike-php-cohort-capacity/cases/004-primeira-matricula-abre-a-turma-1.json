@@ -1,0 +1,13 @@
+{
+  "description": "Curso sem turma: a primeira matrícula abre a turma-1 com o limite do curso.",
+  "kind": "choose",
+  "now": "2026-11-06 12:00:00",
+  "courseLimit": 12,
+  "ceiling": 16,
+  "cohorts": [],
+  "expect": {
+    "kind": "new",
+    "slug": "turma-1",
+    "capacity": 12
+  }
+}

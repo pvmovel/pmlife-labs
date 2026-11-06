@@ -1,0 +1,22 @@
+{
+  "description": "O teto baixou de 16 para 8: a turma com limite 16 e 8 alunos conta como cheia, e a seguinte nasce com 8.",
+  "kind": "choose",
+  "now": "2026-11-06 12:00:00",
+  "courseLimit": 16,
+  "ceiling": 8,
+  "cohorts": [
+    {
+      "id": 1,
+      "slug": "turma-1",
+      "startsAt": "2026-01-01 00:00:00",
+      "endsAt": null,
+      "capacity": 16,
+      "enrolled": 8
+    }
+  ],
+  "expect": {
+    "kind": "new",
+    "slug": "turma-2",
+    "capacity": 8
+  }
+}

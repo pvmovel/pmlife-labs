@@ -1,0 +1,22 @@
+{
+  "description": "Gherkin: a turma-1 com 12 de 12 lotou; a matrícula abre a turma-2 com o mesmo limite.",
+  "kind": "choose",
+  "now": "2026-11-06 12:00:00",
+  "courseLimit": 12,
+  "ceiling": 16,
+  "cohorts": [
+    {
+      "id": 1,
+      "slug": "turma-1",
+      "startsAt": "2026-01-01 00:00:00",
+      "endsAt": null,
+      "capacity": 12,
+      "enrolled": 12
+    }
+  ],
+  "expect": {
+    "kind": "new",
+    "slug": "turma-2",
+    "capacity": 12
+  }
+}

@@ -324,4 +324,10 @@ jobs:
           for path in http/api/admin.php src/Access/AdminPolicy.php src/Platform/PlatformRepository.php migrations/pgsql/003_enable_rls_admin.sql ops/first_platform_admin.sql scripts/verify.php; do
             check "/spikes/spike-php-admin-roles-rls/${path}" 403
           done
+          # US48: turmas com limite em múltiplos de 4. Sem demo (matricular exige uma instituição): a prova é a execução
+          # do verify no catálogo; o código, os casos, o worker e as migrations ficam bloqueados (403).
+          check "/catalogo/spike-php-cohort-capacity/" 200
+          for path in php/src/CohortEnrollment.php php/worker.php php/verify.php src/Domain/CohortCapacity.ts cases/006-turma-lotada-abre-a-seguinte.json migrations/mysql/002_add_cohort_capacity.sql; do
+            check "/spikes/spike-php-cohort-capacity/${path}" 403
+          done
           exit $fail

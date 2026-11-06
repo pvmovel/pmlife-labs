@@ -1,0 +1,26 @@
+{
+  "description": "Os limites valem em múltiplos de 4, de 4 a 48, até o teto.",
+  "kind": "limit",
+  "checks": [
+    [
+      4,
+      48,
+      null
+    ],
+    [
+      12,
+      12,
+      null
+    ],
+    [
+      48,
+      48,
+      null
+    ],
+    [
+      16,
+      16,
+      null
+    ]
+  ]
+}

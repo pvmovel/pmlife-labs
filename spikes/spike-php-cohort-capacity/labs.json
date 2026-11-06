@@ -1,0 +1,19 @@
+{
+  "title": "Turmas com limite em múltiplos de 4",
+  "summary": "As turmas de um curso têm um tamanho máximo em múltiplos de 4 (de 4 a 48, padrão 12), com o teto de cada instituição definido pela plataforma. Quando uma turma lota ou passa a data de fim, a próxima matrícula abre a turma seguinte sozinha. A mesma regra roda em TypeScript e em PHP, com os mesmos casos de conformidade.",
+  "problem": "Uma plataforma de ensino numa hospedagem compartilhada aguenta poucos alunos online ao mesmo tempo, e os trabalhos futuros serão em grupos de 2 e de 4. As turmas precisam de um limite em múltiplos de 4, a próxima turma tem de abrir sem o admin, as turmas de antes não podem perder ninguém, e duas matrículas ao mesmo tempo na última vaga não podem passar do limite. Tudo em PHP 8.2 e MySQL 5.7, pronto para PostgreSQL.",
+  "result": "12 casos de conformidade iguais no TypeScript (19 testes) e no PHP, e os cinco cenários da história no MySQL 5.7, no 8.4 e no PostgreSQL 16. A turma lotada abre a seguinte; 10 e 20 acima do teto de 16 são recusados; a turma de antes com 30 alunos fica com todos; e, com dois processos disputando a última vaga, a trava na linha do curso deixa só um entrar, enquanto sem ela a turma fica com 13 para 12 vagas.",
+  "tags": [
+    "PHP 8.2",
+    "TypeScript",
+    "Casos de conformidade",
+    "Concorrência (SELECT … FOR UPDATE)",
+    "Multi-tenant",
+    "MySQL 5.7",
+    "PostgreSQL 16",
+    "Clean Architecture"
+  ],
+  "roadmap": "US48",
+  "date": "2026-11-06",
+  "run": "yarn install --frozen-lockfile\nyarn verify   # ESLint + tsc + vitest + php php/verify.php (os casos)\n\n# com os bancos, como no CI\ndocker run -d --rm --name spike-mysql -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw -p 127.0.0.1:13306:3306 mysql:5.7\ndocker run -d --rm --name spike-pg -e POSTGRES_DB=spike -e POSTGRES_USER=spike \\\n  -e POSTGRES_PASSWORD=spikepw -p 127.0.0.1:15432:5432 postgres:16\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 SPIKE_MYSQL_DB=spike \\\n  SPIKE_MYSQL_USER=spike SPIKE_MYSQL_PASS=spikepw\nexport SPIKE_PGSQL_HOST=127.0.0.1 SPIKE_PGSQL_PORT=15432 SPIKE_PGSQL_DB=spike \\\n  SPIKE_PGSQL_USER=spike SPIKE_PGSQL_PASS=spikepw\nphp php/verify.php\ndocker stop spike-mysql spike-pg"
+}

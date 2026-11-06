@@ -1,0 +1,30 @@
+{
+  "description": "Duas turmas abertas: vai para a que começou por último (o semestre atual), como na US44.",
+  "kind": "choose",
+  "now": "2026-11-06 12:00:00",
+  "courseLimit": 12,
+  "ceiling": 16,
+  "cohorts": [
+    {
+      "id": 1,
+      "slug": "padrao",
+      "startsAt": "1970-01-01 00:00:00",
+      "endsAt": null,
+      "capacity": 12,
+      "enrolled": 4
+    },
+    {
+      "id": 2,
+      "slug": "semestre-2",
+      "startsAt": "2026-08-01 00:00:00",
+      "endsAt": null,
+      "capacity": 12,
+      "enrolled": 4
+    }
+  ],
+  "expect": {
+    "kind": "existing",
+    "id": 2,
+    "slug": "semestre-2"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "description": "Gherkin: a turma-1 com 11 de 12 ainda recebe o aluno.",
+  "kind": "choose",
+  "now": "2026-11-06 12:00:00",
+  "courseLimit": 12,
+  "ceiling": 16,
+  "cohorts": [
+    {
+      "id": 1,
+      "slug": "turma-1",
+      "startsAt": "2026-01-01 00:00:00",
+      "endsAt": null,
+      "capacity": 12,
+      "enrolled": 11
+    }
+  ],
+  "expect": {
+    "kind": "existing",
+    "id": 1,
+    "slug": "turma-1"
+  }
+}

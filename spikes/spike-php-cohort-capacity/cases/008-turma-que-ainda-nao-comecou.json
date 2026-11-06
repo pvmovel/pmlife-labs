@@ -1,0 +1,30 @@
+{
+  "description": "A turma com início no futuro ainda não recebe; sem outra aberta, abre a seguinte.",
+  "kind": "choose",
+  "now": "2026-11-06 12:00:00",
+  "courseLimit": 12,
+  "ceiling": 16,
+  "cohorts": [
+    {
+      "id": 1,
+      "slug": "turma-1",
+      "startsAt": "2026-01-01 00:00:00",
+      "endsAt": null,
+      "capacity": 12,
+      "enrolled": 12
+    },
+    {
+      "id": 2,
+      "slug": "semestre-2027",
+      "startsAt": "2027-02-01 00:00:00",
+      "endsAt": null,
+      "capacity": 12,
+      "enrolled": 0
+    }
+  ],
+  "expect": {
+    "kind": "new",
+    "slug": "turma-3",
+    "capacity": 12
+  }
+}

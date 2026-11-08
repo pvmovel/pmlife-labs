@@ -1,0 +1,9 @@
+{
+  "name": "spike-php-database-per-institution",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Spike: um banco MySQL por instituição na hospedagem compartilhada, com uma conexão por pedido (tabelas qualificadas), o isolamento pelo banco da sessão, o script de migrations do Cron em vários bancos, a réplica do cadastro com o mesmo id e a mudança de uma tabela com tenant_id para o banco da instituição, com a volta, no MySQL 5.7 e no 8.4",
+  "scripts": {
+    "verify": "php scripts/verify.php"
+  }
+}

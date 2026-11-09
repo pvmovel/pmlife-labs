@@ -6,8 +6,8 @@ namespace Spike\TenantDb\Tenant;
 use InvalidArgumentException;
 
 /**
- * O nome do banco de uma instituição: `<prefixo da conta>_<ambiente><id da instituição>`, com o id em 4 dígitos.
- * Exemplos: `conta_pml0001` (produção) e `conta_pmlh0001` (homolog).
+ * O nome do banco de uma instituição: `<prefixo da conta>_<ambiente><id da instituição>`, com o id em 3 dígitos (os zeros à esquerda deixam os bancos em ordem no phpMyAdmin).
+ * Exemplos: `conta_pml001` (produção) e `conta_pmlh001` (homolog).
  *
  * - O prefixo é o da conta da hospedagem: o cPanel prefixa todo banco com `<usuário>_`, e o usuário do cPanel não tem
  *   `_`. Ele sai do nome do banco da plataforma, que já está no arquivo de ambiente. Nada novo no env.
@@ -45,11 +45,11 @@ final class TenantDatabaseName
     public static function for(string $platformDatabase, string $environment, int $tenantId): string
     {
         $code = self::ENVIRONMENTS[$environment] ?? throw new InvalidArgumentException('ENVIRONMENT_UNKNOWN');
-        if ($tenantId < 1 || $tenantId > 99_999_999) {
+        if ($tenantId < 1 || $tenantId > 999_999_999) {
             throw new InvalidArgumentException('TENANT_ID_INVALID');
         }
         $prefix = self::accountPrefix($platformDatabase);
-        $name = ($prefix === null ? '' : "{$prefix}_") . $code . str_pad((string) $tenantId, 4, '0', STR_PAD_LEFT);
+        $name = ($prefix === null ? '' : "{$prefix}_") . $code . str_pad((string) $tenantId, 3, '0', STR_PAD_LEFT);
         if (strlen($name) > self::MAX) {
             throw new InvalidArgumentException('DATABASE_NAME_TOO_LONG');
         }
@@ -59,6 +59,6 @@ final class TenantDatabaseName
     /** Um nome que esta regra gera (o único que a fábrica de repositórios aceita). */
     public static function isValid(string $name): bool
     {
-        return strlen($name) <= self::MAX && preg_match('/^(?:[a-z][a-z0-9]{0,15}_)?pml[hd]?\d{4,8}$/', $name) === 1;
+        return strlen($name) <= self::MAX && preg_match('/^(?:[a-z][a-z0-9]{0,15}_)?pml[hd]?\d{3,9}$/', $name) === 1;
     }
 }

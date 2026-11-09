@@ -48,11 +48,11 @@ function denied(callable $call): ?string
 }
 
 echo "== O nome do banco da instituição ==\n";
-check(TenantDatabaseName::for('conta_pmlife', 'production', 1) === 'conta_pml0001' && TenantDatabaseName::for('conta_pmlifeh', 'homolog', 1) === 'conta_pmlh0001', 'produção e homolog: <prefixo da conta>_pml0001 e _pmlh0001, com o prefixo tirado do banco da plataforma');
-check(TenantDatabaseName::for('conta_pmlife', 'production', 12345) === 'conta_pml12345' && TenantDatabaseName::for('pmlife', 'development', 7) === 'pmld0007', 'o id passa de 4 dígitos sem cortar; sem prefixo (MySQL local), só o código');
+check(TenantDatabaseName::for('conta_pmlife', 'production', 1) === 'conta_pml001' && TenantDatabaseName::for('conta_pmlifeh', 'homolog', 1) === 'conta_pmlh001', 'produção e homolog: <prefixo da conta>_pml001 e _pmlh001, com o prefixo tirado do banco da plataforma');
+check(TenantDatabaseName::for('conta_pmlife', 'production', 1234) === 'conta_pml1234' && TenantDatabaseName::for('pmlife', 'development', 7) === 'pmld007', 'o id passa de 3 dígitos sem cortar; sem prefixo (MySQL local), só o código');
 check(denied(fn () => TenantDatabaseName::for('conta_pmlife', 'staging', 1)) === 'ENVIRONMENT_UNKNOWN' && denied(fn () => TenantDatabaseName::for('conta_pmlife', 'production', 0)) === 'TENANT_ID_INVALID' && denied(fn () => TenantDatabaseName::for('Conta!_x', 'production', 1)) === 'ACCOUNT_PREFIX_INVALID', 'ambiente, id e prefixo fora da regra são recusados');
-check(TenantDatabaseName::isValid('conta_pml0001') && !TenantDatabaseName::isValid('conta_pmlife') && !TenantDatabaseName::isValid('conta_pml0001`; DROP') && !TenantDatabaseName::isValid('mysql'), 'só um nome gerado pela regra é aceito (nem o da plataforma, nem um com crase)');
-check(denied(fn () => TenantDatabase::trusted(1, 'information_schema')) === 'DATABASE_NAME_INVALID' && denied(fn () => TenantDatabase::trusted(1, 'conta_pml0001')->table('people`; --')) === 'TABLE_NAME_INVALID', 'o banco e a tabela qualificados não aceitam nome fora do formato');
+check(TenantDatabaseName::isValid('conta_pml001') && !TenantDatabaseName::isValid('conta_pmlife') && !TenantDatabaseName::isValid('conta_pml001`; DROP') && !TenantDatabaseName::isValid('mysql'), 'só um nome gerado pela regra é aceito (nem o da plataforma, nem um com crase)');
+check(denied(fn () => TenantDatabase::trusted(1, 'information_schema')) === 'DATABASE_NAME_INVALID' && denied(fn () => TenantDatabase::trusted(1, 'conta_pml001')->table('people`; --')) === 'TABLE_NAME_INVALID', 'o banco e a tabela qualificados não aceitam nome fora do formato');
 
 $host = getenv('SPIKE_MYSQL_HOST');
 $rootPass = getenv('SPIKE_MYSQL_ROOT_PASS');
@@ -72,7 +72,7 @@ echo "\n== MySQL {$version} ==\n";
 // Cometa (3). O da Cometa nasce sem a ligação do usuário, como quando o banco foi criado mas o passo de ligar ficou
 // para depois. O banco de homolog da Aurora (pmlh) existe, mas é de outro ambiente.
 $platform = 'spk_platform';
-$spikeDatabases = [$platform, 'spk_pml0001', 'spk_pml0002', 'spk_pml0003', 'spk_pmlh0001'];
+$spikeDatabases = [$platform, 'spk_pml001', 'spk_pml002', 'spk_pml003', 'spk_pmlh001'];
 // Achado do spike: o MySQL guarda o GRANT de um banco mesmo depois do DROP DATABASE. Recriar o banco com o mesmo nome
 // devolve o acesso ao usuário; por isso a limpeza revoga também (o cPanel faz as duas coisas ao apagar um banco).
 $drop = static function () use ($cpanel, $spikeDatabases, $user): void {
@@ -92,7 +92,7 @@ $grant = static fn (string $db) => $cpanel->exec("GRANT ALL PRIVILEGES ON `{$db}
 foreach ($spikeDatabases as $db) {
     $cpanel->exec("CREATE DATABASE `{$db}` CHARACTER SET utf8mb4");
 }
-foreach ([$platform, 'spk_pml0001', 'spk_pml0002', 'spk_pmlh0001'] as $db) {
+foreach ([$platform, 'spk_pml001', 'spk_pml002', 'spk_pmlh001'] as $db) {
     $grant($db);
 }
 
@@ -139,9 +139,9 @@ try {
     $firstMs = (hrtime(true) - $start) / 1e6;
     $byId = array_column($run['tenants'], null, 'id');
     check($byId[1]['state'] === 'active' && $byId[1]['applied'] === ['001', '002'] && $byId[2]['state'] === 'active' && $byId[2]['applied'] === ['001', '002'], 'Aurora e Boreal: as duas migrations aplicadas, cada banco com a própria schema_migrations, e "ativo"');
-    check($byId[3]['state'] === 'waiting' && $byId[3]['db'] === 'spk_pml0003', 'Cometa: o banco existe no servidor, mas o usuário do site não foi ligado a ele; continua "aguardando banco"');
+    check($byId[3]['state'] === 'waiting' && $byId[3]['db'] === 'spk_pml003', 'Cometa: o banco existe no servidor, mas o usuário do site não foi ligado a ele; continua "aguardando banco"');
     check($byId[1]['people'] === 3 && $byId[2]['people'] === 2, 'o backfill da réplica: Aurora com Ana, Bruno e Davi; Boreal com Carla e Davi (a mesma pessoa nas duas)');
-    check($registry->all()[0]['db_version'] === '002' && $count("SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'spk_pmlh0001'") === 0, 'a versão de cada banco fica no cadastro (o admin mostra); o banco de homolog da Aurora não foi tocado pelo script de produção');
+    check($registry->all()[0]['db_version'] === '002' && $count("SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'spk_pmlh001'") === 0, 'a versão de cada banco fica no cadastro (o admin mostra); o banco de homolog da Aurora não foi tocado pelo script de produção');
     $again = $migrator->run($now);
     check(array_merge(...array_column($again['tenants'], 'applied')) === [], 'rodar de novo não aplica nada (o Cron de cada hora é barato)');
     $other = ConnectionFactory::create($config);
@@ -149,39 +149,39 @@ try {
     check($migrator->run($now)['status'] === 'busy', 'com outra execução segurando a trava (o deploy e o Cron juntos), o script não faz nada');
     $other->query("SELECT RELEASE_LOCK('" . TenantMigrator::LOCK . "')");
     $other = null;
-    $grant('spk_pml0003');
+    $grant('spk_pml003');
     $third = array_column($migrator->run($now)['tenants'], null, 'id')[3];
     check($third['state'] === 'active' && $third['applied'] === ['001', '002'] && $third['people'] === 0, 'depois de ligar o usuário ao banco da Cometa, o Cron seguinte a migra e ela fica ativa');
     $output = [];
     $env = sprintf('APP_ENV=production SPIKE_MYSQL_HOST=%s SPIKE_MYSQL_PORT=%d SPIKE_MYSQL_USER=%s SPIKE_MYSQL_PASS=%s SPIKE_PLATFORM_DB=%s', escapeshellarg($host), $port, escapeshellarg($user), escapeshellarg($pass), $platform);
     exec("{$env} " . escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg("{$root}/scripts/migrate-tenants.php") . ' 2>&1', $output, $exit);
-    check($exit === 0 && count(preg_grep('/^spk_pml000[123]  active/', $output)) === 3, 'o script de linha de comando (o que o Cron chama) responde: ' . ($output[3] ?? '?'));
+    check($exit === 0 && count(preg_grep('/^spk_pml00[123]  active/', $output)) === 3, 'o script de linha de comando (o que o Cron chama) responde: ' . ($output[3] ?? '?'));
 
     echo "\n-- Dados da instituição no banco dela --\n";
     $platformBefore = $count('SELECT COUNT(*) FROM progress_events');
     $aurora = $resolver->forRequest(1, 1);
     (new ProgressRepository($pdo, $aurora))->complete(3, 'curso-demo', 'missao-nova', 50, $now);
-    check($count('SELECT COUNT(*) FROM `spk_pml0001`.`progress_events`') === 1 && $count('SELECT COUNT(*) FROM progress_events') === $platformBefore && $count('SELECT COUNT(*) FROM `spk_pml0002`.`progress_events`') === 0, 'Gherkin: o progresso do Bruno (Aurora) vai para o banco da Aurora, e não para o da plataforma nem para o da Boreal');
+    check($count('SELECT COUNT(*) FROM `spk_pml001`.`progress_events`') === 1 && $count('SELECT COUNT(*) FROM progress_events') === $platformBefore && $count('SELECT COUNT(*) FROM `spk_pml002`.`progress_events`') === 0, 'Gherkin: o progresso do Bruno (Aurora) vai para o banco da Aurora, e não para o da plataforma nem para o da Boreal');
     check((new ProgressRepository($pdo, $aurora))->xpOf(3, 'curso-demo') === 50, 'o repositório lê o banco da instituição pela mesma conexão');
 
     echo "\n-- Isolamento entre bancos --\n";
     $pdo->log = [];
     $code = denied(fn () => $resolver->forRequest(2, 1));
-    $touched = array_filter($pdo->log, static fn (string $sql): bool => str_contains($sql, 'spk_pml0001'));
+    $touched = array_filter($pdo->log, static fn (string $sql): bool => str_contains($sql, 'spk_pml001'));
     check($code === 'TENANT_FORBIDDEN' && $touched === [], 'Gherkin: a Carla (Boreal) pede dados da Aurora; o servidor recusa sem um único SQL citando o banco da Aurora');
-    check($resolver->forRequest(2, 1, platformAdmin: true)->name === 'spk_pml0001' && denied(fn () => $resolver->forRequest(1, 99, platformAdmin: true)) === 'TENANT_NOT_FOUND', 'o master da plataforma escolhe a instituição em foco (como no admin); uma que não existe é recusada');
+    check($resolver->forRequest(2, 1, platformAdmin: true)->name === 'spk_pml001' && denied(fn () => $resolver->forRequest(1, 99, platformAdmin: true)) === 'TENANT_NOT_FOUND', 'o master da plataforma escolhe a instituição em foco (como no admin); uma que não existe é recusada');
     $boreal = $resolver->forRequest(2, 2);
     check((new ProgressRepository($pdo, $boreal))->xpOf(3, 'curso-demo') === 0, 'o repositório da Boreal não vê o progresso da Aurora, nem com o mesmo aluno e o mesmo curso');
 
     echo "\n-- Réplica do cadastro --\n";
     $replica->upsert($aurora, 1, 'Rita Nunes', 'platform_admin', true, $now);
-    $rita = $pdo->query('SELECT id, role, staff FROM `spk_pml0001`.`people` WHERE id = 1')->fetch();
+    $rita = $pdo->query('SELECT id, role, staff FROM `spk_pml001`.`people` WHERE id = 1')->fetch();
     check($rita !== false && (int) $rita['id'] === 1 && $rita['role'] === 'platform_admin' && (int) $rita['staff'] === 1, 'Gherkin: a Rita (master da plataforma) se matricula como equipe na Aurora e ganha o cadastro lá, com o mesmo id da plataforma');
     $pdo->exec("UPDATE users SET display_name = 'Bruno R. Rocha' WHERE id = 3");
     $replica->upsert($aurora, 3, 'Bruno R. Rocha', 'student', false, $now);
-    check($pdo->query('SELECT display_name FROM `spk_pml0001`.`people` WHERE id = 3')->fetchColumn() === 'Bruno R. Rocha', 'no login, a réplica é atualizada com o nome de exibição da plataforma');
+    check($pdo->query('SELECT display_name FROM `spk_pml001`.`people` WHERE id = 3')->fetchColumn() === 'Bruno R. Rocha', 'no login, a réplica é atualizada com o nome de exibição da plataforma');
     check($replica->check($aurora) === ['missing' => [], 'orphans' => []], 'sem chave estrangeira entre os bancos, o conferidor não acha ninguém faltando nem sobrando');
-    $pdo->exec("INSERT INTO `spk_pml0001`.`people` (id, display_name, role, staff, updated_at) VALUES (99, 'Fantasma', 'student', 0, '{$now}')");
+    $pdo->exec("INSERT INTO `spk_pml001`.`people` (id, display_name, role, staff, updated_at) VALUES (99, 'Fantasma', 'student', 0, '{$now}')");
     $pdo->exec('INSERT INTO memberships (user_id, tenant_id, role) VALUES (4, 1, \'student\')');
     check($replica->check($aurora) === ['missing' => [4], 'orphans' => [99]], 'o conferidor acha a pessoa vinculada sem réplica (Carla) e a réplica sem pessoa na plataforma (99)');
     $replica->backfill($aurora, $now);
@@ -198,8 +198,8 @@ try {
     check($mover->checksumOf('`spk_platform`.`progress_events`', 1) === $auroraRows, 'as linhas da Aurora na plataforma não mudam');
     check($mover->moveOut($boreal)['moved'] === 0 && $mover->checksumOf($boreal->table('progress_events')) === $original, 'repetir a mudança não duplica nem perde nada');
     $back = $mover->moveBack($boreal);
-    check($back['moved'] === 300 && $mover->checksumOf('`spk_platform`.`progress_events`', 2) === $original && $count('SELECT COUNT(*) FROM `spk_pml0002`.`progress_events`') === 0, 'a volta: as linhas retornam à plataforma, com o tenant_id e a mesma soma');
-    $pdo->exec("DROP TABLE `spk_pml0002`.`progress_events`");
+    check($back['moved'] === 300 && $mover->checksumOf('`spk_platform`.`progress_events`', 2) === $original && $count('SELECT COUNT(*) FROM `spk_pml002`.`progress_events`') === 0, 'a volta: as linhas retornam à plataforma, com o tenant_id e a mesma soma');
+    $pdo->exec("DROP TABLE `spk_pml002`.`progress_events`");
     $failedMove = null;
     try {
         $mover->moveOut($boreal);
@@ -207,7 +207,7 @@ try {
         $failedMove = $e;
     }
     check($failedMove !== null && $mover->checksumOf('`spk_platform`.`progress_events`', 2) === $original, 'se a cópia falha (aqui, sem a tabela no destino), a transação desfaz tudo e a origem fica inteira');
-    $pdo->exec("DELETE FROM `spk_pml0002`.`schema_migrations` WHERE version = '002'");
+    $pdo->exec("DELETE FROM `spk_pml002`.`schema_migrations` WHERE version = '002'");
     $migrator->run($now);
     check($mover->moveOut($boreal)['moved'] === 300, 'com o banco migrado de novo pelo Cron, a mudança passa');
 
@@ -221,7 +221,7 @@ try {
         $repo->xpOf(3, 'curso-demo');
     }
     $qualified = (hrtime(true) - $start) / 1e3 / $n;
-    $pdo->exec('USE `spk_pml0001`');
+    $pdo->exec('USE `spk_pml001`');
     // As duas do mesmo jeito: preparar e executar a cada vez, como num pedido.
     $start = hrtime(true);
     for ($i = 0; $i < $n; $i++) {

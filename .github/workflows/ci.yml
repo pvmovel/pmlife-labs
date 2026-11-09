@@ -21,6 +21,8 @@ jobs:
       SPIKE_MYSQL_DB: spike
       SPIKE_MYSQL_USER: spike
       SPIKE_MYSQL_PASS: spikepw
+      # O root do MySQL de teste faz o papel do cPanel no spike do banco por instituição (cria os bancos e liga o usuário).
+      SPIKE_MYSQL_ROOT_PASS: rootpw
       SPIKE_PGSQL_HOST: 127.0.0.1
       SPIKE_PGSQL_PORT: 5432
       SPIKE_PGSQL_DB: spike

@@ -1,0 +1,19 @@
+{
+  "title": "Um banco MySQL por instituição",
+  "summary": "Cada instituição ganha o próprio banco MySQL na hospedagem compartilhada, lido pela mesma conexão do pedido com as tabelas qualificadas. Só um resolver chega ao banco, conferindo a sessão antes. Um script de linha de comando (Cron e deploy) aplica as migrations em cada banco e faz a réplica do cadastro com o mesmo id, e as tabelas de hoje com tenant_id mudam de banco e voltam sem perder dado.",
+  "problem": "As instituições querem o controle total dos próprios dados, mas a infraestrutura é uma revenda compartilhada já paga, com 25 conexões MySQL, 25 processos e 25% de CPU por conta, divididos entre produção, homolog e o labs. Os bancos são criados à mão no painel, com o prefixo da conta. A API não pode rodar DDL, um pedido de uma instituição não pode tocar no banco de outra, e os dados de hoje (com tenant_id) precisam mudar de banco sem perda e com volta. Tudo em PHP 8.2 e MySQL 5.7.",
+  "result": "34 verificações no MySQL 5.7 e no 8.4, todas verdes. Uma conexão serviu a plataforma e os três bancos das instituições. A tabela qualificada custou o mesmo que o USE (371 × 344 µs no 5.7). O script do Cron levou de 86 a 114 ms na primeira vez e de 34 a 54 ms sem nada a fazer. O pedido da Boreal pela Aurora foi recusado sem nenhum SQL citando o banco da Aurora. As 300 linhas de uma instituição mudaram de banco e voltaram com a mesma soma de verificação, e uma cópia que falhou desfez tudo. Achado: o MySQL guarda o GRANT de um banco depois do DROP DATABASE.",
+  "tags": [
+    "PHP 8.2",
+    "MySQL 5.7",
+    "MySQL 8.4",
+    "Multi-tenant",
+    "Banco por instituição",
+    "Migrations pelo Cron",
+    "Hospedagem compartilhada",
+    "Clean Architecture"
+  ],
+  "roadmap": "US47",
+  "date": "2026-11-06",
+  "run": "yarn verify   # só a regra do nome, sem banco\n\n# com o MySQL 5.7 (o da hospedagem), como no CI\ndocker run -d --rm --name spike-mysql -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw -p 127.0.0.1:13306:3306 mysql:5.7\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 SPIKE_MYSQL_USER=spike \\\n  SPIKE_MYSQL_PASS=spikepw SPIKE_MYSQL_ROOT_PASS=rootpw\nphp scripts/verify.php\ndocker stop spike-mysql"
+}

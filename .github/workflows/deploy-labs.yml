@@ -339,4 +339,10 @@ jobs:
           for path in php/src/CohortEnrollment.php php/worker.php php/verify.php src/Domain/CohortCapacity.ts cases/006-turma-lotada-abre-a-seguinte.json migrations/mysql/002_add_cohort_capacity.sql; do
             check "/spikes/spike-php-cohort-capacity/${path}" 403
           done
+          # US47: um banco MySQL por instituição. Sem demo (o spike cria e apaga bancos): a prova é a execução do verify
+          # no catálogo; o código, os scripts (inclusive o do Cron) e as migrations ficam bloqueados (403).
+          check "/catalogo/spike-php-database-per-institution/" 200
+          for path in src/Tenant/TenantDatabaseResolver.php src/Migrations/TenantMigrator.php scripts/migrate-tenants.php scripts/verify.php migrations/mysql-tenant/001_create_people.sql; do
+            check "/spikes/spike-php-database-per-institution/${path}" 403
+          done
           exit $fail

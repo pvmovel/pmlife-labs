@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Presença por polling · PMLife Labs</title>
+  <style>
+    :root { --bg:#f7f7f5; --card:#fff; --text:#1b1c1f; --muted:#5d6068; --line:#e3e3de; --me:#1c7ed6; --peer:#2b8a3e; --staff:#e8590c; --warn:#c92a2a; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#0f1014; --card:#17191e; --text:#ecedf0; --muted:#9da1ab; --line:#2a2d35; --me:#4dabf7; --peer:#69db7c; --staff:#ffa94d; --warn:#ff8787; } }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 system-ui, sans-serif; }
+    main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { font-size: 1.4rem; margin: 0 0 4px; }
+    p { margin: 0 0 12px; color: var(--muted); }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-top: 16px; }
+    form { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+    label { display: flex; flex-direction: column; font-size: .85rem; color: var(--muted); gap: 4px; }
+    select, button { font: inherit; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--text); }
+    button { cursor: pointer; }
+    button.primary { background: var(--me); border-color: var(--me); color: #fff; }
+    canvas { width: 100%; aspect-ratio: 1; display: block; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); touch-action: none; }
+    dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin: 12px 0 0; }
+    dt { font-size: .75rem; color: var(--muted); } dd { margin: 0; font-variant-numeric: tabular-nums; }
+    .notice { color: var(--warn); min-height: 1.5em; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .pad { display: grid; grid-template-columns: repeat(3, 48px); gap: 4px; justify-content: center; margin-top: 12px; }
+    .pad button { height: 48px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Presença por polling na hospedagem compartilhada</h1>
+  <p>Abra esta página em duas abas (uma anônima). Na mesma instituição e na mesma turma, cada aba vê o avatar da outra andar. Em outra turma ou outra instituição, não vê.</p>
+
+  <section class="card" id="entrada">
+    <form id="join">
+      <label>Instituição
+        <select name="tenant"><option value="aurora">Aurora (fictícia)</option><option value="boreal">Boreal (fictícia)</option></select>
+      </label>
+      <label>Turma
+        <select name="cohort"><option value="a">Turma A</option><option value="b">Turma B</option></select>
+      </label>
+      <label>Papel
+        <select name="role"><option value="student">Aluno</option><option value="staff">Equipe (entra invisível)</option></select>
+      </label>
+      <button class="primary" type="submit">Entrar na cidade</button>
+    </form>
+  </section>
+
+  <section class="card" id="cidade" hidden>
+    <canvas id="map" width="600" height="600" aria-label="Mapa da cidade visto de cima"></canvas>
+    <div class="pad" aria-label="Mover o avatar">
+      <span></span><button data-d="0,-1" aria-label="Norte">↑</button><span></span>
+      <button data-d="-1,0" aria-label="Oeste">←</button><button data-d="0,0" aria-label="Parar">■</button><button data-d="1,0" aria-label="Leste">→</button>
+      <span></span><button data-d="0,1" aria-label="Sul">↓</button><span></span>
+    </div>
+    <p>Setas ou WASD movem o avatar. Andando, a batida vai a cada 1 s; parado, a cada 5 s; com a aba escondida, ela para.</p>
+    <p class="notice" id="notice" role="status"></p>
+    <div class="row">
+      <button id="appear" hidden>Aparecer para a turma</button>
+      <button id="leave">Sair da cidade</button>
+    </div>
+    <dl>
+      <div><dt>Você</dt><dd id="me">-</dd></div>
+      <div><dt>Colegas na sala</dt><dd id="peers">0</dd></div>
+      <div><dt>Próxima batida</dt><dd id="next">-</dd></div>
+      <div><dt>Batidas enviadas</dt><dd id="sent">0</dd></div>
+      <div><dt>Bytes recebidos</dt><dd id="bytes">0</dd></div>
+      <div><dt>Última resposta</dt><dd id="rtt">-</dd></div>
+    </dl>
+  </section>
+</main>
+<script>
+(() => {
+  'use strict';
+  const $ = (id) => document.getElementById(id);
+  const post = async (url, body) => {
+    const t0 = performance.now();
+    const r = await fetch(url, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const text = await r.text();
+    return { ok: r.ok, status: r.status, json: text ? JSON.parse(text) : null, bytes: text.length, ms: performance.now() - t0 };
+  };
+
+  // Estado: a posição vai em décimos de unidade (inteiros), como o servidor guarda.
+  const me = { x: 0, z: 0, ry: 0, dx: 0, dz: 0, staff: false, visible: true };
+  const peers = new Map(); // id -> { name, staff, from: {x,z}, to: {x,z}, t0 }
+  let since = null, timer = null, sent = 0, bytes = 0, joined = false, failures = 0;
+
+  const setNotice = (t) => { $('notice').textContent = t; };
+
+  async function beat() {
+    if (!joined || document.hidden) return;
+    const moving = me.dx !== 0 || me.dz !== 0;
+    try {
+      const r = await post('presence.php', { x: me.x, z: me.z, ry: me.ry, moving, since });
+      sent++; bytes += r.bytes;
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      failures = 0; setNotice('');
+      const d = r.json.data;
+      since = d.now;
+      const present = new Set(d.ids);
+      for (const id of [...peers.keys()]) if (!present.has(id)) peers.delete(id);
+      const now = performance.now();
+      for (const p of d.moved) {
+        const cur = peers.get(p.id);
+        const at = cur ? position(cur, now) : { x: p.x, z: p.z };
+        peers.set(p.id, { name: p.n, staff: p.s === 1, from: at, to: { x: p.x, z: p.z }, t0: now });
+      }
+      $('peers').textContent = String(present.size);
+      $('rtt').textContent = Math.round(r.ms) + ' ms · ' + r.bytes + ' B';
+      schedule(d.next);
+    } catch (e) {
+      // Sem serviço, sem quebra: o aluno continua sozinho, com um aviso discreto, e tenta de novo mais devagar.
+      failures++;
+      peers.clear();
+      $('peers').textContent = '0';
+      setNotice('Modo individual: a presença dos colegas voltará sozinha.');
+      schedule(Math.min(30000, 5000 * failures));
+    }
+    $('sent').textContent = String(sent);
+    $('bytes').textContent = bytes.toLocaleString('pt-BR');
+  }
+
+  function schedule(ms) {
+    clearTimeout(timer);
+    // Começou a andar parado: não espera os 5 s para avisar os colegas.
+    timer = setTimeout(beat, ms);
+    $('next').textContent = (ms / 1000).toFixed(1) + ' s';
+  }
+
+  // Interpolação: o colega desliza da posição anterior até a nova em 1 s (o ritmo de quem anda).
+  function position(p, now) {
+    const k = Math.min(1, (now - p.t0) / 1000);
+    return { x: p.from.x + (p.to.x - p.from.x) * k, z: p.from.z + (p.to.z - p.from.z) * k };
+  }
+
+  function steer(dx, dz) {
+    const wasMoving = me.dx !== 0 || me.dz !== 0;
+    me.dx = dx; me.dz = dz;
+    if (dx !== 0 || dz !== 0) me.ry = Math.round(((Math.atan2(dx, dz) * 180 / Math.PI) + 360) % 360) * 10 % 3600;
+    if (!wasMoving && (dx !== 0 || dz !== 0)) schedule(0);
+  }
+
+  const canvas = $('map'), ctx = canvas.getContext('2d');
+  const toPx = (v) => (v + 2000) / 4000 * canvas.width;
+  let last = performance.now();
+  function frame(now) {
+    const dt = (now - last) / 1000; last = now;
+    me.x = Math.max(-2000, Math.min(2000, Math.round(me.x + me.dx * 300 * dt)));
+    me.z = Math.max(-2000, Math.min(2000, Math.round(me.z + me.dz * 300 * dt)));
+    const css = getComputedStyle(document.documentElement);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = '13px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    for (const p of peers.values()) {
+      const at = position(p, now);
+      dot(toPx(at.x), toPx(at.z), p.staff ? css.getPropertyValue('--staff') : css.getPropertyValue('--peer'), p.name);
+    }
+    dot(toPx(me.x), toPx(me.z), css.getPropertyValue('--me'), 'Você' + (me.staff && !me.visible ? ' (invisível)' : ''));
+    requestAnimationFrame(frame);
+  }
+  function dot(x, y, color, label) {
+    ctx.fillStyle = color; ctx.beginPath(); ctx.arc(x, y, 9, 0, Math.PI * 2); ctx.fill();
+    ctx.fillText(label, x, y - 14);
+  }
+
+  $('join').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const f = new FormData(ev.target);
+    const staff = f.get('role') === 'staff';
+    const r = await post('session.php', { action: 'join', tenant: f.get('tenant'), cohort: f.get('cohort'), staff });
+    if (!r.ok) { alert('Não foi possível entrar agora.'); return; }
+    const d = r.json.data;
+    Object.assign(me, { staff: d.staff, visible: d.visible, x: Math.round(Math.random() * 1600 - 800), z: Math.round(Math.random() * 1600 - 800) });
+    $('me').textContent = d.name + ' · turma ' + d.cohort.toUpperCase();
+    $('appear').hidden = !d.staff;
+    $('entrada').hidden = true; $('cidade').hidden = false;
+    joined = true; since = null;
+    requestAnimationFrame(frame);
+    beat();
+  });
+  $('appear').addEventListener('click', async () => {
+    const r = await post('session.php', { action: 'visible', visible: !me.visible });
+    if (r.ok) { me.visible = r.json.data.visible; $('appear').textContent = me.visible ? 'Ficar invisível' : 'Aparecer para a turma'; schedule(0); }
+  });
+  $('leave').addEventListener('click', async () => {
+    joined = false; clearTimeout(timer);
+    await post('session.php', { action: 'leave' });
+    location.reload();
+  });
+  document.querySelectorAll('.pad button').forEach((b) => b.addEventListener('click', () => { const [dx, dz] = b.dataset.d.split(',').map(Number); steer(dx, dz); }));
+  const keys = { ArrowUp: [0, -1], w: [0, -1], ArrowDown: [0, 1], s: [0, 1], ArrowLeft: [-1, 0], a: [-1, 0], ArrowRight: [1, 0], d: [1, 0] };
+  addEventListener('keydown', (e) => { if (joined && keys[e.key]) { e.preventDefault(); steer(...keys[e.key]); } });
+  addEventListener('keyup', (e) => { if (joined && keys[e.key]) steer(0, 0); });
+  // Aba escondida: a batida para (o colega sai da sala em 15 s); de volta, bate na hora.
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && joined) schedule(0); });
+  // Fechou a aba: sai da sala na hora, sem esperar os 15 s.
+  addEventListener('pagehide', () => { if (joined) navigator.sendBeacon('session.php', JSON.stringify({ action: 'leave' })); });
+})();
+</script>
+</body>
+</html>

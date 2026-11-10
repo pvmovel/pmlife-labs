@@ -1,0 +1,9 @@
+{
+  "name": "spike-realtime-presence-zero-cost",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Spike: presença multiplayer por polling curto no PHP 8.2 com MySQL, na hospedagem compartilhada, sem serviço externo de tempo real: ritmo adaptativo (1 s andando, 5 s parado), só o que mudou na resposta, a sala vinda da sessão (instituição, cidade e turma), o master invisível e a medição de quantos alunos cabem",
+  "scripts": {
+    "verify": "php scripts/verify.php"
+  }
+}

@@ -345,4 +345,24 @@ jobs:
           for path in src/Tenant/TenantDatabaseResolver.php src/Migrations/TenantMigrator.php scripts/migrate-tenants.php scripts/verify.php migrations/mysql-tenant/001_create_people.sql; do
             check "/spikes/spike-php-database-per-institution/${path}" 403
           done
+          # US41: presença por polling. A demo (public/) fica no ar com o HTML sem cache; o código, os scripts e a
+          # migration ficam bloqueados (403). A entrada e uma batida de verdade provam o env, o banco e a tabela
+          # spike_presence (criada à mão no phpMyAdmin; a linha some em 1 hora).
+          check "/catalogo/spike-realtime-presence-zero-cost/" 200
+          check "/spikes/spike-realtime-presence-zero-cost/public/" 200 'Presença por polling'
+          header "/spikes/spike-realtime-presence-zero-cost/public/" "no-cache"
+          for path in src/bootstrap.php src/Presence/PresenceStore.php scripts/verify.php scripts/load.php migrations/mysql/001_create_spike_presence.sql; do
+            check "/spikes/spike-realtime-presence-zero-cost/${path}" 403
+          done
+          P="${LABS_URL}/spikes/spike-realtime-presence-zero-cost/public"
+          JAR="$RUNNER_TEMP/presence.jar"
+          anon=$(curl -sS -A "pmlife-labs-smoke" -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' --data '{"x":0,"z":0,"ry":0}' "$P/presence.php") || true
+          [ "$anon" = "401" ] && echo "ok  POST presence.php sem sessão -> 401" || { echo "::error::POST presence.php sem sessão -> $anon (esperado 401)"; fail=1; }
+          join=$(curl -sS -A "pmlife-labs-smoke" -c "$JAR" -b "$JAR" -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' --data '{"action":"join","tenant":"aurora","cohort":"b"}' "$P/session.php") || true
+          beat=$(curl -sS -A "pmlife-labs-smoke" -c "$JAR" -b "$JAR" -X POST -H 'Content-Type: application/json' --data '{"x":0,"z":0,"ry":0}' "$P/presence.php") || true
+          curl -sS -A "pmlife-labs-smoke" -c "$JAR" -b "$JAR" -o /dev/null -X POST -H 'Content-Type: application/json' --data '{"action":"leave"}' "$P/session.php" || true
+          case "$join|$beat" in
+            '200|{"status":"success","data":{"now":'*) echo "ok  presença: entrada 200 e batida com a sala (env, banco e tabela no ar)" ;;
+            *) echo "::error::presença: entrada $join, batida ${beat:0:200} (a tabela spike_presence foi criada no banco do labs?)"; fail=1 ;;
+          esac
           exit $fail

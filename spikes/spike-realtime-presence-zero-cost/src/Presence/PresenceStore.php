@@ -15,6 +15,13 @@ final class PresenceStore
 {
     /** Quem não bateu nesse tempo saiu da sala (a batida parada é a cada 5 s; 3 batidas perdidas = saiu). */
     public const TTL_SECONDS = 15;
+    /**
+     * A folga do cursor: quem andou até 250 ms antes dele volta na resposta. O cursor é a hora do banco em
+     * milissegundos; um colega que anda no mesmo milissegundo, ou cuja gravação termina logo depois da leitura, ficaria
+     * com o `moved_at` igual ou um pouco antes do cursor e se perderia (achado do CI, numa máquina rápida). Reenviar a
+     * mesma posição não muda nada na tela: o colega continua deslizando para o mesmo lugar.
+     */
+    public const CURSOR_OVERLAP_MS = 250;
 
     public function __construct(private readonly PDO $pdo)
     {
@@ -54,13 +61,21 @@ final class PresenceStore
         $stmt->execute([$seat->tenantId, $seat->city, $seat->cohort, $seat->userId]);
         $ids = [];
         $moved = [];
+        $cut = $since === null ? null : self::overlap($since);
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $r) {
             $ids[] = (int) $r['user_id'];
-            if ($since === null || strcmp((string) $r['moved_at'], $since) > 0) {
+            if ($cut === null || strcmp((string) $r['moved_at'], $cut) > 0) {
                 $moved[] = ['id' => (int) $r['user_id'], 'n' => (string) $r['name'], 's' => (int) $r['staff'], 'x' => (int) $r['x'], 'z' => (int) $r['z'], 'r' => (int) $r['ry']];
             }
         }
         return ['now' => $now, 'ids' => $ids, 'moved' => $moved];
+    }
+
+    /** O cursor menos a folga, no mesmo formato da hora do banco (AAAA-MM-DD HH:MM:SS.mmm). */
+    private static function overlap(string $since): string
+    {
+        $at = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.v', $since);
+        return $at === false ? $since : $at->modify('-' . self::CURSOR_OVERLAP_MS . ' milliseconds')->format('Y-m-d H:i:s.v');
     }
 
     /** Some com a linha (o aluno saiu da cidade ou fechou a aba com o sendBeacon). */

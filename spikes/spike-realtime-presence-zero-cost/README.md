@@ -17,7 +17,7 @@ A sala precisa ser decidida no servidor. Um aluno não pode entrar na turma de o
 | :--- | :--- | :--- |
 | Transporte | **Polling curto**: cada aba faz um POST, o PHP grava a posição e responde a sala, e o processo termina | Um processo vive alguns milissegundos por batida. O custo é medido em CPU, não em processos presos. |
 | Ritmo | **Adaptativo:** a cada **1 s** enquanto o avatar anda, a cada **5 s** parado. Com a aba escondida, a batida para; ao voltar, bate na hora. | Parado, o aluno quase não custa. O 1 s é suavizado no cliente pela interpolação. |
-| Resposta | Os **ids** de todos na sala e os dados **só de quem andou** depois do cursor do cliente. O cursor é a hora do banco, não a do aparelho. | Numa sala de 12, a resposta cai de 752 para 117 bytes quando todos estão parados. |
+| Resposta | Os **ids** de todos na sala e os dados **só de quem andou** depois do cursor do cliente. O cursor é a hora do banco, não a do aparelho, com uma **folga de 250 ms**: quem andou logo antes dele volta. | Numa sala de 12, a resposta cai de 752 para 117 bytes quando todos estão parados. |
 | Armazenamento | **InnoDB, uma linha por aluno**, com upsert a cada batida e um índice por (instituição, cidade, turma, visto em) | Sobrevive a um restart e é o que a hospedagem garante. No produto, a tabela fica no banco de cada instituição. |
 | Saída da sala | Quem não bate há **15 s** saiu (três batidas paradas perdidas). Ao fechar a aba, um `sendBeacon` tira o aluno na hora. | Uma rede caída ou um notebook fechado não deixam um fantasma na sala. |
 | Isolamento | A instituição, a cidade e a turma vêm **só da sessão** do servidor. O corpo do pedido leva a posição e o cursor, mais nada. | Mandar outra instituição ou outra turma no pedido não muda a sala. No produto, a sessão é o login, e a turma é a da matrícula. |
@@ -71,7 +71,7 @@ php scripts/load.php <url-da-pasta-public> 12 300
 
 ## Resultado
 
-- **21 verificações** no MySQL 5.7.44 e no 8.4, todas verdes, e 2 sem banco (a validação da batida).
+- **22 verificações** no MySQL 5.7.44 e no 8.4, todas verdes, e 2 sem banco (a validação da batida).
 - **Batida** (gravar e ler a sala, dentro do PHP, com 20 salas no banco): de 3 a 8 ms de mediana com salas de 12, 24 e 48. O tempo **não cresce com a sala**, e quase todo ele é a gravação em disco do MySQL.
 - **Pedido inteiro pelo HTTP** (o PHP compila o script, abre a sessão e a conexão, sem opcache): cerca de **1,1 ms de CPU do PHP** por batida, e 6 ms de resposta na máquina local.
 - **Resposta numa sala de 12:** 752 bytes com os 11 colegas andando e **117 bytes** com todos parados.
@@ -93,5 +93,6 @@ php scripts/load.php <url-da-pasta-public> 12 300
   - a sessão é o login, e a turma é a da matrícula, conferida contra o curso;
   - a sede não tem presença, só a cidade do curso e as fases;
   - os avatares remotos entram no 3D com a mesma interpolação e um limite de avatares desenhados.
+- **Corrida do cursor (achado do CI, numa máquina rápida):** um colega que anda no mesmo milissegundo da leitura, ou cuja gravação termina logo depois dela, ficava com o `moved_at` igual ou um pouco antes do cursor, e a mudança se perdia. Se ele parasse ali, ficava na posição velha na tela dos outros. A folga de 250 ms no cursor reenvia quem andou logo antes; a mesma posição de novo não muda nada na tela.
 - **Limpeza:** a demo apaga as linhas de mais de 1 hora na entrada. No produto, isso vai para o Cron.
 - **Medida:** o CPU medido é o do processo PHP. O MySQL da hospedagem é compartilhado e não entra nos 25% da conta, mas a gravação de cada batida pesa nele. O teste de carga na hospedagem mostra os dois juntos.

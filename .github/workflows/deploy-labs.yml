@@ -365,4 +365,25 @@ jobs:
             '200|{"status":"success","data":{"now":'*) echo "ok  presença: entrada 200 e batida com a sala (env, banco e tabela no ar)" ;;
             *) echo "::error::presença: entrada $join, batida ${beat:0:200} (a tabela spike_presence foi criada no banco do labs?)"; fail=1 ;;
           esac
+          # US40: o mural da instituição. A demo fica no ar com o HTML sem cache, e o markdown.v1.js é servido (a demo o
+          # importa); o código, os scripts e a migration ficam bloqueados (403). Entrar e ler a sede provam o env, o banco
+          # e a tabela spike_notices (criada à mão no phpMyAdmin), com o ETag e o no-cache.
+          check "/catalogo/spike-php-tenant-notices-multilingual/" 200
+          check "/spikes/spike-php-tenant-notices-multilingual/public/" 200 'Mural da instituição'
+          header "/spikes/spike-php-tenant-notices-multilingual/public/" "no-cache"
+          check "/spikes/spike-php-tenant-notices-multilingual/public/markdown.v1.js" 200 'makeRenderer'
+          for path in src/bootstrap.php src/Notices/NoticeService.php scripts/verify.php migrations/mysql/001_create_spike_notices.sql; do
+            check "/spikes/spike-php-tenant-notices-multilingual/${path}" 403
+          done
+          N="${LABS_URL}/spikes/spike-php-tenant-notices-multilingual/public"
+          NJAR="$RUNNER_TEMP/notices.jar"
+          anon=$(curl -sS -A "pmlife-labs-smoke" -o /dev/null -w '%{http_code}' "$N/notices.php?place=hq&lang=pt-BR") || true
+          [ "$anon" = "401" ] && echo "ok  GET notices.php sem sessão -> 401" || { echo "::error::GET notices.php sem sessão -> $anon (esperado 401)"; fail=1; }
+          join=$(curl -sS -A "pmlife-labs-smoke" -c "$NJAR" -b "$NJAR" -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' --data '{"action":"join","tenant":"boreal","role":"student"}' "$N/session.php") || true
+          read=$(curl -sS -A "pmlife-labs-smoke" -c "$NJAR" -b "$NJAR" -D - "$N/notices.php?place=hq&lang=en-US") || true
+          # O HTTP/2 manda os cabeçalhos em minúsculas, e a CDN pode deixar o ETag fraco (W/).
+          case "$join|${read,,}" in
+            200\|*'etag: '*'"status":"success","data":{"place":"hq"'*) echo "ok  mural: entrada 200 e leitura com ETag (env, banco e tabela no ar)" ;;
+            *) echo "::error::mural: entrada $join, leitura ${read:0:300} (a tabela spike_notices foi criada no banco do labs?)"; fail=1 ;;
+          esac
           exit $fail

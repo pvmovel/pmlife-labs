@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Mural da instituição · PMLife Labs</title>
+  <style>
+    :root { --bg:#f7f7f5; --card:#fff; --text:#1b1c1f; --muted:#5d6068; --line:#e3e3de; --accent:#1c7ed6; --pin:#e8590c; --warn:#c92a2a; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#0f1014; --card:#17191e; --text:#ecedf0; --muted:#9da1ab; --line:#2a2d35; --accent:#4dabf7; --pin:#ffa94d; --warn:#ff8787; } }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 system-ui, sans-serif; }
+    main { max-width: 860px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { font-size: 1.4rem; margin: 0 0 4px; } h2 { font-size: 1.1rem; margin: 0 0 8px; }
+    p { margin: 0 0 12px; color: var(--muted); }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-top: 16px; }
+    form, .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+    label { display: flex; flex-direction: column; font-size: .85rem; color: var(--muted); gap: 4px; flex: 1 1 160px; }
+    input, select, textarea, button { font: inherit; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--text); }
+    textarea { min-height: 120px; resize: vertical; width: 100%; }
+    button { cursor: pointer; } button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+    .notice { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 12px; }
+    .notice h3 { margin: 0; font-size: 1rem; } .tag { font-size: .75rem; color: var(--muted); }
+    .pin { color: var(--pin); } .status { font-size: .85rem; color: var(--muted); min-height: 1.4em; } .error { color: var(--warn); }
+    .preview { border: 1px dashed var(--line); border-radius: 8px; padding: 8px 12px; min-height: 60px; overflow-wrap: anywhere; }
+    .preview img, .body img { max-width: 100%; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Mural da instituição, sem WordPress</h1>
+  <p>Avisos por lugar (sede, cidade do curso ou fase), em Markdown higienizado, com o português obrigatório e o inglês opcional. Abra em duas abas: publique como master numa e leia como aluno na outra; numa instituição diferente, o aviso não aparece.</p>
+
+  <section class="card" id="entrada">
+    <form id="join">
+      <label>Instituição <select name="tenant"><option value="aurora">Aurora (fictícia)</option><option value="boreal">Boreal (fictícia)</option></select></label>
+      <label>Papel <select name="role"><option value="student">Aluno</option><option value="master">Master da instituição</option><option value="author">Autor do curso "Dev a PM"</option></select></label>
+      <button class="primary" type="submit">Entrar</button>
+    </form>
+  </section>
+
+  <section class="card" id="mural" hidden>
+    <div class="row">
+      <label>Lugar <select id="place"><option value="hq">Sede</option><option value="course:dev-to-pm">Cidade do curso "Dev a PM"</option><option value="phase:dev-to-pm:fase-1">Fase 1 do "Dev a PM"</option></select></label>
+      <label>Idioma de leitura <select id="lang"><option value="pt-BR">Português</option><option value="en-US">English</option></select></label>
+      <button type="button" id="reload">Abrir o mural de novo</button>
+    </div>
+    <p class="status" id="status" role="status"></p>
+    <div id="list"></div>
+  </section>
+
+  <section class="card" id="editor" hidden>
+    <h2 id="editorTitle">Novo aviso</h2>
+    <div class="grid">
+      <label>Título (pt-BR, obrigatório) <input id="titlePt" maxlength="120"></label>
+      <label>Título (en-US, opcional) <input id="titleEn" maxlength="120"></label>
+    </div>
+    <div class="grid" style="margin-top:12px">
+      <label>Texto em Markdown (pt-BR) <textarea id="bodyPt"></textarea></label>
+      <label>Texto em Markdown (en-US) <textarea id="bodyEn"></textarea></label>
+    </div>
+    <div class="grid" style="margin-top:12px">
+      <div><span class="tag">Prévia (pt-BR)</span><div class="preview body" id="previewPt"></div></div>
+      <div><span class="tag">Prévia (en-US)</span><div class="preview body" id="previewEn"></div></div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <label style="flex-direction:row; align-items:center; flex:0 0 auto"><input type="checkbox" id="pinned"> Fixar no topo</label>
+      <button class="primary" type="button" id="save">Publicar</button>
+      <button type="button" id="cancel" hidden>Cancelar a correção</button>
+    </div>
+    <p class="status error" id="editorStatus" role="status"></p>
+  </section>
+</main>
+<script type="module">
+  import { marked } from 'https://cdn.jsdelivr.net/npm/marked@18.1.1/lib/marked.esm.js';
+  import DOMPurify from 'https://cdn.jsdelivr.net/npm/dompurify@3.4.17/dist/purify.es.mjs';
+  import { makeRenderer } from './markdown.v1.js';
+
+  const render = makeRenderer(marked, DOMPurify);
+  const $ = (id) => document.getElementById(id);
+  const etags = new Map();
+  const cache = new Map();
+  let editing = null;
+
+  const post = async (url, body) => {
+    const r = await fetch(url, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    return { status: r.status, json: await r.json().catch(() => null) };
+  };
+
+  // A leitura pergunta sempre ao servidor com o ETag guardado: 304 mantém o que já está na tela; 200 traz a correção.
+  async function load() {
+    const key = `${$('place').value}|${$('lang').value}`;
+    const headers = etags.has(key) ? { 'If-None-Match': etags.get(key) } : {};
+    const r = await fetch(`notices.php?place=${encodeURIComponent($('place').value)}&lang=${$('lang').value}`, { credentials: 'same-origin', cache: 'no-store', headers });
+    if (r.status === 304) {
+      $('status').textContent = 'O servidor respondeu 304: nada mudou desde a última abertura.';
+      show(cache.get(key));
+      return;
+    }
+    const json = await r.json();
+    if (!r.ok) { $('status').textContent = `Erro ${r.status}`; return; }
+    etags.set(key, r.headers.get('ETag'));
+    cache.set(key, json.data);
+    $('status').textContent = `O servidor respondeu 200 com ${json.data.notices.length} aviso(s).`;
+    show(json.data);
+  }
+
+  function show(data) {
+    $('editor').hidden = !data.canPublish;
+    $('list').replaceChildren(...(data.notices.length ? data.notices.map((n) => {
+      const el = document.createElement('article');
+      el.className = 'notice';
+      el.innerHTML = `<h3>${n.pinned ? '<span class="pin">📌</span> ' : ''}<span></span></h3><div class="tag"></div><div class="body">${render(n.body)}</div>`;
+      el.querySelector('h3 span:last-child').textContent = n.title;
+      el.querySelector('.tag').textContent = `${n.author} · ${n.updatedAt} UTC${n.fallback ? ' · em português (sem versão em inglês)' : ''}`;
+      if (data.canPublish) {
+        const edit = document.createElement('button');
+        edit.textContent = 'Corrigir';
+        edit.onclick = () => startEdit(n);
+        const del = document.createElement('button');
+        del.textContent = 'Apagar';
+        del.onclick = async () => { await post('notices.php', { action: 'delete', id: n.id, place: $('place').value }); load(); };
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.style.marginTop = '8px';
+        row.append(edit, del);
+        el.append(row);
+      }
+      return el;
+    }) : [Object.assign(document.createElement('p'), { textContent: 'Nenhum aviso neste lugar.' })]));
+  }
+
+  // A correção pede as duas línguas ao servidor (cada leitura traz uma).
+  async function startEdit(n) {
+    const both = {};
+    for (const lang of ['pt-BR', 'en-US']) {
+      const r = await fetch(`notices.php?place=${encodeURIComponent($('place').value)}&lang=${lang}`, { credentials: 'same-origin', cache: 'no-store' });
+      both[lang] = (await r.json()).data.notices.find((x) => x.id === n.id);
+    }
+    editing = n.id;
+    $('titlePt').value = both['pt-BR'].title; $('bodyPt').value = both['pt-BR'].body;
+    $('titleEn').value = both['en-US'].fallback ? '' : both['en-US'].title; $('bodyEn').value = both['en-US'].fallback ? '' : both['en-US'].body;
+    $('pinned').checked = n.pinned;
+    $('editorTitle').textContent = 'Corrigir o aviso'; $('save').textContent = 'Salvar a correção'; $('cancel').hidden = false;
+    preview();
+  }
+  function resetEditor() {
+    editing = null;
+    for (const id of ['titlePt', 'bodyPt', 'titleEn', 'bodyEn']) $(id).value = '';
+    $('pinned').checked = false;
+    $('editorTitle').textContent = 'Novo aviso'; $('save').textContent = 'Publicar'; $('cancel').hidden = true;
+    preview();
+  }
+  function preview() {
+    $('previewPt').innerHTML = render($('bodyPt').value);
+    $('previewEn').innerHTML = render($('bodyEn').value);
+  }
+
+  $('join').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const f = new FormData(ev.target);
+    const r = await post('session.php', { action: 'join', tenant: f.get('tenant'), role: f.get('role') });
+    if (r.status !== 200) { alert('Não foi possível entrar agora.'); return; }
+    $('entrada').hidden = true; $('mural').hidden = false;
+    document.querySelector('h1').textContent = `Mural · ${r.json.data.name} (${r.json.data.tenant})`;
+    load();
+  });
+  $('place').onchange = () => { resetEditor(); load(); };
+  $('lang').onchange = load;
+  $('reload').onclick = load;
+  $('bodyPt').oninput = preview;
+  $('bodyEn').oninput = preview;
+  $('cancel').onclick = resetEditor;
+  $('save').onclick = async () => {
+    const body = {
+      action: editing ? 'update' : 'create', id: editing ?? undefined, place: $('place').value, pinned: $('pinned').checked,
+      title: { 'pt-BR': $('titlePt').value, 'en-US': $('titleEn').value }, body: { 'pt-BR': $('bodyPt').value, 'en-US': $('bodyEn').value },
+    };
+    const r = await post('notices.php', body);
+    if (r.status === 422) { $('editorStatus').textContent = 'Confira: ' + Object.entries(r.json.error.fields).map(([k, v]) => `${k} (${v})`).join(', '); return; }
+    if (r.status >= 300) { $('editorStatus').textContent = `Erro ${r.status}`; return; }
+    $('editorStatus').textContent = '';
+    resetEditor();
+    load();
+  };
+</script>
+</body>
+</html>

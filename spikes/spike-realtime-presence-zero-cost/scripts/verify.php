@@ -82,15 +82,21 @@ $withStaff = array_column($room($ana)['moved'], 's', 'id');
 check(($withStaff[6] ?? null) === 1, 'com "Aparecer", o master surge para a turma com o selo de equipe (s = 1)');
 
 echo "\n== Só o que mudou ==\n";
+// O cursor tem uma folga de 250 ms (quem andou logo antes dele volta): as esperas abaixo passam dela.
+usleep(300000);
 $first = $room($ana);
 usleep(5000);
 $idle = $room($ana, ['since' => $first['now']]);
 check(count($first['moved']) === 3 && $idle['moved'] === [] && count($idle['ids']) === 3, 'com o cursor, a batida de quem está parado traz só os ids da sala, sem posições');
 $service->beat($bia, ['x' => 999, 'z' => 5, 'ry' => 900]);
+usleep(300000);
 $after = $room($ana, ['since' => $idle['now']]);
 check(array_column($after['moved'], 'id') === [2] && $after['moved'][0]['x'] === 999 && $after['moved'][0]['r'] === 900, 'a Bia andou: a resposta da Ana traz só a Bia, com a posição nova');
 $service->beat($bia, ['x' => 999, 'z' => 5, 'ry' => 900]);
 check($room($ana, ['since' => $after['now']])['moved'] === [], 'a batida parada da Bia (mesma posição) só renova a presença e não volta como mudança');
+$cursor = $room($ana)['now'];
+$pdo->exec("UPDATE spike_presence SET x = 77, moved_at = '{$cursor}' - INTERVAL 0.1 SECOND WHERE user_id = 2");
+check(in_array(77, array_column($room($ana, ['since' => $cursor])['moved'], 'x'), true), 'a corrida do cursor: a Bia andou no mesmo instante da leitura da Ana (gravação terminada logo depois), e a mudança não se perde (a folga de 250 ms)');
 $pdo->exec("UPDATE spike_presence SET seen_at = NOW(3) - INTERVAL 20 SECOND WHERE user_id = 3");
 check(!in_array(3, $room($ana)['ids'], true), 'o Caio parou de bater por mais de 15 s (aba fechada, rede caiu): saiu da sala');
 $store->leave($bia);
@@ -168,6 +174,7 @@ for ($i = 1; $i <= 12; $i++) {
     $twelve[] = $s = new Seat(1, $i, 'Aluno ' . str_pad((string) $i, 4, '0', STR_PAD_LEFT), 'cidade-do-curso', 'a');
     $store->beat($s, $i * 100, -$i * 100, 900);
 }
+usleep(300000);
 $all = json_encode($service->beat($twelve[0], ['x' => 100, 'z' => -100, 'ry' => 900])[1]);
 $quiet = json_encode($service->beat($twelve[0], ['x' => 100, 'z' => -100, 'ry' => 900, 'since' => json_decode((string) $all, true)['data']['now']])[1]);
 printf("   resposta numa sala de 12: %d bytes com os 11 colegas andando, %d bytes com todos parados\n", strlen((string) $all), strlen((string) $quiet));

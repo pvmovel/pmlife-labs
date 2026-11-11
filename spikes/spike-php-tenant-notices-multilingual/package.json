@@ -1,0 +1,18 @@
+{
+  "name": "spike-php-tenant-notices-multilingual",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Spike: avisos da instituição por lugar (sede, cidade do curso ou fase) num módulo próprio em PHP 8.2 e MySQL, em Markdown higienizado no navegador (marked + DOMPurify), com o pt-BR obrigatório e o en-US opcional (recuo para o pt), o isolamento por instituição vindo da sessão, quem publica (master e autor do curso) e o ETag com no-cache (a correção chega sem Ctrl+F5)",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "verify": "node --no-deprecation scripts/sanitize.test.mjs && php scripts/verify.php"
+  },
+  "devDependencies": {
+    "dompurify": "3.4.17",
+    "jsdom": "30.1.2",
+    "marked": "18.1.1"
+  }
+}

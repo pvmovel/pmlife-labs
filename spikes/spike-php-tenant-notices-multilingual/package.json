@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Spike: avisos da instituição por lugar (sede, cidade do curso ou fase) num módulo próprio em PHP 8.2 e MySQL, em Markdown higienizado no navegador (marked + DOMPurify), com o pt-BR obrigatório e o en-US opcional (recuo para o pt), o isolamento por instituição vindo da sessão, quem publica (master e autor do curso) e o ETag com no-cache (a correção chega sem Ctrl+F5)",
+  "description": "Spike: avisos da instituição por lugar (sede, cidade do curso ou fase) num módulo próprio em PHP 8.2 e MySQL, em Markdown higienizado no navegador (marked + DOMPurify), com o pt-BR obrigatório e o en-US opcional (recuo para o pt), o isolamento por instituição vindo da sessão, quem publica (master e autor do curso) e a versão da lista no corpo, porque a CDN descarta o ETag (a correção chega sem Ctrl+F5)",
   "engines": {
     "node": ">=20"
   },

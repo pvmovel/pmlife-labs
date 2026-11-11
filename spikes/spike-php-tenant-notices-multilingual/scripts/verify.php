@@ -2,9 +2,9 @@
 declare(strict_types=1);
 
 // Prova o spike da US40: os avisos da instituição num módulo próprio em PHP e MySQL, sem WordPress.
-// Sem banco: as regras (o lugar, o pt obrigatório e o en inteiro ou nada, quem publica, o idioma com recuo e o ETag).
+// Sem banco: as regras (o lugar, o pt obrigatório e o en inteiro ou nada, quem publica, o idioma com recuo e a versão).
 // Com um MySQL (SPIKE_MYSQL_*): o mural de verdade (a ordem, o isolamento, a correção e a exclusão só na própria
-// instituição) e os endpoints pelo servidor embutido do PHP (a sessão, o 403, o ETag com 304 e a correção que chega).
+// instituição) e os endpoints pelo servidor embutido do PHP (a sessão, o 403, a versão com "unchanged" e a correção).
 // ATENÇÃO: o script apaga e recria a tabela spike_notices do banco informado. Use um MySQL de teste.
 
 require_once dirname(__DIR__) . '/src/bootstrap.php';
@@ -53,7 +53,7 @@ check(NoticeRules::canPublish($master, 'hq') && NoticeRules::canPublish($autor, 
 $row = ['id' => 1, 'title_pt' => 'Prova', 'body_pt' => 'pt', 'title_en' => null, 'body_en' => null, 'pinned' => 0, 'author' => 'M', 'published_at' => 'x', 'updated_at' => 'y'];
 $pick = NoticeRules::pick($row, 'en-US');
 check($pick['language'] === 'pt-BR' && $pick['fallback'] === true && NoticeRules::pick($row + ['title_en' => 'Exam'], 'pt-BR')['fallback'] === false, 'sem en-US, quem lê em inglês recebe o pt-BR marcado como recuo');
-check(NoticeRules::etag([$row], 'pt-BR') !== NoticeRules::etag([['updated_at' => 'z'] + $row], 'pt-BR') && NoticeRules::etag([$row], 'pt-BR') !== NoticeRules::etag([$row], 'en-US'), 'o ETag muda com uma correção e com o idioma');
+check(NoticeRules::version([$row], 'pt-BR') !== NoticeRules::version([['updated_at' => 'z'] + $row], 'pt-BR') && NoticeRules::version([$row], 'pt-BR') !== NoticeRules::version([$row], 'en-US'), 'a versão da lista muda com uma correção e com o idioma');
 
 $host = getenv('SPIKE_MYSQL_HOST');
 if (!$host) {
@@ -77,7 +77,7 @@ $service->write($master, ['action' => 'create'] + $aviso(['title' => ['pt-BR' =>
 [$s, $b, $h] = $service->read($aluno, 'hq', 'en-US', null);
 $items = $b['data']['notices'] ?? [];
 check($s === 200 && ($items[0]['title'] ?? '') === 'Boas-vindas' && ($items[0]['fallback'] ?? false) === true && ($items[1]['title'] ?? '') === 'Exam on Friday', 'Gherkin: o aluno da Aurora lê em inglês; o fixado vem primeiro, e o aviso só em pt-BR vem marcado como recuo');
-check(($b['data']['canPublish'] ?? true) === false && ($h['Cache-Control'] ?? '') === 'no-cache' && str_starts_with($h['ETag'] ?? '', '"'), 'o aluno não publica; a resposta vem com ETag e no-cache');
+check(($b['data']['canPublish'] ?? true) === false && ($h['Cache-Control'] ?? '') === 'no-store' && preg_match('/^[a-f0-9]{32}$/', $b['data']['version'] ?? '') === 1, 'o aluno não publica; a resposta vem com a versão no corpo e no-store');
 [$s, $b] = $service->read($boreal, 'hq', 'pt-BR', null);
 check($s === 200 && $b['data']['notices'] === [], 'Gherkin: o aluno de outra instituição (Boreal) não vê o aviso da Aurora');
 check($service->write($boreal, ['action' => 'update', 'id' => $id] + $aviso())[0] === 404 && $service->write($boreal, ['action' => 'delete', 'id' => $id, 'place' => 'hq'])[0] === 404, 'a Boreal também não corrige nem apaga o aviso da Aurora (404, sem dizer que ele existe)');
@@ -85,13 +85,14 @@ check($service->write($aluno, ['action' => 'create'] + $aviso())[0] === 403 && $
 check($service->write($autor, ['action' => 'create'] + $aviso(['place' => 'course:dev-to-pm']))[0] === 201, 'o autor publica na cidade do curso dele');
 [$s, $b] = $service->write($master, ['action' => 'create'] + $aviso(['title' => ['en-US' => 'Só título']] + ['body' => ['en-US' => '']]));
 check($s === 422 && ($b['error']['fields']['en-US'] ?? '') === 'EN_INCOMPLETE', 'o aviso inválido volta com o campo e o motivo (422)');
-[, , $h] = $service->read($aluno, 'hq', 'pt-BR', null);
-$etag = $h['ETag'];
-check($service->read($aluno, 'hq', 'pt-BR', $etag)[0] === 304 && $service->read($aluno, 'hq', 'pt-BR', 'W/' . $etag)[0] === 304, 'nada mudou: 304, sem corpo (também com o ETag fraco, W/, que a CDN pode devolver)');
+[, $b] = $service->read($aluno, 'hq', 'pt-BR', null);
+$known = $b['data']['version'];
+$same = $service->read($aluno, 'hq', 'pt-BR', $known)[1]['data'];
+check($same['unchanged'] === true && !isset($same['notices']) && $service->read($aluno, 'hq', 'pt-BR', "x' OR 1=1")[0] === 400, 'nada mudou: a resposta é só "unchanged", sem os avisos; uma versão fora do formato é 400');
 usleep(2000);
 $service->write($master, ['action' => 'update', 'id' => $id] + $aviso(['title' => ['pt-BR' => 'Prova na sexta (sala 4)']]));
-[$s, $b] = $service->read($aluno, 'hq', 'pt-BR', $etag);
-check($s === 200 && in_array('Prova na sexta (sala 4)', array_column($b['data']['notices'], 'title'), true), 'Gherkin: a instituição corrige, e o mesmo ETag agora recebe 200 com a correção (sem Ctrl+F5)');
+[$s, $b] = $service->read($aluno, 'hq', 'pt-BR', $known);
+check($s === 200 && $b['data']['unchanged'] === false && in_array('Prova na sexta (sala 4)', array_column($b['data']['notices'], 'title'), true), 'Gherkin: a instituição corrige, e a mesma versão agora recebe a lista com a correção (sem Ctrl+F5)');
 check($service->write($master, ['action' => 'delete', 'id' => $id, 'place' => 'hq'])[0] === 200 && count($service->read($aluno, 'hq', 'pt-BR', null)[1]['data']['notices']) === 1, 'o master apaga, e o aviso some do mural');
 $sizes = [];
 foreach ([1, 10, 50] as $n) {
@@ -113,14 +114,11 @@ $server = proc_open("{$env} exec " . escapeshellarg(PHP_BINARY) . " -S 127.0.0.1
 for ($i = 0; $i < 50 && @fsockopen('127.0.0.1', $port) === false; $i++) {
     usleep(100000);
 }
-$http = static function (string $method, string $path, ?array $json, string &$cookie, ?string $etag = null) use ($port): array {
+$http = static function (string $method, string $path, ?array $json, string &$cookie) use ($port): array {
     $ch = curl_init("http://127.0.0.1:{$port}/{$path}");
     $headers = ['Content-Type: application/json'];
     if ($cookie !== '') {
         $headers[] = "Cookie: {$cookie}";
-    }
-    if ($etag !== null) {
-        $headers[] = "If-None-Match: {$etag}";
     }
     curl_setopt_array($ch, [CURLOPT_CUSTOMREQUEST => $method, CURLOPT_RETURNTRANSFER => true, CURLOPT_HEADER => true, CURLOPT_HTTPHEADER => $headers] + ($json !== null ? [CURLOPT_POSTFIELDS => json_encode($json)] : []));
     $raw = (string) curl_exec($ch);
@@ -131,8 +129,7 @@ $http = static function (string $method, string $path, ?array $json, string &$co
     if (preg_match('/Set-Cookie: (spike_notices=[^;]+)/i', $head, $m)) {
         $cookie = $m[1];
     }
-    preg_match('/ETag: (\S+)/i', $head, $e);
-    return [$code, json_decode(substr($raw, $size), true), $e[1] ?? null, $head];
+    return [$code, json_decode(substr($raw, $size), true), $head];
 };
 try {
     $pdo->exec('DELETE FROM spike_notices');
@@ -146,9 +143,9 @@ try {
     $http('POST', 'session.php', ['action' => 'join', 'tenant' => 'boreal', 'role' => 'student'], $bo);
     [$c, $b] = $http('POST', 'notices.php', ['action' => 'create', 'tenant' => 'boreal'] + $aviso(), $m);
     check($c === 201, 'o master da Aurora publica pela sessão (o "tenant" no corpo não vale nada)');
-    [$c, $b, $etag, $head] = $http('GET', 'notices.php?place=hq&lang=en-US', null, $st);
-    check($c === 200 && ($b['data']['notices'][0]['title'] ?? '') === 'Exam on Friday' && stripos($head, 'Cache-Control: no-cache') !== false, 'o aluno da Aurora lê em inglês, com no-cache');
-    check($http('GET', 'notices.php?place=hq&lang=en-US', null, $st, $etag)[0] === 304, 'com o mesmo ETag, 304');
+    [$c, $b, $head] = $http('GET', 'notices.php?place=hq&lang=en-US', null, $st);
+    check($c === 200 && ($b['data']['notices'][0]['title'] ?? '') === 'Exam on Friday' && stripos($head, 'Cache-Control: no-store') !== false, 'o aluno da Aurora lê em inglês, com no-store');
+    check(($http('GET', 'notices.php?place=hq&lang=en-US&known=' . $b['data']['version'], null, $st)[1]['data']['unchanged'] ?? false) === true, 'com a mesma versão, "unchanged"');
     check($http('GET', 'notices.php?place=hq&lang=pt-BR', null, $bo)[1]['data']['notices'] === [] && $http('POST', 'notices.php', ['action' => 'create'] + $aviso(), $st)[0] === 403, 'a Boreal não vê nada, e o aluno não publica (403)');
 } finally {
     proc_terminate($server);

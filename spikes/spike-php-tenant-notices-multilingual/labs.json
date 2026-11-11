@@ -1,0 +1,27 @@
+{
+  "title": "Avisos da instituição por lugar, sem WordPress",
+  "summary": "A instituição publica avisos em Markdown no mural da sede, da cidade de um curso ou de uma fase, em português e, se quiser, também em inglês. O aluno lê no idioma dele, com o HTML higienizado, e recebe a correção na abertura seguinte. Um módulo próprio em PHP e MySQL, com o login e os papéis que já existem.",
+  "problem": "Um WordPress headless traria um segundo login, plugins para manter, o filtro de idioma pago (Polylang Pro) e um isolamento entre instituições mais fraco que o da plataforma. Ao mesmo tempo, o texto da instituição não pode levar script para a tela do aluno, e uma correção não pode esperar o cache do navegador vencer.",
+  "result": "36 verificações verdes no MySQL 5.7 e no 8.4: oito ataques comuns removidos do Markdown, as regras do lugar, dos idiomas e de quem publica, o isolamento entre instituições, e o ETag com 304 e a correção que chega sem Ctrl+F5. A lista cheia (50 avisos) tem 59 KB e é lida em cerca de 2 ms.",
+  "tags": [
+    "PHP 8.2",
+    "MySQL 5.7",
+    "MySQL 8.4",
+    "Markdown",
+    "DOMPurify",
+    "i18n",
+    "ETag",
+    "Multi-tenant",
+    "Custo zero"
+  ],
+  "roadmap": "US40",
+  "date": "2026-11-10",
+  "demos": [
+    {
+      "path": "public/",
+      "label": "Abrir a demo",
+      "note": "Abra em duas abas: numa, entre como master da Aurora e publique um aviso; na outra, entre como aluno da Aurora e troque o idioma. Corrija o aviso e abra o mural de novo: a correção chega. Como aluno da Boreal, o mural fica vazio. Os dados são fictícios e somem em 1 dia."
+    }
+  ],
+  "run": "yarn install\nyarn verify   # a higienização e as regras, sem banco\n\n# com o MySQL 5.7 (o da hospedagem), como no CI\ndocker run -d --rm --name spike-mysql -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw -p 127.0.0.1:13306:3306 mysql:5.7\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 SPIKE_MYSQL_DB=spike \\\n  SPIKE_MYSQL_USER=spike SPIKE_MYSQL_PASS=spikepw\nyarn verify\ndocker stop spike-mysql"
+}

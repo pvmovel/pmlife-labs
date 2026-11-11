@@ -1,0 +1,9 @@
+{
+  "name": "spike-php-cohort-chat",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Spike: chat por turma por polling curto no PHP 8.2 com MySQL, sem serviço externo: a turma, o \"perto\" (até 5 m, decidido no servidor pela posição) e o privado entregue só aos dois; o remetente vem da sessão; bloquear, denunciar (fila do master), chat e privado ligados por curso (o privado começa desligado), filtro de palavras, 10 mensagens por minuto e a guarda de 90 dias (a denunciada até 1 ano depois de resolvida)",
+  "scripts": {
+    "verify": "php scripts/verify.php"
+  }
+}

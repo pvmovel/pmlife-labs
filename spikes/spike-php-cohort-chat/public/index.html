@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Chat da turma · PMLife Labs</title>
+  <style>
+    :root { --bg:#f7f7f5; --card:#fff; --text:#1b1c1f; --muted:#5d6068; --line:#e3e3de; --accent:#1c7ed6; --near:#0ca678; --priv:#ae3ec9; --staff:#e8590c; --warn:#c92a2a; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#0f1014; --card:#17191e; --text:#ecedf0; --muted:#9da1ab; --line:#2a2d35; --accent:#4dabf7; --near:#38d9a9; --priv:#da77f2; --staff:#ffa94d; --warn:#ff8787; } }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 system-ui, sans-serif; }
+    main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { font-size: 1.4rem; margin: 0 0 4px; } h2 { font-size: 1.05rem; margin: 0 0 8px; }
+    p { margin: 0 0 12px; color: var(--muted); }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-top: 16px; }
+    form, .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+    label { display: flex; flex-direction: column; font-size: .85rem; color: var(--muted); gap: 4px; flex: 1 1 140px; }
+    input, select, textarea, button { font: inherit; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--text); }
+    button { cursor: pointer; } button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 16px; }
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+    svg { width: 100%; max-width: 360px; aspect-ratio: 1; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; cursor: crosshair; touch-action: none; }
+    #log { list-style: none; margin: 0; padding: 0; max-height: 360px; overflow: auto; display: grid; gap: 6px; }
+    #log li { border-left: 3px solid var(--accent); padding: 2px 8px; overflow-wrap: anywhere; }
+    #log li.near { border-color: var(--near); } #log li.private { border-color: var(--priv); }
+    .tag { font-size: .75rem; color: var(--muted); } .staff { color: var(--staff); }
+    .mini { font-size: .75rem; padding: 0 6px; margin-left: 6px; }
+    .status { font-size: .85rem; color: var(--muted); min-height: 1.4em; } .error { color: var(--warn); }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Chat da turma, por polling, com moderação</h1>
+  <p>Três canais, sempre dentro da turma: a turma inteira, quem está a até 5 m (o servidor decide pela posição) e o privado com um colega. Abra em três abas da mesma turma, ponha duas pessoas perto (clique no mapa) e uma longe. Bloqueie, denuncie e, como master, ligue o privado e veja as denúncias.</p>
+
+  <section class="card" id="entrada">
+    <form id="join">
+      <label>Instituição <select name="tenant"><option value="aurora">Aurora (fictícia)</option><option value="boreal">Boreal (fictícia)</option></select></label>
+      <label>Turma <select name="cohort"><option value="a">Turma A</option><option value="b">Turma B</option></select></label>
+      <label>Papel <select name="role"><option value="student">Aluno</option><option value="master">Master da instituição</option></select></label>
+      <button class="primary" type="submit">Entrar</button>
+    </form>
+  </section>
+
+  <div id="sala" hidden>
+    <div class="grid">
+      <section class="card">
+        <h2 id="who"></h2>
+        <p>Clique no mapa (20 × 20 m) para andar. O círculo mostra os 5 m do "perto".</p>
+        <svg id="map" viewBox="-100 -100 200 200" role="img" aria-label="Mapa da cidade"></svg>
+        <ul id="people" class="tag"></ul>
+      </section>
+      <section class="card">
+        <h2>Mensagens</h2>
+        <ul id="log" aria-live="polite"></ul>
+        <form id="send" style="margin-top:12px">
+          <label>Canal <select id="channel"><option value="cohort">Turma</option><option value="near">Perto (5 m)</option><option value="private">Privado</option></select></label>
+          <label id="toLabel" hidden>Para <select id="to"></select></label>
+          <label style="flex-basis:100%">Mensagem <input id="body" maxlength="500" autocomplete="off"></label>
+          <button class="primary" type="submit">Enviar</button>
+        </form>
+        <p class="status error" id="sendStatus" role="status"></p>
+      </section>
+    </div>
+    <section class="card" id="master" hidden>
+      <h2>Moderação (master)</h2>
+      <div class="row">
+        <label style="flex-direction:row; align-items:center; flex:0 0 auto"><input type="checkbox" id="chatOn" checked> Chat ligado</label>
+        <label style="flex-direction:row; align-items:center; flex:0 0 auto"><input type="checkbox" id="privateOn"> Privado ligado</label>
+        <label>Palavras recusadas (vírgula) <input id="words" placeholder="ex.: bobo, idiota"></label>
+        <button type="button" id="saveSettings">Salvar</button>
+        <button type="button" id="loadReports">Ver denúncias</button>
+      </div>
+      <ul id="reports"></ul>
+    </section>
+  </div>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const ERRORS = { CHAT_OFF: 'O chat do curso está desligado.', PRIVATE_OFF: 'O privado está desligado neste curso (o master liga).', RATE_LIMITED: 'Calma: até 10 mensagens por minuto.',
+    BLOCKED_WORD: 'A mensagem tem uma palavra recusada pela instituição.', RECIPIENT_NOT_FOUND: 'Escolha um colega da turma.', NOT_IN_PLACE: 'Ande pelo mapa antes de falar com quem está perto.',
+    MESSAGE_NOT_FOUND: 'Essa mensagem não pode ser denunciada.', INVALID_REQUEST: 'Escreva de 1 a 500 caracteres.' };
+  const state = { since: 0, x: 0, z: 0, me: null, room: [], blocked: [], timer: null };
+
+  const call = async (body) => {
+    const r = await fetch('chat.php', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    return { status: r.status, json: await r.json().catch(() => null) };
+  };
+
+  function drawMap() {
+    const svg = $('map');
+    const dots = state.room.map((p) => {
+      const mine = state.me && p.id === state.me.id;
+      return `<circle cx="${p.x}" cy="${p.z}" r="${mine ? 5 : 4}" fill="${mine ? 'var(--accent)' : p.staff ? 'var(--staff)' : 'var(--muted)'}"></circle>`;
+    }).join('');
+    svg.innerHTML = `<circle cx="${state.x}" cy="${state.z}" r="50" fill="none" stroke="var(--near)" stroke-dasharray="4 3"></circle>${dots}`;
+    $('people').replaceChildren(...state.room.map((p) => {
+      const li = document.createElement('li');
+      const meters = (Math.hypot(p.x - state.x, p.z - state.z) / 10).toFixed(1);
+      li.textContent = `${p.name}${p.staff ? ' (equipe)' : ''}${state.me && p.id === state.me.id ? ' (você)' : ` · ${meters} m`}`;
+      if (state.me && p.id !== state.me.id && !state.me.master) {
+        const b = document.createElement('button');
+        b.className = 'mini';
+        const on = !state.blocked.includes(p.id);
+        b.textContent = on ? 'Bloquear' : 'Desbloquear';
+        b.onclick = async () => { await call({ action: 'block', id: p.id, on }); poll(); };
+        li.append(b);
+      }
+      return li;
+    }));
+    const others = state.room.filter((p) => !state.me || p.id !== state.me.id);
+    const current = $('to').value;
+    $('to').replaceChildren(...others.map((p) => Object.assign(document.createElement('option'), { value: p.id, textContent: p.name })));
+    if (others.some((p) => String(p.id) === current)) $('to').value = current;
+  }
+
+  function addMessages(list) {
+    for (const m of list) {
+      const li = document.createElement('li');
+      li.className = m.channel;
+      const label = { cohort: 'turma', near: 'perto', private: 'privado' }[m.channel];
+      const head = document.createElement('span');
+      head.className = 'tag';
+      head.innerHTML = `<b class="${m.from.staff ? 'staff' : ''}"></b> · ${label} · ${m.at.slice(11)} UTC`;
+      head.querySelector('b').textContent = m.from.name + (m.from.staff ? ' (equipe)' : '');
+      const text = document.createElement('div');
+      text.textContent = m.body;
+      li.append(head, text);
+      if (state.me && m.from.id !== state.me.id) {
+        const r = document.createElement('button');
+        r.className = 'mini';
+        r.textContent = 'Denunciar';
+        r.onclick = async () => { const res = await call({ action: 'report', messageId: m.id }); r.textContent = res.status === 201 ? 'Denunciada' : 'Não deu'; r.disabled = true; };
+        head.append(r);
+      }
+      $('log').append(li);
+    }
+    if (list.length) $('log').scrollTop = $('log').scrollHeight;
+  }
+
+  async function poll() {
+    clearTimeout(state.timer);
+    const r = await call({ action: 'poll', since: state.since, place: 'cidade', x: state.x, z: state.z });
+    if (r.status === 200) {
+      const d = r.json.data;
+      // Um bloqueio novo esconde também as mensagens antigas: a lista é refeita do zero.
+      if (JSON.stringify(d.blocked) !== JSON.stringify(state.blocked)) { state.blocked = d.blocked; state.since = 0; $('log').replaceChildren(); return poll(); }
+      state.me = d.me; state.room = d.room; state.since = d.cursor;
+      addMessages(d.messages);
+      drawMap();
+      $('chatOn').checked = d.chatOn; $('privateOn').checked = d.privateOn;
+      if (!d.chatOn) $('sendStatus').textContent = ERRORS.CHAT_OFF;
+    }
+    state.timer = setTimeout(poll, document.hidden ? 5000 : 1500);
+  }
+
+  $('map').addEventListener('click', (ev) => {
+    const box = $('map').getBoundingClientRect();
+    state.x = Math.round(((ev.clientX - box.left) / box.width) * 200 - 100);
+    state.z = Math.round(((ev.clientY - box.top) / box.height) * 200 - 100);
+    drawMap();
+    poll();
+  });
+  $('channel').onchange = () => { $('toLabel').hidden = $('channel').value !== 'private'; };
+  $('send').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const body = { action: 'send', channel: $('channel').value, body: $('body').value };
+    if (body.channel === 'private') body.to = Number($('to').value);
+    const r = await call(body);
+    if (r.status === 201) {
+      $('body').value = '';
+      $('sendStatus').textContent = body.channel === 'near' ? `Entregue a ${r.json.data.delivered} pessoa(s) a até 5 m.` : '';
+      setTimeout(poll, 300);
+    } else {
+      $('sendStatus').textContent = ERRORS[r.json?.error?.code] ?? `Erro ${r.status}`;
+    }
+  });
+  $('saveSettings').onclick = async () => {
+    await call({ action: 'settings', chatOn: $('chatOn').checked, privateOn: $('privateOn').checked, words: $('words').value });
+    poll();
+  };
+  $('loadReports').onclick = async () => {
+    const r = await call({ action: 'reports' });
+    const list = r.json?.data?.reports ?? [];
+    $('reports').replaceChildren(...(list.length ? list.map((x) => {
+      const li = document.createElement('li');
+      li.textContent = `${x.reporter} denunciou ${x.sender} (turma ${x.cohort.toUpperCase()}, ${x.channel}): "${x.body}" `;
+      const b = document.createElement('button');
+      b.className = 'mini';
+      b.textContent = 'Resolver';
+      b.onclick = async () => { await call({ action: 'resolve', id: x.id }); $('loadReports').click(); };
+      li.append(b);
+      return li;
+    }) : [Object.assign(document.createElement('li'), { textContent: 'Nenhuma denúncia aberta.' })]));
+  };
+  $('join').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const f = new FormData(ev.target);
+    const r = await fetch('session.php', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'join', tenant: f.get('tenant'), cohort: f.get('cohort'), role: f.get('role') }) });
+    const json = await r.json().catch(() => null);
+    if (r.status !== 200) { alert('Não foi possível entrar agora.'); return; }
+    const d = json.data;
+    $('entrada').hidden = true; $('sala').hidden = false; $('master').hidden = d.role !== 'master';
+    $('who').textContent = `${d.name} · ${d.tenant} · turma ${d.cohort.toUpperCase()}`;
+    state.x = Math.round(Math.random() * 120 - 60); state.z = Math.round(Math.random() * 120 - 60);
+    poll();
+  });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && state.me) poll(); });
+</script>
+</body>
+</html>

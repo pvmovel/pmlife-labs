@@ -388,4 +388,24 @@ jobs:
             '200|{"status":"success","data":{"place":"hq","language":"en-US","version":"'*) echo "ok  mural: entrada 200 e leitura com a versão (env, banco e tabela no ar)" ;;
             *) echo "::error::mural: entrada $join, leitura ${read:0:300} (a tabela spike_notices foi criada no banco do labs?)"; fail=1 ;;
           esac
+          # US42: o chat da turma. A demo fica no ar com o HTML sem cache; o código, os scripts e a migration ficam
+          # bloqueados (403). Entrar e fazer uma batida provam o env, o banco e as tabelas spike_chat_* (criadas à mão no
+          # phpMyAdmin).
+          check "/catalogo/spike-php-cohort-chat/" 200
+          check "/spikes/spike-php-cohort-chat/public/" 200
+          curl -sS -A "pmlife-labs-smoke" "${LABS_URL}/spikes/spike-php-cohort-chat/public/" | grep -q 'Chat da turma' && echo "ok  a demo do chat tem o título" || { echo "::error::a demo do chat sem o título"; fail=1; }
+          header "/spikes/spike-php-cohort-chat/public/" "no-cache"
+          for path in src/bootstrap.php src/Chat/ChatStore.php scripts/verify.php migrations/mysql/001_create_spike_chat.sql; do
+            check "/spikes/spike-php-cohort-chat/${path}" 403
+          done
+          C="${LABS_URL}/spikes/spike-php-cohort-chat/public"
+          CJAR="$RUNNER_TEMP/chat.jar"
+          anon=$(curl -sS -A "pmlife-labs-smoke" -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' --data '{"action":"poll","since":0,"place":"cidade","x":0,"z":0}' "$C/chat.php") || true
+          [ "$anon" = "401" ] && echo "ok  POST chat.php sem sessão -> 401" || { echo "::error::POST chat.php sem sessão -> $anon (esperado 401)"; fail=1; }
+          join=$(curl -sS -A "pmlife-labs-smoke" -c "$CJAR" -b "$CJAR" -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' --data '{"action":"join","tenant":"boreal","cohort":"b","role":"student"}' "$C/session.php") || true
+          poll=$(curl -sS -A "pmlife-labs-smoke" -c "$CJAR" -b "$CJAR" -X POST -H 'Content-Type: application/json' --data '{"action":"poll","since":0,"place":"smoke","x":0,"z":0}' "$C/chat.php") || true
+          case "$join|$poll" in
+            '200|{"status":"success","data":{"cursor":'*) echo "ok  chat: entrada 200 e batida com as mensagens (env, banco e tabelas no ar)" ;;
+            *) echo "::error::chat: entrada $join, batida ${poll:0:300} (as tabelas spike_chat_* foram criadas no banco do labs?)"; fail=1 ;;
+          esac
           exit $fail

@@ -32,7 +32,7 @@
 <body>
 <main>
   <h1>Chat da turma, por polling, com moderação</h1>
-  <p>Três canais, sempre dentro da turma: a turma inteira, quem está a até 5 m (o servidor decide pela posição) e o privado com um colega. Abra em três abas da mesma turma, ponha duas pessoas perto (clique no mapa) e uma longe. Bloqueie, denuncie e, como master, ligue o privado e veja as denúncias.</p>
+  <p>Cada aba é uma pessoa (pode abrir várias abas na mesma janela). Três canais, sempre dentro da turma: a turma inteira, quem está a até 5 m (o servidor decide pela posição) e o privado com um colega. Abra em três abas da mesma turma, ponha duas pessoas perto (clique no mapa) e uma longe. Bloqueie, denuncie e, como master, ligue o privado e veja as denúncias.</p>
 
   <section class="card" id="entrada">
     <form id="join">
@@ -81,10 +81,11 @@
   const ERRORS = { CHAT_OFF: 'O chat do curso está desligado.', PRIVATE_OFF: 'O privado está desligado neste curso (o master liga).', RATE_LIMITED: 'Calma: até 10 mensagens por minuto.',
     BLOCKED_WORD: 'A mensagem tem uma palavra recusada pela instituição.', RECIPIENT_NOT_FOUND: 'Escolha um colega da turma.', NOT_IN_PLACE: 'Ande pelo mapa antes de falar com quem está perto.',
     MESSAGE_NOT_FOUND: 'Essa mensagem não pode ser denunciada.', INVALID_REQUEST: 'Escreva de 1 a 500 caracteres.' };
-  const state = { since: 0, x: 0, z: 0, me: null, room: [], blocked: [], timer: null };
+  const state = { as: null, since: 0, x: 0, z: 0, me: null, room: [], blocked: [], timer: null };
 
   const call = async (body) => {
-    const r = await fetch('chat.php', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    // Cada aba diz qual pessoa é a dela (as janelas anônimas dividem a mesma sessão); o servidor confere.
+    const r = await fetch('chat.php', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ as: state.as, ...body }) });
     return { status: r.status, json: await r.json().catch(() => null) };
   };
 
@@ -201,6 +202,7 @@
     const json = await r.json().catch(() => null);
     if (r.status !== 200) { alert('Não foi possível entrar agora.'); return; }
     const d = json.data;
+    state.as = d.id;
     $('entrada').hidden = true; $('sala').hidden = false; $('master').hidden = d.role !== 'master';
     $('who').textContent = `${d.name} · ${d.tenant} · turma ${d.cohort.toUpperCase()}`;
     state.x = Math.round(Math.random() * 120 - 60); state.z = Math.round(Math.random() * 120 - 60);

@@ -402,10 +402,12 @@ jobs:
           CJAR="$RUNNER_TEMP/chat.jar"
           anon=$(curl -sS -A "pmlife-labs-smoke" -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' --data '{"action":"poll","since":0,"place":"cidade","x":0,"z":0}' "$C/chat.php") || true
           [ "$anon" = "401" ] && echo "ok  POST chat.php sem sessão -> 401" || { echo "::error::POST chat.php sem sessão -> $anon (esperado 401)"; fail=1; }
-          join=$(curl -sS -A "pmlife-labs-smoke" -c "$CJAR" -b "$CJAR" -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' --data '{"action":"join","tenant":"boreal","cohort":"b","role":"student"}' "$C/session.php") || true
-          poll=$(curl -sS -A "pmlife-labs-smoke" -c "$CJAR" -b "$CJAR" -X POST -H 'Content-Type: application/json' --data '{"action":"poll","since":0,"place":"smoke","x":0,"z":0}' "$C/chat.php") || true
-          case "$join|$poll" in
-            '200|{"status":"success","data":{"cursor":'*) echo "ok  chat: entrada 200 e batida com as mensagens (env, banco e tabelas no ar)" ;;
-            *) echo "::error::chat: entrada $join, batida ${poll:0:300} (as tabelas spike_chat_* foram criadas no banco do labs?)"; fail=1 ;;
+          # A entrada devolve o id da pessoa; a batida diz qual é a da aba (as), como a demo faz em cada aba.
+          join=$(curl -sS -A "pmlife-labs-smoke" -c "$CJAR" -b "$CJAR" -X POST -H 'Content-Type: application/json' --data '{"action":"join","tenant":"boreal","cohort":"b","role":"student"}' "$C/session.php") || true
+          cid=$(printf '%s' "$join" | sed -n 's/.*"data":{"id":\([0-9]*\).*/\1/p')
+          poll=$(curl -sS -A "pmlife-labs-smoke" -c "$CJAR" -b "$CJAR" -X POST -H 'Content-Type: application/json' --data "{\"as\":${cid:-0},\"action\":\"poll\",\"since\":0,\"place\":\"smoke\",\"x\":0,\"z\":0}" "$C/chat.php") || true
+          case "${cid:-sem id}|$poll" in
+            [0-9]*'|{"status":"success","data":{"cursor":'*) echo "ok  chat: entrada com o id e batida com as mensagens (env, banco e tabelas no ar)" ;;
+            *) echo "::error::chat: entrada ${join:0:200}, batida ${poll:0:300} (as tabelas spike_chat_* foram criadas no banco do labs?)"; fail=1 ;;
           esac
           exit $fail

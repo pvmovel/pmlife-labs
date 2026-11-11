@@ -206,16 +206,22 @@ $http = static function (string $method, string $path, ?array $json, string &$co
 try {
     $none = '';
     check($http('POST', 'chat.php', ['action' => 'poll', 'since' => 0, 'place' => 'cidade', 'x' => 0, 'z' => 0], $none)[0] === 401 && $http('GET', 'chat.php', null, $none)[0] === 405, 'sem sessão, 401; GET, 405');
-    $a = '';
-    $b2 = '';
-    [$c, $joined] = $http('POST', 'session.php', ['action' => 'join', 'tenant' => 'boreal', 'cohort' => 'b', 'role' => 'student'], $a);
-    $http('POST', 'session.php', ['action' => 'join', 'tenant' => 'boreal', 'cohort' => 'b', 'role' => 'student'], $b2);
-    $http('POST', 'chat.php', ['action' => 'poll', 'since' => 0, 'place' => 'cidade', 'x' => 0, 'z' => 0], $b2);
-    [$c2] = $http('POST', 'chat.php', ['action' => 'send', 'channel' => 'cohort', 'body' => 'Olá pela rede', 'from' => 1], $a);
+    // As janelas anônimas dividem os cookies: duas pessoas entram pela MESMA sessão, e cada aba diz qual é a dela.
+    $jar = '';
+    [$c, $first] = $http('POST', 'session.php', ['action' => 'join', 'tenant' => 'boreal', 'cohort' => 'b', 'role' => 'student'], $jar);
+    [, $second] = $http('POST', 'session.php', ['action' => 'join', 'tenant' => 'boreal', 'cohort' => 'b', 'role' => 'student'], $jar);
+    $one = $first['data']['id'] ?? 0;
+    $two = $second['data']['id'] ?? 0;
+    $poll2 = ['action' => 'poll', 'since' => 0, 'place' => 'cidade', 'x' => 0, 'z' => 0];
+    $http('POST', 'chat.php', ['as' => $two] + $poll2, $jar);
+    [$c2] = $http('POST', 'chat.php', ['as' => $one, 'action' => 'send', 'channel' => 'cohort', 'body' => 'Olá pela rede', 'from' => $two], $jar);
     usleep(300000);
-    [$c3, $got, $head] = $http('POST', 'chat.php', ['action' => 'poll', 'since' => 0, 'place' => 'cidade', 'x' => 0, 'z' => 0], $b2);
+    [$c3, $got, $head] = $http('POST', 'chat.php', ['as' => $two] + $poll2, $jar);
     $msg = $got['data']['messages'][0] ?? [];
-    check($c === 200 && $c2 === 201 && $c3 === 200 && ($msg['body'] ?? '') === 'Olá pela rede' && ($msg['from']['id'] ?? 0) === ($joined['data']['id'] ?? -1) && stripos($head, 'Cache-Control: no-store') !== false, 'pela rede: entrar, mandar e receber, com o remetente da sessão e no-store');
+    check($c === 200 && $one !== $two && $c2 === 201 && $c3 === 200 && ($got['data']['me']['id'] ?? 0) === $two && ($msg['body'] ?? '') === 'Olá pela rede' && ($msg['from']['id'] ?? 0) === $one && stripos($head, 'Cache-Control: no-store') !== false, 'duas abas na mesma sessão são duas pessoas: cada uma fala por si, e o "from" do pedido não vale (no-store)');
+    $other = '';
+    $http('POST', 'session.php', ['action' => 'join', 'tenant' => 'boreal', 'cohort' => 'b', 'role' => 'student'], $other);
+    check($http('POST', 'chat.php', ['as' => $one] + $poll2, $other)[0] === 401 && $http('POST', 'chat.php', $poll2, $jar)[0] === 401, 'uma sessão não fala por uma pessoa que entrou por outra (401), e sem dizer a pessoa da aba também é 401');
 } finally {
     proc_terminate($server);
 }

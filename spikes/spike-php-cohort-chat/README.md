@@ -25,6 +25,7 @@ Restrições:
 | Filtro de palavras | Uma lista da instituição (até 100 palavras). A mensagem com uma delas, inteira, é recusada, sem diferença de maiúsculas e acentos ("BÓBO" cai; "bobolho" passa). | Contém o óbvio; a denúncia cobre o resto. |
 | Limite | **10 mensagens por minuto** por pessoa (429). | Contém abuso e o custo na hospedagem. |
 | Guarda (LGPD) | Cada mensagem sai depois de **90 dias**. A denunciada fica enquanto a denúncia está aberta e por **1 ano** depois de resolvida; depois, sai junto com a denúncia. | O mínimo para apurar uma denúncia, com a minimização da LGPD. |
+| Demo em várias abas | As janelas anônimas do navegador dividem os mesmos cookies, então a sessão da demo guarda a lista de quem entrou por ela, e cada aba diz qual é a dela (`as`). O servidor só aceita um id dessa lista. | Três pessoas no mesmo navegador, sem ninguém falar por quem entrou por outra sessão. No produto, cada aba é a conta logada. |
 | Entrega sem perda | A batida só entrega mensagens com pelo menos 250 ms. O cursor é o id da última entregue. | Uma gravação no mesmo instante da leitura não se perde (a lição do cursor da presença). |
 
 ## Solução
@@ -34,7 +35,7 @@ src/Chat/ChatRules.php    as regras puras: os canais, o texto, o filtro de palav
 src/Chat/ChatStore.php    as tabelas: quem vê cada mensagem (no servidor), o "perto" no envio, bloqueios, denúncias e a guarda
 src/Chat/ChatService.php  poll, send, block, report e, para o master, settings, reports e resolve
 src/Chat/Member.php       quem pede, vindo só da sessão (a pessoa, a instituição, a turma e o papel)
-src/Chat/DemoSession.php  a entrada da demo, no lugar do login do produto
+src/Chat/DemoSession.php  a entrada da demo, no lugar do login do produto (várias pessoas por sessão, uma por aba)
 src/bootstrap.php         a conexão (arquivo de ambiente fora do webroot) e a sessão
 public/chat.php           POST: todas as ações do chat
 public/session.php        POST: entrar numa instituição e turma fictícias, como aluno ou master
@@ -67,11 +68,11 @@ docker stop spike-mysql
 
 ## Resultado
 
-- **31 verificações verdes no MySQL 5.7.44 e no 8.4.13:**
+- **32 verificações verdes no MySQL 5.7.44 e no 8.4.13:**
   - 4 das regras, sem banco;
   - 22 do chat no banco (os três cenários, o isolamento, a moderação e a entrega);
   - 3 da guarda e do custo;
-  - 2 dos endpoints de verdade.
+  - 3 dos endpoints de verdade (inclusive duas abas na mesma sessão).
 - **Custo:** com a turma cheia (48) no mesmo lugar, a batida com 20 mensagens novas leva cerca de 6 ms e tem 5,3 KB; sem nada novo, cerca de 8 ms e 3,2 KB, quase tudo a lista de quem está no lugar. No produto, essa lista já vem da presença.
 - **Nenhuma dependência nova:** PHP e MySQL da hospedagem.
 

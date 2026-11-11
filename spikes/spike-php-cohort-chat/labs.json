@@ -2,7 +2,7 @@
   "title": "Chat da turma com moderação, sem serviço externo",
   "summary": "O aluno conversa com a turma inteira, com quem está a até 5 m dele na cidade ou em particular com um colega, tudo pela hospedagem compartilhada, por polling curto. A instituição modera: liga e desliga o chat e o privado por curso, recusa palavras, recebe as denúncias e guarda as mensagens só pelo tempo da regra.",
   "problem": "Com alunos menores, um chat precisa de moderação e de uma regra de guarda clara (LGPD). Um serviço de tempo real grátis cobra por mensagem e entrega o \"privado\" para todos os clientes, que só o escondem; e o remetente não pode vir do próprio cliente.",
-  "result": "31 verificações verdes no MySQL 5.7 e no 8.4: os três cenários (o \"perto\" de 3 m recebe e o de 20 m não; o privado não chega a um terceiro; o bloqueio esconde tudo de quem foi bloqueado), o remetente vindo da sessão, o isolamento por turma e por instituição, o limite por minuto, o filtro, a denúncia e a guarda de 90 dias. Com a turma cheia (48) no mesmo lugar, a batida leva cerca de 6 ms.",
+  "result": "32 verificações verdes no MySQL 5.7 e no 8.4: os três cenários (o \"perto\" de 3 m recebe e o de 20 m não; o privado não chega a um terceiro; o bloqueio esconde tudo de quem foi bloqueado), o remetente vindo da sessão, o isolamento por turma e por instituição, o limite por minuto, o filtro, a denúncia e a guarda de 90 dias. Com a turma cheia (48) no mesmo lugar, a batida leva cerca de 6 ms.",
   "tags": [
     "PHP 8.2",
     "MySQL 5.7",
@@ -19,7 +19,7 @@
     {
       "path": "public/",
       "label": "Abrir a demo",
-      "note": "Abra em três abas da mesma instituição e turma. Clique no mapa para pôr duas pessoas perto e uma longe e mande uma mensagem \"perto\": só quem está a até 5 m recebe. Como master, ligue o privado, ponha uma palavra recusada e veja as denúncias. Os dados são fictícios e somem em 1 dia."
+      "note": "Abra três abas (podem ser da mesma janela) e entre em cada uma como aluno da mesma instituição e turma. Clique no mapa para pôr duas pessoas perto e uma longe e mande uma mensagem \"perto\": só quem está a até 5 m recebe. Como master, ligue o privado, ponha uma palavra recusada e veja as denúncias. Os dados são fictícios e somem em 1 dia."
     }
   ],
   "run": "yarn verify   # as regras, sem banco\n\n# com o MySQL 5.7 (o da hospedagem), como no CI\ndocker run -d --rm --name spike-mysql -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw -p 127.0.0.1:13306:3306 mysql:5.7\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 SPIKE_MYSQL_DB=spike \\\n  SPIKE_MYSQL_USER=spike SPIKE_MYSQL_PASS=spikepw\nyarn verify\ndocker stop spike-mysql"

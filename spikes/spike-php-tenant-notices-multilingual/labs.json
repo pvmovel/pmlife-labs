@@ -2,7 +2,7 @@
   "title": "Avisos da instituição por lugar, sem WordPress",
   "summary": "A instituição publica avisos em Markdown no mural da sede, da cidade de um curso ou de uma fase, em português e, se quiser, também em inglês. O aluno lê no idioma dele, com o HTML higienizado, e recebe a correção na abertura seguinte. Um módulo próprio em PHP e MySQL, com o login e os papéis que já existem.",
   "problem": "Um WordPress headless traria um segundo login, plugins para manter, o filtro de idioma pago (Polylang Pro) e um isolamento entre instituições mais fraco que o da plataforma. Ao mesmo tempo, o texto da instituição não pode levar script para a tela do aluno, e uma correção não pode esperar o cache do navegador vencer.",
-  "result": "36 verificações verdes no MySQL 5.7 e no 8.4: oito ataques comuns removidos do Markdown, as regras do lugar, dos idiomas e de quem publica, o isolamento entre instituições, e o ETag com 304 e a correção que chega sem Ctrl+F5. A lista cheia (50 avisos) tem 59 KB e é lida em cerca de 2 ms.",
+  "result": "36 verificações verdes no MySQL 5.7 e no 8.4: oito ataques comuns removidos do Markdown, as regras do lugar, dos idiomas e de quem publica, o isolamento entre instituições, e a versão da lista no corpo (a CDN da hospedagem descarta o ETag), com a correção que chega sem Ctrl+F5. A lista cheia (50 avisos) tem 59 KB e é lida em cerca de 2 ms.",
   "tags": [
     "PHP 8.2",
     "MySQL 5.7",
@@ -10,7 +10,7 @@
     "Markdown",
     "DOMPurify",
     "i18n",
-    "ETag",
+    "Cache",
     "Multi-tenant",
     "Custo zero"
   ],

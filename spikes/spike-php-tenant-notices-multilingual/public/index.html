@@ -79,7 +79,7 @@
 
   const render = makeRenderer(marked, DOMPurify);
   const $ = (id) => document.getElementById(id);
-  const etags = new Map();
+  const versions = new Map();
   const cache = new Map();
   let editing = null;
 
@@ -88,19 +88,20 @@
     return { status: r.status, json: await r.json().catch(() => null) };
   };
 
-  // A leitura pergunta sempre ao servidor com o ETag guardado: 304 mantém o que já está na tela; 200 traz a correção.
+  // A leitura pergunta sempre ao servidor com a última versão vista: "unchanged" mantém o que já está na tela; uma
+  // versão nova traz a correção. A versão vai no corpo, e não num ETag, que a CDN na frente da hospedagem descarta.
   async function load() {
     const key = `${$('place').value}|${$('lang').value}`;
-    const headers = etags.has(key) ? { 'If-None-Match': etags.get(key) } : {};
-    const r = await fetch(`notices.php?place=${encodeURIComponent($('place').value)}&lang=${$('lang').value}`, { credentials: 'same-origin', cache: 'no-store', headers });
-    if (r.status === 304) {
-      $('status').textContent = 'O servidor respondeu 304: nada mudou desde a última abertura.';
+    const known = versions.has(key) ? `&known=${versions.get(key)}` : '';
+    const r = await fetch(`notices.php?place=${encodeURIComponent($('place').value)}&lang=${$('lang').value}${known}`, { credentials: 'same-origin', cache: 'no-store' });
+    const json = await r.json();
+    if (!r.ok) { $('status').textContent = `Erro ${r.status}`; return; }
+    versions.set(key, json.data.version);
+    if (json.data.unchanged) {
+      $('status').textContent = 'O servidor respondeu "nada mudou" desde a última abertura (sem baixar os avisos de novo).';
       show(cache.get(key));
       return;
     }
-    const json = await r.json();
-    if (!r.ok) { $('status').textContent = `Erro ${r.status}`; return; }
-    etags.set(key, r.headers.get('ETag'));
     cache.set(key, json.data);
     $('status').textContent = `O servidor respondeu 200 com ${json.data.notices.length} aviso(s).`;
     show(json.data);

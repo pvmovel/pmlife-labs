@@ -9,7 +9,7 @@ namespace Spike\Notices;
  * - o texto: título e corpo em pt-BR obrigatórios; o en-US é opcional, mas vem inteiro (título e corpo) ou não vem;
  * - quem publica: o master da instituição em qualquer lugar; o autor de um curso só na cidade e nas fases dele;
  * - o idioma da leitura: o pedido, ou o pt com a marca de recuo quando o aviso não tem en;
- * - o ETag da lista, que muda com qualquer aviso novo, corrigido ou apagado.
+ * - a versão da lista, que muda com qualquer aviso novo, corrigido ou apagado.
  * O corpo é Markdown e fica cru no banco: o HTML só nasce no navegador, higienizado (marked + DOMPurify).
  */
 final class NoticeRules
@@ -104,13 +104,13 @@ final class NoticeRules
     }
 
     /**
-     * O ETag da lista no idioma: muda com qualquer aviso novo, corrigido ou apagado (os ids e as horas de cada um).
+     * A versão da lista no idioma: muda com qualquer aviso novo, corrigido ou apagado (os ids e as horas de cada um).
      *
      * @param list<array<string, mixed>> $rows
      */
-    public static function etag(array $rows, string $language): string
+    public static function version(array $rows, string $language): string
     {
         $marks = array_map(static fn (array $r): string => $r['id'] . '@' . $r['updated_at'], $rows);
-        return '"' . substr(hash('sha256', $language . '|' . implode(',', $marks)), 0, 32) . '"';
+        return substr(hash('sha256', $language . '|' . implode(',', $marks)), 0, 32);
     }
 }

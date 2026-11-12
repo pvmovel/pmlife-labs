@@ -1,0 +1,3 @@
+# Falsos positivos do gitleaks, pela impressão digital (commit:arquivo:regra:linha). Cada linha diz o porquê.
+# US45: "titleKey": "badges.forte2" num caso de teste (a chave de texto de uma medalha, não um segredo); o valor foi trocado no commit seguinte.
+118152dc28cb27db8c73e71728b72599bad692c8:spikes/spike-badges-verifiable-certificates/cases/006-medalhas-invalidas.json:generic-api-key:34

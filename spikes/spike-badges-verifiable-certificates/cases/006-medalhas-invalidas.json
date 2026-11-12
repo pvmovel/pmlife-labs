@@ -31,7 +31,7 @@
     },
     {
       "id": "forte",
-      "titleKey": "badges.forte2",
+      "titleKey": "badges.outra",
       "icon": "book",
       "criterion": {
         "kind": "tempo"

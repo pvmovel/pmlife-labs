@@ -1,0 +1,27 @@
+{
+  "title": "Portais pelo teclado",
+  "summary": "Na praça, o aluno anda pelo teclado até um prédio e aperta E. No Portal dos cursos, no Portal das fases (30 fases, em páginas de 10) e nas Matrículas, ele escolhe só pelo teclado: o número do item, as setas e o Enter. A fase bloqueada não abre e diz o motivo, e o avatar não anda atrás da janela.",
+  "problem": "Quem anda com o avatar pelo teclado precisava pegar o mouse para entrar num curso ou numa fase: a janela abria com o foco no Fechar, e o Ir de cada item só chegava pelo Tab. Com até 30 fases por curso, a escolha precisa ser rápida, acessível e sem conflito com as setas que também andam com o avatar.",
+  "result": "Uma lista no padrão listbox do WAI-ARIA, usada pelas três janelas: as teclas 1 a 9 e 0 escolhem na hora, ←/→ trocam a página, ↑/↓ e Enter, Home e End. O foco abre na lista, no item em andamento. Os atalhos só valem com o foco na lista (WCAG 2.1.4), e no curso por código o número leva ao campo. Uma regra do domínio deixa o avatar parado com a janela aberta. Testes de domínio e de tela e um e2e no Chrome (teclas reais, toque no celular) provam os cenários.",
+  "tags": [
+    "React",
+    "WAI-ARIA",
+    "Acessibilidade",
+    "Teclado",
+    "WCAG 2.1.4",
+    "Touch",
+    "i18n",
+    "Vitest",
+    "Puppeteer"
+  ],
+  "roadmap": "US52",
+  "date": "2026-11-12",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Ande com WASD ou as setas até um prédio e aperte E. No Portal das fases: o 3 entra na 3ª fase, → → e 0 entram na 30ª, e o 6 mostra uma fase bloqueada. Nas Matrículas, o 3 pede o código (AURORA-2026). Esc fecha. No celular, toque no prédio e no item. Os dados da escola são inventados."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + testes + e2e no Chrome headless (teclado, toque, celular)\nyarn dev      # demo em http://localhost:5173"
+}

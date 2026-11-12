@@ -1,0 +1,57 @@
+{
+  "page": {
+    "title": "Portais pelo teclado",
+    "lead": "Ande com WASD ou as setas até um prédio e aperte E. Na janela, escolha só pelo teclado: o número do item, ←/→ para trocar a página, ↑/↓ e Enter, Home e End. Esc fecha.",
+    "language": "English",
+    "place": "Você está em: {place}",
+    "plaza": "a praça",
+    "going": "Indo para {place}…"
+  },
+  "buildings": {
+    "courses-portal": "Portal dos cursos",
+    "phases-portal": "Portal das fases",
+    "enrollment": "Matrículas"
+  },
+  "prompt": {
+    "enter": "{building}: aperte E ou toque para entrar"
+  },
+  "list": {
+    "page": "Página {page} de {pages}",
+    "hint": "Números 1–9 e 0 escolhem · ←/→ página · ↑/↓ e Enter · Home/End",
+    "go": "Ir",
+    "locked": "Bloqueada: conclua a {phase}",
+    "lockedSay": "{item} está bloqueada: conclua a {phase}",
+    "empty": "Nada para escolher aqui.",
+    "keyLabel": "tecla {key}"
+  },
+  "status": {
+    "open": "Aberta",
+    "in-progress": "Em andamento",
+    "concluded": "Concluída",
+    "locked": "Bloqueada"
+  },
+  "modal": {
+    "close": "Fechar"
+  },
+  "portal": {
+    "coursesIntro": "Escolha o curso para ir à cidade dele.",
+    "phasesIntro": "Escolha a fase do curso {course}."
+  },
+  "enrollment": {
+    "intro": "Matricule-se num curso. O número faz o que o botão do curso faz.",
+    "enroll": "Matricular-se",
+    "request": "Pedir matrícula",
+    "useCode": "Usar o código",
+    "free": "Livre",
+    "code": "Por código de convite",
+    "approval": "Com aprovação",
+    "active": "Matriculado",
+    "pending": "Aguardando aprovação",
+    "codeFor": "Código de convite de {course}",
+    "codeHint": "Na demo, o código é {code}. Esc volta à lista.",
+    "send": "Enviar",
+    "codeWrong": "Código errado. Confira e tente de novo.",
+    "done": "Matrícula em {course} feita.",
+    "requested": "Pedido de matrícula em {course} enviado."
+  }
+}

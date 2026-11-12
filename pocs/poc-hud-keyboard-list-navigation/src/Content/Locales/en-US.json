@@ -1,0 +1,57 @@
+{
+  "page": {
+    "title": "Portals by keyboard",
+    "lead": "Walk with WASD or the arrows to a building and press E. In the window, choose with the keyboard only: the item number, ←/→ to change page, ↑/↓ and Enter, Home and End. Esc closes.",
+    "language": "Português",
+    "place": "You are at: {place}",
+    "plaza": "the plaza",
+    "going": "Going to {place}…"
+  },
+  "buildings": {
+    "courses-portal": "Courses portal",
+    "phases-portal": "Phases portal",
+    "enrollment": "Enrollment"
+  },
+  "prompt": {
+    "enter": "{building}: press E or tap to enter"
+  },
+  "list": {
+    "page": "Page {page} of {pages}",
+    "hint": "Numbers 1–9 and 0 choose · ←/→ page · ↑/↓ and Enter · Home/End",
+    "go": "Go",
+    "locked": "Locked: complete {phase}",
+    "lockedSay": "{item} is locked: complete {phase}",
+    "empty": "Nothing to choose here.",
+    "keyLabel": "key {key}"
+  },
+  "status": {
+    "open": "Open",
+    "in-progress": "In progress",
+    "concluded": "Completed",
+    "locked": "Locked"
+  },
+  "modal": {
+    "close": "Close"
+  },
+  "portal": {
+    "coursesIntro": "Choose the course to go to its city.",
+    "phasesIntro": "Choose the phase of {course}."
+  },
+  "enrollment": {
+    "intro": "Enroll in a course. The number does what the course button does.",
+    "enroll": "Enroll",
+    "request": "Request enrollment",
+    "useCode": "Use the code",
+    "free": "Open",
+    "code": "Invitation code",
+    "approval": "Approval",
+    "active": "Enrolled",
+    "pending": "Awaiting approval",
+    "codeFor": "Invitation code for {course}",
+    "codeHint": "In the demo, the code is {code}. Esc goes back to the list.",
+    "send": "Send",
+    "codeWrong": "Wrong code. Check it and try again.",
+    "done": "Enrolled in {course}.",
+    "requested": "Enrollment request for {course} sent."
+  }
+}

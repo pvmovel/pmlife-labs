@@ -1,0 +1,407 @@
+{
+  "school": {
+    "pt-BR": "Escola de idiomas Aurora (inventada)",
+    "en-US": "Aurora language school (made up)"
+  },
+  "buildings": [
+    {
+      "id": "courses-portal",
+      "at": {
+        "x": 6,
+        "y": 5
+      },
+      "reach": 2.6
+    },
+    {
+      "id": "phases-portal",
+      "at": {
+        "x": 24,
+        "y": 5
+      },
+      "reach": 2.6
+    },
+    {
+      "id": "enrollment",
+      "at": {
+        "x": 15,
+        "y": 14
+      },
+      "reach": 2.6
+    }
+  ],
+  "start": {
+    "x": 15,
+    "y": 9
+  },
+  "courses": [
+    {
+      "id": "ingles-basico",
+      "title": {
+        "pt-BR": "Inglês básico",
+        "en-US": "Basic English"
+      }
+    },
+    {
+      "id": "ingles-intermediario",
+      "title": {
+        "pt-BR": "Inglês intermediário",
+        "en-US": "Intermediate English"
+      }
+    },
+    {
+      "id": "ingles-intensivo",
+      "title": {
+        "pt-BR": "Inglês intensivo",
+        "en-US": "Intensive English"
+      }
+    },
+    {
+      "id": "espanhol-basico",
+      "title": {
+        "pt-BR": "Espanhol básico",
+        "en-US": "Basic Spanish"
+      }
+    },
+    {
+      "id": "espanhol-viagem",
+      "title": {
+        "pt-BR": "Espanhol para viagem",
+        "en-US": "Spanish for travel"
+      }
+    },
+    {
+      "id": "frances-basico",
+      "title": {
+        "pt-BR": "Francês básico",
+        "en-US": "Basic French"
+      }
+    },
+    {
+      "id": "italiano-basico",
+      "title": {
+        "pt-BR": "Italiano básico",
+        "en-US": "Basic Italian"
+      }
+    },
+    {
+      "id": "alemao-basico",
+      "title": {
+        "pt-BR": "Alemão básico",
+        "en-US": "Basic German"
+      }
+    },
+    {
+      "id": "conversacao",
+      "title": {
+        "pt-BR": "Conversação",
+        "en-US": "Conversation"
+      }
+    },
+    {
+      "id": "pronuncia",
+      "title": {
+        "pt-BR": "Pronúncia",
+        "en-US": "Pronunciation"
+      }
+    },
+    {
+      "id": "escrita",
+      "title": {
+        "pt-BR": "Escrita acadêmica",
+        "en-US": "Academic writing"
+      }
+    },
+    {
+      "id": "negocios",
+      "title": {
+        "pt-BR": "Inglês para negócios",
+        "en-US": "Business English"
+      }
+    }
+  ],
+  "phasesCourse": "ingles-intensivo",
+  "phases": [
+    {
+      "id": "fase-1",
+      "title": {
+        "pt-BR": "Fase 1 · Saudações",
+        "en-US": "Phase 1 · Greetings"
+      },
+      "status": "concluded"
+    },
+    {
+      "id": "fase-2",
+      "title": {
+        "pt-BR": "Fase 2 · Números",
+        "en-US": "Phase 2 · Numbers"
+      },
+      "status": "concluded"
+    },
+    {
+      "id": "fase-3",
+      "title": {
+        "pt-BR": "Fase 3 · Família",
+        "en-US": "Phase 3 · Family"
+      },
+      "status": "concluded"
+    },
+    {
+      "id": "fase-4",
+      "title": {
+        "pt-BR": "Fase 4 · Casa",
+        "en-US": "Phase 4 · Home"
+      },
+      "status": "in-progress"
+    },
+    {
+      "id": "fase-5",
+      "title": {
+        "pt-BR": "Fase 5 · Comida",
+        "en-US": "Phase 5 · Food"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-6",
+      "title": {
+        "pt-BR": "Fase 6 · Rotina",
+        "en-US": "Phase 6 · Daily routine"
+      },
+      "status": "locked",
+      "requires": "fase-5"
+    },
+    {
+      "id": "fase-7",
+      "title": {
+        "pt-BR": "Fase 7 · Cidade",
+        "en-US": "Phase 7 · City"
+      },
+      "status": "locked",
+      "requires": "fase-5"
+    },
+    {
+      "id": "fase-8",
+      "title": {
+        "pt-BR": "Fase 8 · Compras",
+        "en-US": "Phase 8 · Shopping"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-9",
+      "title": {
+        "pt-BR": "Fase 9 · Viagem",
+        "en-US": "Phase 9 · Travel"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-10",
+      "title": {
+        "pt-BR": "Fase 10 · Trabalho",
+        "en-US": "Phase 10 · Work"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-11",
+      "title": {
+        "pt-BR": "Fase 11 · Saúde",
+        "en-US": "Phase 11 · Health"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-12",
+      "title": {
+        "pt-BR": "Fase 12 · Clima",
+        "en-US": "Phase 12 · Weather"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-13",
+      "title": {
+        "pt-BR": "Fase 13 · Esportes",
+        "en-US": "Phase 13 · Sports"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-14",
+      "title": {
+        "pt-BR": "Fase 14 · Música",
+        "en-US": "Phase 14 · Music"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-15",
+      "title": {
+        "pt-BR": "Fase 15 · Cinema",
+        "en-US": "Phase 15 · Movies"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-16",
+      "title": {
+        "pt-BR": "Fase 16 · Tecnologia",
+        "en-US": "Phase 16 · Technology"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-17",
+      "title": {
+        "pt-BR": "Fase 17 · Natureza",
+        "en-US": "Phase 17 · Nature"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-18",
+      "title": {
+        "pt-BR": "Fase 18 · Escola",
+        "en-US": "Phase 18 · School"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-19",
+      "title": {
+        "pt-BR": "Fase 19 · Festas",
+        "en-US": "Phase 19 · Celebrations"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-20",
+      "title": {
+        "pt-BR": "Fase 20 · Restaurante",
+        "en-US": "Phase 20 · Restaurant"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-21",
+      "title": {
+        "pt-BR": "Fase 21 · Aeroporto",
+        "en-US": "Phase 21 · Airport"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-22",
+      "title": {
+        "pt-BR": "Fase 22 · Hotel",
+        "en-US": "Phase 22 · Hotel"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-23",
+      "title": {
+        "pt-BR": "Fase 23 · Entrevista",
+        "en-US": "Phase 23 · Job interview"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-24",
+      "title": {
+        "pt-BR": "Fase 24 · Reunião",
+        "en-US": "Phase 24 · Meeting"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-25",
+      "title": {
+        "pt-BR": "Fase 25 · E-mail",
+        "en-US": "Phase 25 · E-mail"
+      },
+      "status": "locked",
+      "requires": "fase-24"
+    },
+    {
+      "id": "fase-26",
+      "title": {
+        "pt-BR": "Fase 26 · Apresentação",
+        "en-US": "Phase 26 · Presentation"
+      },
+      "status": "locked",
+      "requires": "fase-24"
+    },
+    {
+      "id": "fase-27",
+      "title": {
+        "pt-BR": "Fase 27 · Debate",
+        "en-US": "Phase 27 · Debate"
+      },
+      "status": "locked",
+      "requires": "fase-24"
+    },
+    {
+      "id": "fase-28",
+      "title": {
+        "pt-BR": "Fase 28 · Notícias",
+        "en-US": "Phase 28 · News"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-29",
+      "title": {
+        "pt-BR": "Fase 29 · Cultura",
+        "en-US": "Phase 29 · Culture"
+      },
+      "status": "open"
+    },
+    {
+      "id": "fase-30",
+      "title": {
+        "pt-BR": "Fase 30 · Revisão final",
+        "en-US": "Phase 30 · Final review"
+      },
+      "status": "open"
+    }
+  ],
+  "offers": [
+    {
+      "course": "ingles-basico",
+      "method": "free",
+      "status": "active"
+    },
+    {
+      "course": "conversacao",
+      "method": "free",
+      "status": "none"
+    },
+    {
+      "course": "pronuncia",
+      "method": "code",
+      "status": "none"
+    },
+    {
+      "course": "negocios",
+      "method": "approval",
+      "status": "none"
+    },
+    {
+      "course": "escrita",
+      "method": "code",
+      "status": "none"
+    },
+    {
+      "course": "frances-basico",
+      "method": "approval",
+      "status": "pending"
+    },
+    {
+      "course": "alemao-basico",
+      "method": "free",
+      "status": "none"
+    }
+  ]
+}

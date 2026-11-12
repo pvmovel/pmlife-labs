@@ -1,0 +1,13 @@
+{
+  "name": "spike-badges-verifiable-certificates",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Spike: medalhas com critérios declarados no curso (fase, atributo, curso concluído), com as mesmas regras em TypeScript e PHP, e o certificado verificável a custo zero: página pública por código (nome, curso, instituição e data, sem o e-mail; noindex) e o JSON no padrão Open Badges 2.0 hosted, emitido só com todas as fases concluídas, um por aluno e curso",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "verify": "node --no-warnings --test src/badges.test.ts && php scripts/verify.php"
+  }
+}

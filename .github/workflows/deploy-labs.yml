@@ -410,4 +410,23 @@ jobs:
             [0-9]*'|{"status":"success","data":{"cursor":'*) echo "ok  chat: entrada com o id e batida com as mensagens (env, banco e tabelas no ar)" ;;
             *) echo "::error::chat: entrada ${join:0:200}, batida ${poll:0:300} (as tabelas spike_chat_* foram criadas no banco do labs?)"; fail=1 ;;
           esac
+          # US45: medalhas e certificado verificável. A demo fica no ar com o HTML sem cache; o código PHP, os casos, o
+          # TypeScript, os scripts e a migration ficam bloqueados (403). O emissor do Open Badges responde sem banco; a
+          # verificação de um código que não existe prova o env, o banco e a tabela spike_certificates (criada à mão no
+          # phpMyAdmin): 404 com a página "não encontrado".
+          check "/catalogo/spike-badges-verifiable-certificates/" 200
+          check "/spikes/spike-badges-verifiable-certificates/public/" 200
+          curl -sS -A "pmlife-labs-smoke" "${LABS_URL}/spikes/spike-badges-verifiable-certificates/public/" | grep -q 'Medalhas e certificado' && echo "ok  a demo das medalhas tem o título" || { echo "::error::a demo das medalhas sem o título"; fail=1; }
+          header "/spikes/spike-badges-verifiable-certificates/public/" "no-cache"
+          for path in php/bootstrap.php php/Badges/CertificateStore.php src/badges.ts cases/001-nada-feito.json scripts/verify.php migrations/mysql/001_create_spike_certificates.sql; do
+            check "/spikes/spike-badges-verifiable-certificates/${path}" 403
+          done
+          B="${LABS_URL}/spikes/spike-badges-verifiable-certificates/public"
+          issuer=$(curl -sS -A "pmlife-labs-smoke" "$B/ob.php?type=issuer&tenant=1") || true
+          case "$issuer" in
+            '{"@context":"https://w3id.org/openbadges/v2","type":"Profile"'*) echo "ok  Open Badges: o Profile do emissor" ;;
+            *) echo "::error::Open Badges: o Profile do emissor veio ${issuer:0:200}"; fail=1 ;;
+          esac
+          missing=$(curl -sS -A "pmlife-labs-smoke" -o /dev/null -w '%{http_code}' "$B/verify.php?code=ZZZZZZZZZZZZZZZZZZZZ") || true
+          curl -sS -A "pmlife-labs-smoke" "$B/verify.php?code=ZZZZZZZZZZZZZZZZZZZZ" | grep -q 'Certificado não encontrado' && [ "$missing" = "404" ] && echo "ok  verificação: código inexistente -> 404 (env, banco e tabela no ar)" || { echo "::error::verificação de um código inexistente -> $missing (a tabela spike_certificates foi criada no banco do labs?)"; fail=1; }
           exit $fail

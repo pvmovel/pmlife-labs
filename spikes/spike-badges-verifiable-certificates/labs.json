@@ -1,0 +1,25 @@
+{
+  "title": "Medalhas e certificado verificável, a custo zero",
+  "summary": "O curso declara as próprias medalhas (concluir uma fase, chegar a n pontos num atributo, concluir o curso), e a tela e o servidor calculam com a mesma regra. Ao concluir todas as fases, o aluno recebe um certificado com um código: qualquer pessoa confere a página pública dele, e o mesmo certificado sai no padrão Open Badges 2.0.",
+  "problem": "Um certificado só vale se quem o recebe consegue conferir, mas a página pública não pode expor dados pessoais (LGPD), o código não pode ser adivinhável e a hospedagem compartilhada não guarda chave privada nem roda serviço de assinatura.",
+  "result": "27 verificações verdes no MySQL 5.7 e no 8.4, mais os 7 casos rodando também em TypeScript: as regras das medalhas iguais nos dois lados, o certificado só com o curso concluído e um por aluno e curso, a página pública com o nome, o curso, a instituição e a data, sem o e-mail e fora dos buscadores, e o Open Badges 2.0 \"hosted\" (a Assertion leva à BadgeClass e ao emissor).",
+  "tags": [
+    "PHP 8.2",
+    "MySQL 5.7",
+    "MySQL 8.4",
+    "TypeScript",
+    "Open Badges 2.0",
+    "LGPD",
+    "Custo zero"
+  ],
+  "roadmap": "US45",
+  "date": "2026-11-11",
+  "demos": [
+    {
+      "path": "public/",
+      "label": "Abrir a demo",
+      "note": "Entre com um nome fictício, conclua as fases e ganhe pontos: as medalhas acendem. Com as três fases concluídas, emita o certificado e abra a página pública de verificação e o JSON do Open Badges. Os dados são fictícios e somem em 1 dia."
+    }
+  ],
+  "run": "node --no-warnings --test src/badges.test.ts   # as regras em TypeScript (Node 24, sem dependência)\nphp scripts/verify.php                            # as mesmas regras em PHP, sem banco\n\n# com o MySQL 5.7 (o da hospedagem), como no CI\ndocker run -d --rm --name spike-mysql -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw -p 127.0.0.1:13306:3306 mysql:5.7\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 SPIKE_MYSQL_DB=spike \\\n  SPIKE_MYSQL_USER=spike SPIKE_MYSQL_PASS=spikepw\nyarn verify\ndocker stop spike-mysql"
+}

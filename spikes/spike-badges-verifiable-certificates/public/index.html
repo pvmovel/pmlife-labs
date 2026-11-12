@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Medalhas e certificado verificável · PMLife Labs</title>
+  <style>
+    :root { --bg:#f7f7f5; --card:#fff; --text:#1b1c1f; --muted:#5d6068; --line:#e3e3de; --accent:#1c7ed6; --gold:#b08d57; --ok:#2b8a3e; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#0f1014; --card:#17191e; --text:#ecedf0; --muted:#9da1ab; --line:#2a2d35; --accent:#4dabf7; --gold:#e0b77a; --ok:#69db7c; } }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 system-ui, sans-serif; }
+    main { max-width: 860px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { font-size: 1.4rem; margin: 0 0 4px; } h2 { font-size: 1.05rem; margin: 0 0 8px; }
+    p { margin: 0 0 12px; color: var(--muted); }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-top: 16px; }
+    form, .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+    label { display: flex; flex-direction: column; font-size: .85rem; color: var(--muted); gap: 4px; flex: 1 1 160px; }
+    input, select, button { font: inherit; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--text); }
+    button { cursor: pointer; } button.primary { background: var(--accent); border-color: var(--accent); color: #fff; } button:disabled { opacity: .5; cursor: default; }
+    ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+    .badges { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+    .badge { border: 1px dashed var(--line); border-radius: 12px; padding: 12px; text-align: center; color: var(--muted); }
+    .badge.on { border: 2px solid var(--gold); color: var(--text); }
+    .badge .icon { font-size: 2rem; filter: grayscale(1); opacity: .4; } .badge.on .icon { filter: none; opacity: 1; }
+    .done { color: var(--ok); font-weight: 600; } .status { font-size: .85rem; color: var(--muted); min-height: 1.4em; }
+    code { font-size: 1rem; letter-spacing: .06em; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Medalhas e certificado verificável</h1>
+  <p>As medalhas vêm do próprio curso, com critérios declarados (uma fase, um atributo, o curso inteiro). Ao concluir todas as fases, o certificado sai com um código, e qualquer pessoa confere a página pública dele, sem o e-mail do aluno. O mesmo certificado sai em JSON no padrão Open Badges 2.0.</p>
+
+  <section class="card" id="entrada">
+    <form id="join">
+      <label>Instituição <select name="tenant"><option value="1">Escola Aurora (fictícia)</option><option value="2">Instituto Boreal (fictício)</option></select></label>
+      <label>Seu nome (fictício) <input name="name" maxlength="40" required value="Ana Lima"></label>
+      <button class="primary" type="submit">Entrar</button>
+    </form>
+  </section>
+
+  <div id="curso" hidden>
+    <section class="card">
+      <h2 id="who"></h2>
+      <p>Conclua as fases e ganhe pontos de atributo, como no jogo.</p>
+      <ul id="phases"></ul>
+      <div class="row" style="margin-top:12px">
+        <button type="button" data-points="comunicacao">+10 Comunicação</button>
+        <button type="button" data-points="sql">+10 SQL</button>
+        <span class="status" id="attrs"></span>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Medalhas</h2>
+      <div class="badges" id="badges"></div>
+    </section>
+    <section class="card">
+      <h2>Certificado</h2>
+      <p id="certHint">O certificado sai quando todas as fases estiverem concluídas.</p>
+      <button type="button" class="primary" id="issue" disabled>Emitir o certificado</button>
+      <div id="cert" hidden>
+        <p>Código: <code id="code"></code></p>
+        <p><a id="verify" target="_blank" rel="noopener">Abrir a página pública de verificação</a> · <a id="json" target="_blank" rel="noopener">Ver no padrão Open Badges 2.0 (JSON)</a></p>
+      </div>
+    </section>
+  </div>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const ICONS = { star: '⭐', flag: '🚩', trophy: '🏆', book: '📘', rocket: '🚀', heart: '❤️' };
+  const call = async (method, body) => {
+    const r = await fetch('course.php', { method, credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, ...(body ? { body: JSON.stringify(body) } : {}) });
+    return { status: r.status, json: await r.json().catch(() => null) };
+  };
+  function show(d) {
+    $('who').textContent = `${d.name} · ${d.institution}`;
+    $('phases').replaceChildren(...d.phases.map((p) => {
+      const li = document.createElement('li');
+      if (p.done) {
+        li.innerHTML = '<span class="done">✓</span> ';
+        li.append(p.title);
+      } else {
+        const b = document.createElement('button');
+        b.textContent = `Concluir: ${p.title}`;
+        b.onclick = async () => show((await call('POST', { action: 'phase', phase: p.id })).json.data);
+        li.append(b);
+      }
+      return li;
+    }));
+    $('attrs').textContent = `Comunicação: ${d.attributes.comunicacao} · SQL: ${d.attributes.sql}`;
+    $('badges').replaceChildren(...d.badges.map((b) => {
+      const div = document.createElement('div');
+      div.className = 'badge' + (d.earned.includes(b.id) ? ' on' : '');
+      div.innerHTML = `<div class="icon">${ICONS[b.icon] ?? '⭐'}</div><div></div>`;
+      div.lastChild.textContent = b.title + (d.earned.includes(b.id) ? '' : ' (ainda não)');
+      return div;
+    }));
+    $('issue').disabled = !d.completed;
+    $('certHint').hidden = d.completed;
+    $('cert').hidden = !d.certificate;
+    if (d.certificate) {
+      $('code').textContent = d.certificate.code;
+      $('verify').href = d.certificate.verify;
+      $('json').href = d.certificate.json;
+      $('issue').hidden = true;
+    }
+  }
+  document.querySelectorAll('[data-points]').forEach((b) => (b.onclick = async () => show((await call('POST', { action: 'points', attribute: b.dataset.points, points: 10 })).json.data)));
+  $('issue').onclick = async () => show((await call('POST', { action: 'issue' })).json.data);
+  $('join').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const f = new FormData(ev.target);
+    const r = await fetch('session.php', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'join', tenant: Number(f.get('tenant')), name: String(f.get('name')) }) });
+    if (r.status !== 200) { alert('Confira o nome (até 40 caracteres, sem < e >).'); return; }
+    $('entrada').hidden = true; $('curso').hidden = false;
+    show((await call('GET')).json.data);
+  });
+</script>
+</body>
+</html>

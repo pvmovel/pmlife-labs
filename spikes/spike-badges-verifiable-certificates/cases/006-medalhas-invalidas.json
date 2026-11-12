@@ -1,0 +1,57 @@
+{
+  "description": "Medalhas inválidas: id, nome, ícone fora da lista, fase e atributo que o curso não tem, mínimo fora do intervalo, id repetido e critério desconhecido.",
+  "phases": [
+    "fase-1",
+    "fase-2",
+    "fase-3"
+  ],
+  "attributes": [
+    "comunicacao",
+    "sql"
+  ],
+  "badges": [
+    {
+      "id": "x y",
+      "titleKey": "",
+      "icon": "caveira",
+      "criterion": {
+        "kind": "phase",
+        "phase": "fase-9"
+      }
+    },
+    {
+      "id": "forte",
+      "titleKey": "badges.forte",
+      "icon": "rocket",
+      "criterion": {
+        "kind": "attribute",
+        "attribute": "forca",
+        "min": 0
+      }
+    },
+    {
+      "id": "forte",
+      "titleKey": "badges.forte2",
+      "icon": "book",
+      "criterion": {
+        "kind": "tempo"
+      }
+    }
+  ],
+  "progress": {
+    "phases": [],
+    "attributes": {}
+  },
+  "expect": {
+    "problems": [
+      "BADGE_ID_INVALID@/badges/0/id",
+      "FIELD_REQUIRED@/badges/0/titleKey",
+      "BADGE_ICON_INVALID@/badges/0/icon",
+      "BADGE_PHASE_UNKNOWN@/badges/0/criterion/phase",
+      "BADGE_ATTRIBUTE_UNKNOWN@/badges/1/criterion/attribute",
+      "BADGE_MIN_INVALID@/badges/1/criterion/min",
+      "BADGE_DUPLICATE@/badges/2/id",
+      "BADGE_CRITERION_INVALID@/badges/2/criterion"
+    ]
+  }
+}

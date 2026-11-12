@@ -429,4 +429,11 @@ jobs:
           esac
           missing=$(curl -sS -A "pmlife-labs-smoke" -o /dev/null -w '%{http_code}' "$B/verify.php?code=ZZZZZZZZZZZZZZZZZZZZ") || true
           curl -sS -A "pmlife-labs-smoke" "$B/verify.php?code=ZZZZZZZZZZZZZZZZZZZZ" | grep -q 'Certificado não encontrado' && [ "$missing" = "404" ] && echo "ok  verificação: código inexistente -> 404 (env, banco e tabela no ar)" || { echo "::error::verificação de um código inexistente -> $missing (a tabela spike_certificates foi criada no banco do labs?)"; fail=1; }
+          # US52: portais pelo teclado (só front). O HTML sem cache, o bundle com hash e imutável, o código-fonte bloqueado.
+          check "/catalogo/poc-hud-keyboard-list-navigation/" 200
+          check "/pocs/poc-hud-keyboard-list-navigation/dist/" 200
+          header "/pocs/poc-hud-keyboard-list-navigation/dist/" "no-cache"
+          check "/pocs/poc-hud-keyboard-list-navigation/src/Domain/KeyboardList.ts" 403
+          KL_JS=$(curl -sS -A "pmlife-labs-smoke" "${LABS_URL}/pocs/poc-hud-keyboard-list-navigation/dist/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          [ -n "$KL_JS" ] && header "/pocs/poc-hud-keyboard-list-navigation/dist/${KL_JS}" "immutable" || { echo "::error::não achei o bundle com hash dos portais pelo teclado"; fail=1; }
           exit $fail

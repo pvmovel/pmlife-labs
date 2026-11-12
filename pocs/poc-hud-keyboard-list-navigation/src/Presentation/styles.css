@@ -1,0 +1,55 @@
+:root { color-scheme: dark; --bg: #020617; --panel: #0f172a; --line: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #e0b77a; --focus: #38bdf8; --warn: #fbbf24; --ok: #4ade80; --bad: #f87171; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 system-ui, sans-serif; }
+.page { max-width: 64rem; margin: 0 auto; padding: 1rem; }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+h1 { font-size: 1.3rem; margin: 0.5rem 0; }
+.muted { color: var(--muted); margin: 0 0 0.8rem; }
+.small { font-size: 0.8rem; }
+.place { font-weight: 600; }
+button { font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 0.5rem; padding: 0.35rem 0.75rem; cursor: pointer; }
+button.ghost { background: transparent; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+kbd { font: 600 0.75rem ui-monospace, monospace; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 0.3rem; padding: 0 0.3rem; }
+
+.plaza { position: relative; width: 100%; aspect-ratio: 30 / 18; background: radial-gradient(circle at 50% 50%, #1e293b, #0b1220); border: 1px solid var(--line); border-radius: 0.9rem; overflow: hidden; }
+.building { position: absolute; transform: translate(-50%, -50%); width: 22%; min-height: 3.2rem; border: 2px solid var(--line); background: #172036; font-size: 0.85rem; }
+.building.near { border-color: var(--accent); box-shadow: 0 0 0 4px rgb(224 183 122 / 0.25); }
+.avatar { position: absolute; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--focus); transform: translate(-50%, -50%); box-shadow: 0 0 0 3px rgb(56 189 248 / 0.3); }
+.prompt { min-height: 1.5rem; color: var(--accent); }
+
+.scrim { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 1rem; background: rgb(2 6 23 / 0.65); }
+.dialog { width: min(36rem, 100%); max-height: calc(100vh - 2rem); overflow: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 0.9rem; box-shadow: 0 20px 60px rgb(0 0 0 / 0.5); }
+.dialog-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--line); }
+.dialog-head h2 { margin: 0; font-size: 1.05rem; }
+.dialog-body { padding: 1rem 1.2rem 1.2rem; }
+
+.options { list-style: none; margin: 0; padding: 0.25rem; display: grid; gap: 0.4rem; border-radius: 0.6rem; }
+.options:focus-visible { outline: 2px solid var(--focus); }
+.option { display: flex; align-items: center; gap: 0.7rem; padding: 0.5rem 0.7rem; border: 1px solid var(--line); border-radius: 0.6rem; cursor: pointer; }
+.option.active { border-color: var(--accent); background: #1b2440; }
+.option.locked { cursor: not-allowed; }
+.option.locked .text { color: var(--muted); }
+.slot { min-width: 1.6rem; text-align: center; }
+.text { flex: 1; }
+.detail { display: block; font-size: 0.8rem; color: var(--muted); }
+.option.locked .detail { color: var(--warn); }
+.go { color: var(--accent); font-weight: 600; white-space: nowrap; font-size: 0.85rem; }
+.list-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; margin: 0.6rem 0 0; font-size: 0.8rem; color: var(--muted); }
+.said { min-height: 1.2rem; margin: 0.3rem 0 0; color: var(--warn); font-size: 0.85rem; }
+
+.code-form { margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid var(--line); }
+.code-form label { display: block; margin-bottom: 0.3rem; }
+.code-row { display: flex; gap: 0.5rem; }
+.code-row input { flex: 1; min-width: 0; font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 0.5rem; padding: 0.4rem 0.6rem; }
+.code-row input[aria-invalid='true'] { border-color: var(--bad); }
+.error { color: var(--bad); margin: 0.3rem 0 0; }
+.ok { color: var(--ok); min-height: 1.2rem; margin: 0.5rem 0 0; }
+
+/* No toque, as teclas não aparecem: o item e o botão continuam valendo. */
+@media (pointer: coarse) {
+  .slot, .keys-hint { display: none; }
+}
+@media (max-width: 480px) {
+  .building { width: 30%; font-size: 0.75rem; }
+}

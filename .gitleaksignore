@@ -1,0 +1,6 @@
+# Falsos positivos do gitleaks, pela impressão digital (commit:arquivo:regra:linha). Cada linha diz o porquê, sem
+# repetir o valor achado (senão o próprio comentário vira um achado novo).
+# US45: o nome de uma medalha de teste no caso 006 parecia uma chave de API (regra genérica); o valor mudou depois.
+118152dc28cb27db8c73e71728b72599bad692c8:spikes/spike-badges-verifiable-certificates/cases/006-medalhas-invalidas.json:generic-api-key:34
+# US45: a primeira versão deste arquivo repetia esse valor no comentário.
+7ec1c0f4ad2278a17daf46ba4cbd80090d0ec054:.gitleaksignore:generic-api-key:2

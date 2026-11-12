@@ -1,0 +1,56 @@
+{
+  "description": "Todas as fases concluídas: o curso está concluído e a medalha de curso aparece, na ordem declarada.",
+  "phases": [
+    "fase-1",
+    "fase-2",
+    "fase-3"
+  ],
+  "attributes": [
+    "comunicacao",
+    "sql"
+  ],
+  "badges": [
+    {
+      "id": "primeira-fase",
+      "titleKey": "badges.primeira",
+      "icon": "flag",
+      "criterion": {
+        "kind": "phase",
+        "phase": "fase-1"
+      }
+    },
+    {
+      "id": "comunicador",
+      "titleKey": "badges.comunicador",
+      "icon": "star",
+      "criterion": {
+        "kind": "attribute",
+        "attribute": "comunicacao",
+        "min": 30
+      }
+    },
+    {
+      "id": "formado",
+      "titleKey": "badges.formado",
+      "icon": "trophy",
+      "criterion": {
+        "kind": "course"
+      }
+    }
+  ],
+  "progress": {
+    "phases": [
+      "fase-3",
+      "fase-1",
+      "fase-2"
+    ],
+    "attributes": {}
+  },
+  "expect": {
+    "earned": [
+      "primeira-fase",
+      "formado"
+    ],
+    "completed": true
+  }
+}

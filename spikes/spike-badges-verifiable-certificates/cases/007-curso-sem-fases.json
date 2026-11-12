@@ -1,0 +1,15 @@
+{
+  "description": "Um curso sem fases nunca conta como concluído.",
+  "phases": [],
+  "attributes": [],
+  "badges": [],
+  "progress": {
+    "phases": [],
+    "attributes": {}
+  },
+  "expect": {
+    "earned": [],
+    "completed": false,
+    "problems": []
+  }
+}

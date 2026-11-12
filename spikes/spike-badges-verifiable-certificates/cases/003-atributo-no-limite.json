@@ -1,0 +1,58 @@
+{
+  "description": "O atributo exatamente no mínimo ganha a medalha; um ponto abaixo, não.",
+  "phases": [
+    "fase-1",
+    "fase-2",
+    "fase-3"
+  ],
+  "attributes": [
+    "comunicacao",
+    "sql"
+  ],
+  "badges": [
+    {
+      "id": "primeira-fase",
+      "titleKey": "badges.primeira",
+      "icon": "flag",
+      "criterion": {
+        "kind": "phase",
+        "phase": "fase-1"
+      }
+    },
+    {
+      "id": "comunicador",
+      "titleKey": "badges.comunicador",
+      "icon": "star",
+      "criterion": {
+        "kind": "attribute",
+        "attribute": "comunicacao",
+        "min": 30
+      }
+    },
+    {
+      "id": "formado",
+      "titleKey": "badges.formado",
+      "icon": "trophy",
+      "criterion": {
+        "kind": "course"
+      }
+    }
+  ],
+  "progress": {
+    "phases": [
+      "fase-1",
+      "fase-2"
+    ],
+    "attributes": {
+      "comunicacao": 30,
+      "sql": 29
+    }
+  },
+  "expect": {
+    "earned": [
+      "primeira-fase",
+      "comunicador"
+    ],
+    "completed": false
+  }
+}

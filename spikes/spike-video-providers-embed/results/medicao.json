@@ -1,0 +1,219 @@
+{
+  "measuredAt": "2026-11-13",
+  "browser": "Chrome/139.0.7258.66",
+  "results": [
+    {
+      "provider": "youtube",
+      "kind": "público",
+      "stored": {
+        "provider": "youtube",
+        "id": "M7lc1UVf-VE"
+      },
+      "embedUrl": "https://www.youtube-nocookie.com/embed/M7lc1UVf-VE?enablejsapi=1&rel=0&playsinline=1&origin=ORIGEM",
+      "playerStatus": 200,
+      "origins": [
+        "https://www.youtube-nocookie.com"
+      ],
+      "messages": 75,
+      "firstSignal": {
+        "type": "ready",
+        "afterMs": 1006
+      },
+      "signals": [
+        "ready"
+      ],
+      "sample": "{\"event\":\"onReady\",\"info\":null,\"channel\":\"widget\",\"id\":1}",
+      "cookiesBeforePlay": [],
+      "cookiesAfterPlay": []
+    },
+    {
+      "provider": "vimeo",
+      "kind": "público",
+      "stored": {
+        "provider": "vimeo",
+        "id": "76979871"
+      },
+      "embedUrl": "https://player.vimeo.com/video/76979871?dnt=1&playsinline=1",
+      "playerStatus": 200,
+      "origins": [
+        "https://player.vimeo.com"
+      ],
+      "messages": 45,
+      "firstSignal": {
+        "type": "ready",
+        "afterMs": 1513
+      },
+      "signals": [
+        "ready",
+        "error:unavailable"
+      ],
+      "sample": "{\"event\":\"ready\"}",
+      "cookiesBeforePlay": [
+        ".vimeo.com __cf_bm",
+        ".vimeo.com cf_clearance",
+        "player.vimeo.com __cf_ob"
+      ],
+      "cookiesAfterPlay": [
+        ".vimeo.com __cf_bm",
+        ".vimeo.com cf_clearance",
+        "player.vimeo.com __cf_ob"
+      ]
+    },
+    {
+      "provider": "vimeo",
+      "kind": "inexistente",
+      "stored": {
+        "provider": "vimeo",
+        "id": "1"
+      },
+      "embedUrl": "https://player.vimeo.com/video/1?dnt=1&playsinline=1",
+      "playerStatus": 404,
+      "origins": [
+        "https://player.vimeo.com"
+      ],
+      "messages": 1,
+      "firstSignal": {
+        "type": "error",
+        "reason": "unavailable",
+        "afterMs": 490
+      },
+      "signals": [
+        "error:unavailable"
+      ],
+      "sample": "{\"event\":\"error\",\"data\":{\"message\":\"Este vídeo não existe.\",\"name\":\"NotFoundError\",\"method\":\"ready\"}}",
+      "cookiesBeforePlay": [
+        ".vimeo.com __cf_bm"
+      ],
+      "cookiesAfterPlay": [
+        ".vimeo.com __cf_bm"
+      ]
+    },
+    {
+      "provider": "panda",
+      "kind": "público",
+      "stored": {
+        "provider": "panda",
+        "zone": "ded14ebd-85a",
+        "id": "3b101f05-84aa-4de0-9b64-71f1855388af"
+      },
+      "embedUrl": "https://player-vz-ded14ebd-85a.tv.pandavideo.com.br/embed/?v=3b101f05-84aa-4de0-9b64-71f1855388af",
+      "playerStatus": 200,
+      "origins": [
+        "https://player-vz-ded14ebd-85a.tv.pandavideo.com.br"
+      ],
+      "messages": 161,
+      "firstSignal": {
+        "type": "ready",
+        "afterMs": 1493
+      },
+      "signals": [
+        "ready"
+      ],
+      "sample": "{\"message\":\"panda_ready\",\"video\":\"3b101f05-84aa-4de0-9b64-71f1855388af\",\"currentTime\":0,\"isMutedIndicator\":true,\"isPreviousProgressLoaded\":false}",
+      "cookiesBeforePlay": [
+        "hit-video.pandavideo.com AWSALBCORS"
+      ],
+      "cookiesAfterPlay": [
+        "hit-video.pandavideo.com AWSALBCORS"
+      ]
+    },
+    {
+      "provider": "panda",
+      "kind": "inexistente",
+      "stored": {
+        "provider": "panda",
+        "zone": "ded14ebd-85a",
+        "id": "00000000-0000-4000-8000-000000000000"
+      },
+      "embedUrl": "https://player-vz-ded14ebd-85a.tv.pandavideo.com.br/embed/?v=00000000-0000-4000-8000-000000000000",
+      "playerStatus": 200,
+      "origins": [
+        "https://player-vz-ded14ebd-85a.tv.pandavideo.com.br"
+      ],
+      "messages": 55,
+      "firstSignal": {
+        "type": "ready",
+        "afterMs": 1037
+      },
+      "signals": [
+        "ready"
+      ],
+      "sample": "{\"message\":\"panda_ready\",\"video\":\"00000000-0000-4000-8000-000000000000\",\"currentTime\":0,\"isMutedIndicator\":false,\"isPreviousProgressLoaded\":false}",
+      "cookiesBeforePlay": [
+        "hit-video.pandavideo.com AWSALBCORS"
+      ],
+      "cookiesAfterPlay": [
+        "hit-video.pandavideo.com AWSALBCORS"
+      ]
+    },
+    {
+      "provider": "bunny",
+      "kind": "público",
+      "stored": {
+        "provider": "bunny",
+        "library": "767357",
+        "id": "6dae38a5-9322-401a-a6e6-76e7cbb368dd"
+      },
+      "embedUrl": "https://player.mediadelivery.net/embed/767357/6dae38a5-9322-401a-a6e6-76e7cbb368dd?autoplay=false&playsinline=true",
+      "playerStatus": 200,
+      "origins": [
+        "https://player.mediadelivery.net"
+      ],
+      "messages": 1,
+      "firstSignal": {
+        "type": "ready",
+        "afterMs": 1131
+      },
+      "signals": [
+        "ready"
+      ],
+      "sample": "{\"context\":\"player.js\",\"version\":\"0.0.11\",\"event\":\"ready\",\"value\":{\"src\":\"https://player.mediadelivery.net/embed/767357/6dae38a5-9322-401a-a6e6-76e7cbb368dd?autoplay=false&playsinline=true\",\"events\":[\"ready\",\"play\",\"pause\",\"ended\",\"timeupdate\",\"progress\",\"seeked\",\"error\",\"playbackratechange\"],\"methods\":[\"play\",\"pause\",\"getPaused\",\"mute\",\"unmute\",\"getMuted\",\"setVolume\",\"getVolume\",\"getDuration\",\"setCurrentTime\",\"getCurrentTime\",\"setLoop\",\"getLoop\",\"removeEventListener\",\"addEventListener\",\"setPlaybackRate\",\"getPlaybackRate\",\"playbackRate\"]}}",
+      "cookiesBeforePlay": [],
+      "cookiesAfterPlay": []
+    },
+    {
+      "provider": "bunny",
+      "kind": "público, player antigo",
+      "stored": {
+        "provider": "bunny",
+        "library": "767357",
+        "id": "6dae38a5-9322-401a-a6e6-76e7cbb368dd",
+        "legacy": true
+      },
+      "embedUrl": "https://iframe.mediadelivery.net/embed/767357/6dae38a5-9322-401a-a6e6-76e7cbb368dd?autoplay=false&playsinline=true",
+      "playerStatus": 200,
+      "origins": [
+        "https://iframe.mediadelivery.net"
+      ],
+      "messages": 1,
+      "firstSignal": {
+        "type": "ready",
+        "afterMs": 2673
+      },
+      "signals": [
+        "ready"
+      ],
+      "sample": "{\"context\":\"player.js\",\"version\":\"0.0.11\",\"event\":\"ready\",\"value\":{\"src\":\"https://iframe.mediadelivery.net/embed/767357/6dae38a5-9322-401a-a6e6-76e7cbb368dd?autoplay=false&playsinline=true\",\"events\":[\"ready\",\"play\",\"pause\",\"ended\",\"timeupdate\",\"progress\",\"seeked\",\"error\"],\"methods\":[\"play\",\"pause\",\"getPaused\",\"mute\",\"unmute\",\"getMuted\",\"setVolume\",\"getVolume\",\"getDuration\",\"setCurrentTime\",\"getCurrentTime\",\"setLoop\",\"getLoop\",\"removeEventListener\",\"addEventListener\"]}}",
+      "cookiesBeforePlay": [],
+      "cookiesAfterPlay": []
+    },
+    {
+      "provider": "bunny",
+      "kind": "inexistente",
+      "stored": {
+        "provider": "bunny",
+        "library": "767357",
+        "id": "00000000-0000-4000-8000-000000000000"
+      },
+      "embedUrl": "https://player.mediadelivery.net/embed/767357/00000000-0000-4000-8000-000000000000?autoplay=false&playsinline=true",
+      "playerStatus": 404,
+      "origins": [],
+      "messages": 0,
+      "firstSignal": null,
+      "signals": [],
+      "sample": null,
+      "cookiesBeforePlay": [],
+      "cookiesAfterPlay": []
+    }
+  ]
+}

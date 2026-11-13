@@ -1,0 +1,40 @@
+{
+  "comment": "O link colado pelo master e o que o documento guarda (null: recusado). Os vídeos de exemplo são públicos: o 76979871 do próprio Vimeo, o do exemplo da documentação do Panda Video e o da demo oficial do Bunny Stream (BunnyWay/examples).",
+  "accepted": [
+    ["https://youtu.be/dQw4w9WgXcQ?si=abc", { "provider": "youtube", "id": "dQw4w9WgXcQ" }],
+    ["youtube.com/watch?v=dQw4w9WgXcQ&t=42", { "provider": "youtube", "id": "dQw4w9WgXcQ" }],
+    ["https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ", { "provider": "youtube", "id": "dQw4w9WgXcQ" }],
+    ["https://www.youtube.com/shorts/dQw4w9WgXcQ", { "provider": "youtube", "id": "dQw4w9WgXcQ" }],
+    ["https://vimeo.com/76979871", { "provider": "vimeo", "id": "76979871" }],
+    ["vimeo.com/76979871", { "provider": "vimeo", "id": "76979871" }],
+    ["https://vimeo.com/76979871/0a1b2c3d4e", { "provider": "vimeo", "id": "76979871", "hash": "0a1b2c3d4e" }],
+    ["https://player.vimeo.com/video/76979871?h=0a1b2c3d4e&badge=0", { "provider": "vimeo", "id": "76979871", "hash": "0a1b2c3d4e" }],
+    ["https://player.vimeo.com/video/76979871", { "provider": "vimeo", "id": "76979871" }],
+    ["https://vimeo.com/manage/videos/76979871/0a1b2c3d4e", { "provider": "vimeo", "id": "76979871", "hash": "0a1b2c3d4e" }],
+    ["https://vimeo.com/channels/staffpicks/76979871", { "provider": "vimeo", "id": "76979871" }],
+    ["https://vimeo.com/showcase/123456/video/76979871", { "provider": "vimeo", "id": "76979871" }],
+    ["https://player-vz-ded14ebd-85a.tv.pandavideo.com.br/embed/?v=3b101f05-84aa-4de0-9b64-71f1855388af", { "provider": "panda", "zone": "ded14ebd-85a", "id": "3b101f05-84aa-4de0-9b64-71f1855388af" }],
+    ["player-vz-ded14ebd-85a.tv.pandavideo.com.br/embed?v=3b101f05-84aa-4de0-9b64-71f1855388af&color=%234874F1", { "provider": "panda", "zone": "ded14ebd-85a", "id": "3b101f05-84aa-4de0-9b64-71f1855388af" }],
+    ["https://player.mediadelivery.net/embed/767357/6dae38a5-9322-401a-a6e6-76e7cbb368dd", { "provider": "bunny", "library": "767357", "id": "6dae38a5-9322-401a-a6e6-76e7cbb368dd" }],
+    ["https://player.mediadelivery.net/play/767357/6dae38a5-9322-401a-a6e6-76e7cbb368dd?autoplay=true", { "provider": "bunny", "library": "767357", "id": "6dae38a5-9322-401a-a6e6-76e7cbb368dd" }],
+    ["https://iframe.mediadelivery.net/embed/767357/6dae38a5-9322-401a-a6e6-76e7cbb368dd", { "provider": "bunny", "library": "767357", "id": "6dae38a5-9322-401a-a6e6-76e7cbb368dd", "legacy": true }]
+  ],
+  "rejected": [
+    ["", "vazio"],
+    ["https://vimeo.com/76979871 extra", "com espaço"],
+    ["javascript:alert(1)", "outro protocolo"],
+    ["https://user:pw@vimeo.com/76979871", "com usuário e senha"],
+    ["https://vimeo.com:8443/76979871", "com porta"],
+    ["https://vimeo.com/user12345", "página de usuário do Vimeo"],
+    ["https://vimeo.com/76979871/NAOHEX", "hash do Vimeo fora do formato"],
+    ["https://vimeo.com.evil.example/76979871", "domínio parecido"],
+    ["https://player-vz-ded14ebd-85a.tv.pandavideo.com.br/embed/?v=123", "ID do Panda fora do formato"],
+    ["https://dashboard.pandavideo.com.br/#/videos/123", "link do painel do Panda (o ID interno não toca)"],
+    ["https://player-vz-ded14ebd-85a.tv.pandavideo.com.br.evil.example/embed/?v=3b101f05-84aa-4de0-9b64-71f1855388af", "domínio parecido com o do Panda"],
+    ["https://player.mediadelivery.net/embed/abc/6dae38a5-9322-401a-a6e6-76e7cbb368dd", "biblioteca do Bunny fora do formato"],
+    ["https://video.bunnycdn.com/library/767357/videos", "painel do Bunny"],
+    ["https://hotmart.com/pt-br/club/curso/aula/1", "Hotmart (fora da lista)"],
+    ["https://www.dailymotion.com/video/x8abcd1", "Dailymotion (fora da lista)"],
+    ["<iframe src=\"https://player.vimeo.com/video/76979871\"></iframe>", "HTML colado"]
+  ]
+}

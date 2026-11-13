@@ -1,0 +1,26 @@
+{
+  "title": "Totem de vídeo além do YouTube: Vimeo, Panda Video e Bunny Stream",
+  "summary": "Uma estratégia por plataforma (Open/Closed): o link colado vira só os IDs, o player oficial abre com o mínimo de rastreamento e avisa \"pronto\" ou o erro por postMessage, sem nenhum script da plataforma na página. Os protocolos foram medidos com os players reais no Chrome.",
+  "problem": "Quem já dá aula online guarda os vídeos no Vimeo, no Panda Video ou no Bunny Stream, e cada player fala um protocolo diferente. Um tem erro e outro não, um avisa sozinho e outro só depois da inscrição, e os cookies variam. O documento não pode guardar link nem HTML, e os totens do YouTube de antes têm que continuar tocando.",
+  "result": "As três plataformas entram. Os testes cobrem 17 links aceitos e 16 recusados, 17 casos de conformidade do documento (o videoId de antes continua valendo) e as mensagens reais de 8 casos medidos. Com o dnt=1, o Vimeo grava só os cookies do Cloudflare contra robôs, e o Bunny não grava nenhum. O Panda não avisa erro, e o Bunny inexistente fica mudo (o prazo cobre). O play do Vimeo fica para conferir à mão, porque o Vimeo desafia o navegador automatizado.",
+  "tags": [
+    "TypeScript",
+    "postMessage",
+    "Vimeo",
+    "Panda Video",
+    "Bunny Stream",
+    "Open/Closed",
+    "LGPD",
+    "Custo zero"
+  ],
+  "roadmap": "US46",
+  "date": "2026-11-13",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Cole um link ou use um exemplo público: a demo mostra a plataforma reconhecida e o que o documento guarda, e abre o player como o totem, com o estado (carregando, pronto ou o aviso) e os sinais lidos. O \"Bunny (inexistente)\" mostra o aviso pelo prazo depois de 10 s."
+    }
+  ],
+  "run": "yarn install\nyarn verify     # lint, typecheck e os testes, sem internet\nyarn measure    # mede os players reais no Chrome (precisa de internet): results/medicao.json\nyarn dev        # a demo"
+}

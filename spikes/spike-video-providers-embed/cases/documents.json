@@ -1,0 +1,22 @@
+{
+  "comment": "O totem como o documento guarda e o resultado do validador: o vídeo lido ou o código do erro (o mesmo nos dois validadores, TypeScript e PHP).",
+  "cases": [
+    ["totem de antes (US38), sem republicar", { "videoId": "dQw4w9WgXcQ" }, { "provider": "youtube", "id": "dQw4w9WgXcQ" }],
+    ["YouTube no formato novo", { "video": { "provider": "youtube", "id": "dQw4w9WgXcQ" } }, { "provider": "youtube", "id": "dQw4w9WgXcQ" }],
+    ["Vimeo público", { "video": { "provider": "vimeo", "id": "76979871" } }, { "provider": "vimeo", "id": "76979871" }],
+    ["Vimeo não listado", { "video": { "provider": "vimeo", "id": "76979871", "hash": "0a1b2c3d4e" } }, { "provider": "vimeo", "id": "76979871", "hash": "0a1b2c3d4e" }],
+    ["Panda", { "video": { "provider": "panda", "zone": "ded14ebd-85a", "id": "3b101f05-84aa-4de0-9b64-71f1855388af" } }, { "provider": "panda", "zone": "ded14ebd-85a", "id": "3b101f05-84aa-4de0-9b64-71f1855388af" }],
+    ["Bunny", { "video": { "provider": "bunny", "library": "767357", "id": "6dae38a5-9322-401a-a6e6-76e7cbb368dd" } }, { "provider": "bunny", "library": "767357", "id": "6dae38a5-9322-401a-a6e6-76e7cbb368dd" }],
+    ["Bunny no player antigo", { "video": { "provider": "bunny", "library": "767357", "id": "6dae38a5-9322-401a-a6e6-76e7cbb368dd", "legacy": true } }, { "provider": "bunny", "library": "767357", "id": "6dae38a5-9322-401a-a6e6-76e7cbb368dd", "legacy": true }],
+    ["sem vídeo", {}, "VIDEO_MISSING"],
+    ["os dois formatos juntos", { "videoId": "dQw4w9WgXcQ", "video": { "provider": "youtube", "id": "dQw4w9WgXcQ" } }, "VIDEO_BOTH"],
+    ["plataforma fora da lista", { "video": { "provider": "hotmart", "id": "1" } }, "VIDEO_PROVIDER_UNKNOWN"],
+    ["link guardado no lugar dos IDs", { "video": { "provider": "vimeo", "id": "https://vimeo.com/76979871" } }, "VIDEO_INVALID"],
+    ["HTML guardado", { "video": { "provider": "vimeo", "id": "76979871", "html": "<iframe></iframe>" } }, "VIDEO_INVALID"],
+    ["Vimeo com hash fora do formato", { "video": { "provider": "vimeo", "id": "76979871", "hash": "x" } }, "VIDEO_INVALID"],
+    ["Panda sem a zona", { "video": { "provider": "panda", "id": "3b101f05-84aa-4de0-9b64-71f1855388af" } }, "VIDEO_INVALID"],
+    ["Bunny com legacy falso", { "video": { "provider": "bunny", "library": "767357", "id": "6dae38a5-9322-401a-a6e6-76e7cbb368dd", "legacy": false } }, "VIDEO_INVALID"],
+    ["videoId de antes fora do formato", { "videoId": "curto" }, "VIDEO_INVALID"],
+    ["video como texto", { "video": "https://vimeo.com/76979871" }, "VIDEO_INVALID"]
+  ]
+}

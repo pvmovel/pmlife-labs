@@ -436,4 +436,13 @@ jobs:
           check "/pocs/poc-hud-keyboard-list-navigation/src/Domain/KeyboardList.ts" 403
           KL_JS=$(curl -sS -A "pmlife-labs-smoke" "${LABS_URL}/pocs/poc-hud-keyboard-list-navigation/dist/" | grep -o 'assets/index-[^"]*\.js' | head -1)
           [ -n "$KL_JS" ] && header "/pocs/poc-hud-keyboard-list-navigation/dist/${KL_JS}" "immutable" || { echo "::error::não achei o bundle com hash dos portais pelo teclado"; fail=1; }
+          # US46: totem de vídeo além do YouTube (só front). O HTML sem cache, o bundle com hash e imutável, o código-fonte e a medição bloqueados.
+          check "/catalogo/spike-video-providers-embed/" 200
+          check "/spikes/spike-video-providers-embed/dist/" 200
+          header "/spikes/spike-video-providers-embed/dist/" "no-cache"
+          for path in src/Domain/VideoSource.ts cases/links.json results/medicao.json scripts/measure.mjs; do
+            check "/spikes/spike-video-providers-embed/${path}" 403
+          done
+          VP_JS=$(curl -sS -A "pmlife-labs-smoke" "${LABS_URL}/spikes/spike-video-providers-embed/dist/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          [ -n "$VP_JS" ] && header "/spikes/spike-video-providers-embed/dist/${VP_JS}" "immutable" || { echo "::error::não achei o bundle com hash do totem de vídeo além do YouTube"; fail=1; }
           exit $fail

@@ -1,0 +1,17 @@
+{
+  "title": "Benchmark: orçamento de desempenho do campus 3D em aparelhos simples",
+  "summary": "Roda o campus 3D no aparelho e mede FPS, tempo de quadro, draw calls, MB baixados e memória, com a resolução fixa de hoje e com a qualidade adaptativa (PerformanceMonitor do drei). Inclui a trava de tamanho do build que barra um modelo 3D acima do orçamento.",
+  "problem": "A promessa de inclusão (estudar no celular simples ou no notebook sem placa de vídeo) era um texto (\"60 FPS em Celeron\") sem medição. Antes de trazer modelos 3D para o campus, era preciso um orçamento medido em aparelhos reais e uma trava que impeça o build de crescer sem ninguém ver.",
+  "result": "Orçamento: 30 FPS no mínimo, com meta de 60, até 100 draw calls no celular, até 3 MB no primeiro acesso e limites de tamanho por tipo de arquivo. A cidade de um curso usa 23 draw calls. Com uma GPU fraca, a qualidade adaptativa baixa a resolução o quanto precisa (nunca abaixo do piso de 0,75) e leva o FPS de ~13 a ~45. A trava falha com o arquivo, o tamanho e o limite. Seis achados mudam a implementação no produto: o monitor só liga com o frameloop \"always\", o DPR tem que ser estado do Canvas, o onChange do drei perde a passagem ao piso, o AdaptiveDpr desfaz o monitor, a contagem de draw calls exige desligar o autoReset e o ContactShadows custa 57% mais draw calls que a sombra em plano.",
+  "tags": ["React Three Fiber", "Three.js", "drei", "Desempenho", "Qualidade adaptativa", "CI", "Benchmark", "Inclusão", "Puppeteer", "Vitest"],
+  "roadmap": "US56",
+  "date": "2026-11-14",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Medir neste aparelho",
+      "note": "Escreva o modelo do aparelho e aperte Medir: são 4 rodadas de 20 s (a cidade de um curso e a de 200 prédios, com o DPR fixo e com a qualidade adaptativa). No fim, copie ou baixe o JSON. Deixe a tela ligada e feche os outros apps."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + testes + e2e no Chrome headless (~3 min)\nyarn size     # build + trava de tamanho\nyarn dev      # demo em http://localhost:5173"
+}

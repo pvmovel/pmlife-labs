@@ -1,0 +1,13 @@
+{
+  "$comment": "Orçamento de desempenho (US56). FPS e draw calls conferidos pelo benchmark nos aparelhos (results/); tamanhos conferidos pela trava do CI (scripts/size-budget.mjs) no build. KB com gzip.",
+  "performance": { "fpsMin": 30, "fpsTarget": 60, "drawCalls": { "phone": 100, "desktop": 200 }, "firstLoadMB": 3, "heapMB": 150 },
+  "size": {
+    "initialKB": 450,
+    "rules": [
+      { "name": "modelo-3d", "match": { "extensions": [".glb", ".gltf"] }, "maxKB": 1024 },
+      { "name": "textura", "match": { "extensions": [".ktx2", ".png", ".jpg", ".jpeg", ".webp"] }, "maxKB": 512 },
+      { "name": "fonte", "match": { "extensions": [".woff", ".woff2"] }, "maxKB": 64 },
+      { "name": "chunk-js", "match": { "extensions": [".js"] }, "maxKB": 400 }
+    ]
+  }
+}

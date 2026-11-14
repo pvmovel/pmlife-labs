@@ -1,0 +1,46 @@
+{
+  "nav": { "home": "← PMLife Labs", "docs": "Documentação" },
+  "page": {
+    "eyebrow": "Benchmark · US56",
+    "title": "Orçamento de desempenho no aparelho simples",
+    "lead": "Mede o campus 3D neste aparelho: FPS, tempo de quadro, draw calls, MB baixados e memória, com a resolução fixa de hoje e com a qualidade adaptativa. No fim, o resultado sai em JSON para comparar os aparelhos.",
+    "language": "English"
+  },
+  "form": {
+    "model": "Modelo do aparelho",
+    "modelHint": "ex.: Moto E13 ou Notebook Intel UHD 620",
+    "seconds": "Segundos por rodada",
+    "start": "Medir ({runs} rodadas, ~{total} s)",
+    "keep": "Deixe a tela ligada e a aba à frente até o fim. Feche os outros apps."
+  },
+  "run": {
+    "progress": "Rodada {n} de {total}: {scenario} · {quality}",
+    "warmup": "aquecendo",
+    "measuring": "medindo",
+    "idle": "Pronto para medir."
+  },
+  "scenario": { "curso": "cidade do curso", "estresse": "200 prédios" },
+  "quality": { "fixo": "DPR fixo [1, 2]", "adaptativo": "adaptativa" },
+  "result": {
+    "title": "Resultado",
+    "firstLoad": "Baixado no primeiro acesso: {mb} MB (limite {limit} MB)",
+    "scenario": "Cidade",
+    "quality": "Qualidade",
+    "fps": "FPS mediano",
+    "low": "1% baixo",
+    "frame": "Quadro p95 (ms)",
+    "calls": "Draw calls (máx.)",
+    "dpr": "DPR início ➔ fim",
+    "heap": "Memória JS (MB)",
+    "verdict": "Orçamento",
+    "pass": "dentro",
+    "fail": "fora",
+    "goalMissed": "abaixo da meta de 60",
+    "json": "JSON para o results/",
+    "copy": "Copiar JSON",
+    "copied": "Copiado.",
+    "download": "Baixar {file}",
+    "again": "Medir de novo"
+  },
+  "error": { "webgl": "Este navegador não tem WebGL: o campus 3D não roda aqui." }
+}

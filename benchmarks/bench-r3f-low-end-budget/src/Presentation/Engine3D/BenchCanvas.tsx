@@ -62,7 +62,13 @@ export function BenchCanvas({ options, onDone, onDpr }: { options: RunOptions; o
       frameloop={frameloop}
       dpr={options.quality === 'fixo' ? [1, 2] : dpr}
       camera={{ position: [s * 1.2, s, s * 1.4], fov: 50 }}
-      onCreated={({ camera }) => camera.lookAt(0, 0, 0)}
+      onCreated={({ camera, gl }) => {
+        camera.lookAt(0, 0, 0);
+        // Sem contexto WebGL a cena para de desenhar: o e2e lê isto para dizer por que a rodada não terminou.
+        gl.domElement.addEventListener('webglcontextlost', () => {
+          window.__contextLost = (window.__contextLost ?? 0) + 1;
+        });
+      }}
       style={{ width: '100%', height: '100%' }}
     >
       <Suspense fallback={null}>

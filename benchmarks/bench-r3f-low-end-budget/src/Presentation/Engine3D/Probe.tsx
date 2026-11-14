@@ -14,6 +14,8 @@ export interface ProbeData {
 
 declare global {
   interface Window {
+    /** Quantas vezes o contexto WebGL foi perdido nesta página. */
+    __contextLost?: number;
     __bench?: { fps: number; dpr: number; calls: number; triangles: number; elapsed: number; measuring: boolean; factor?: number };
   }
 }

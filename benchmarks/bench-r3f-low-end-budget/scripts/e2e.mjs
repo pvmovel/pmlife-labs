@@ -69,14 +69,25 @@ try {
     await page.waitForFunction(() => !!window.__result, { timeout: timeoutS * 1000, polling: 500 });
     return page.evaluate(() => window.__result);
   };
-  /** Abre, espera o relatório e fecha a aba (uma aba de cada vez: a de trás não ganha quadros no headless). */
-  const measure = async (query, timeoutS, opts) => {
+  /**
+   * Abre, espera o relatório e fecha a aba (uma aba de cada vez: a de trás não ganha quadros no headless). Se a rodada
+   * não termina (no runner do CI, o SwiftShader às vezes perde o contexto WebGL e a cena para de desenhar), mostra o
+   * diagnóstico e repete o caso uma vez, numa aba nova; a segunda falha derruba o e2e.
+   */
+  const measure = async (query, timeoutS, opts, attempt = 1) => {
     const page = await open(query, opts);
     try {
       return await result(page, timeoutS);
+    } catch (e) {
+      const why = await page
+        .evaluate(() => JSON.stringify({ contextLost: window.__contextLost ?? 0, bench: window.__bench, status: document.querySelector('[data-testid="status"]')?.textContent }))
+        .catch(() => 'sem diagnóstico');
+      console.log(`   ⚠️ a rodada "${query}" não terminou em ${timeoutS} s (tentativa ${attempt}): ${why}`);
+      if (attempt >= 2) throw e;
     } finally {
       await page.close();
     }
+    return measure(query, timeoutS, opts, attempt + 1);
   };
   const small = { viewport: { width: 800, height: 500, deviceScaleFactor: 1 } };
 

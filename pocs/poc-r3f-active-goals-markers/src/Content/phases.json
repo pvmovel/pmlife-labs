@@ -1,0 +1,38 @@
+{
+  "city": {
+    "halfSize": 15,
+    "start": { "x": 0, "z": 10, "heading": 3.141592653589793 },
+    "buildings": [
+      { "id": "oficina", "labelKey": "buildings.oficina", "position": [-8, -4], "size": [5, 4, 4], "color": "#0c8599" },
+      { "id": "produto", "labelKey": "buildings.produto", "position": [0, -9], "size": [6, 5, 4], "color": "#5f3dc4" },
+      { "id": "dados", "labelKey": "buildings.dados", "position": [8, -4], "size": [4, 3, 5], "color": "#e8590c" }
+    ]
+  },
+  "phases": [
+    {
+      "id": "fase-1",
+      "titleKey": "phases.fase-1",
+      "quests": [
+        { "id": "testes", "buildingId": "oficina", "titleKey": "quests.testes", "rewardXp": 100 },
+        { "id": "entrevistas", "buildingId": "produto", "titleKey": "quests.entrevistas", "rewardXp": 120 },
+        { "id": "consultas", "buildingId": "dados", "titleKey": "quests.consultas", "rewardXp": 100 },
+        { "id": "metricas", "buildingId": "dados", "titleKey": "quests.metricas", "rewardXp": 150 },
+        { "id": "roadmap", "buildingId": "produto", "titleKey": "quests.roadmap", "rewardXp": 200 }
+      ],
+      "goals": [
+        { "id": "base-tecnica", "titleKey": "goals.base-tecnica", "quests": ["testes", "consultas"] },
+        { "id": "visao-produto", "titleKey": "goals.visao-produto", "quests": ["entrevistas", "metricas"] },
+        { "id": "plano", "titleKey": "goals.plano", "quests": ["metricas", "roadmap"] }
+      ]
+    },
+    {
+      "id": "fase-2",
+      "titleKey": "phases.fase-2",
+      "quests": [
+        { "id": "refino", "buildingId": "produto", "titleKey": "quests.refino", "rewardXp": 120 },
+        { "id": "revisao", "buildingId": "oficina", "titleKey": "quests.revisao", "rewardXp": 100 },
+        { "id": "painel", "buildingId": "dados", "titleKey": "quests.painel", "rewardXp": 150 }
+      ]
+    }
+  ]
+}

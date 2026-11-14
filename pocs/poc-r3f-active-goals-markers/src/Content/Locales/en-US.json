@@ -1,0 +1,88 @@
+{
+  "nav": {
+    "back": "← PMLife Labs",
+    "docs": "Documentation"
+  },
+  "page": {
+    "eyebrow": "PoC · active goals",
+    "title": "Pin a goal and see the way on campus",
+    "lead": "A phase of a fictitious course, with three buildings. The author suggests goals, each one tied to quests; you pin one or more on the HUD, and the buildings that still hold a quest of the goal get a marker. A goal is met when its quests are completed.",
+    "language": "Language",
+    "phase": "Phase",
+    "markers": "3D markers",
+    "reset": "Restart the phase",
+    "loading": "Loading the 3D campus…",
+    "sceneLabel": "3D campus of {phase}, with {count} buildings. Marked buildings: {marked}.",
+    "noneMarked": "none",
+    "nearby": "Building in reach",
+    "nobody": "none",
+    "completed": "Completed quests",
+    "keysTitle": "Keys",
+    "keysMove": "W/S or ↑/↓: walk · A/D or ←/→: turn",
+    "keysGoals": "G: opens the goals · in the list, 1 to 9 and 0 (or Enter) pin and unpin",
+    "keysInteract": "Near a building: E does its quest (in the demo, it completes right away)",
+    "keysTouch": "On touch: the joystick walks and turns; the Goals and Do quest buttons do the rest"
+  },
+  "buildings": {
+    "oficina": "Code workshop",
+    "produto": "Product room",
+    "dados": "Data lab"
+  },
+  "phases": {
+    "fase-1": "Phase 1 · with author goals",
+    "fase-2": "Phase 2 · no author goals"
+  },
+  "quests": {
+    "testes": "Write the first tests",
+    "entrevistas": "Interview three users",
+    "consultas": "Build the report queries",
+    "metricas": "Define the success metrics",
+    "roadmap": "Draft the quarter roadmap",
+    "refino": "Refine the sprint stories",
+    "revisao": "Review a teammate's code",
+    "painel": "Publish the KPI dashboard"
+  },
+  "goals": {
+    "base-tecnica": "Technical foundation",
+    "visao-produto": "Product vision",
+    "plano": "Quarter plan"
+  },
+  "hud": {
+    "goals": "Goals",
+    "goalsTitle": "Pinned goals",
+    "noPins": "No goal pinned. Press G (or tap Goals) to choose.",
+    "progress": "{done} of {total}",
+    "concluded": "met",
+    "where": "at: {buildings}",
+    "suggestionTitle": "Next step",
+    "suggestion": "{quest}, at the {building}",
+    "phaseDone": "Phase complete: every quest is done.",
+    "doQuest": "Do quest",
+    "questDone": "Quest completed: {quest} (+{xp} XP).",
+    "nothingHere": "Nothing to do here: this building's quests are done."
+  },
+  "panel": {
+    "title": "Phase goals",
+    "intro": "The author suggested these goals. Choose the ones you want to follow: their buildings get the marker.",
+    "label": "Phase goals: choose to pin or unpin",
+    "pin": "Pin",
+    "unpin": "Unpin",
+    "pinned": "pinned",
+    "detail": "{progress} · {buildings}",
+    "noGoalsIntro": "This phase has no author goals. The HUD suggests the next open quest, and its building gets the marker.",
+    "pinnedSay": "{goal} pinned.",
+    "unpinnedSay": "{goal} unpinned."
+  },
+  "list": {
+    "page": "Page {page} of {pages}",
+    "hint": "Numbers 1–9 and 0 choose · ←/→ page · ↑/↓ and Enter · Home/End",
+    "empty": "Nothing to choose here.",
+    "keyLabel": "key {key}"
+  },
+  "joystick": {
+    "label": "Joystick: drag to walk and turn"
+  },
+  "modal": {
+    "close": "Close"
+  }
+}

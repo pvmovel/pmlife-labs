@@ -1,0 +1,21 @@
+{
+  "about": "Casos de conformidade das metas da fase (US55): a mesma lista roda no validador TypeScript e, no produto, no PHP. Cada caso traz as missões e as metas, e os códigos esperados, na ordem.",
+  "quests": ["a", "b", "c"],
+  "cases": [
+    { "name": "fase sem metas", "goals": [], "expect": [] },
+    { "name": "metas válidas, com missão dividida entre duas metas", "goals": [{ "id": "g1", "quests": ["a", "b"] }, { "id": "g2", "quests": ["b", "c"] }], "expect": [] },
+    { "name": "missão inexistente recusada", "goals": [{ "id": "g1", "quests": ["a", "zzz"] }], "expect": ["GOAL_QUEST_UNKNOWN@g1/zzz"] },
+    { "name": "meta sem missão", "goals": [{ "id": "g1", "quests": [] }], "expect": ["GOAL_WITHOUT_QUESTS@g1"] },
+    { "name": "id de meta repetido", "goals": [{ "id": "g1", "quests": ["a"] }, { "id": "g1", "quests": ["b"] }], "expect": ["GOAL_ID_DUPLICATE@g1"] },
+    { "name": "missão repetida na mesma meta", "goals": [{ "id": "g1", "quests": ["a", "a"] }], "expect": ["GOAL_QUEST_REPEATED@g1/a"] },
+    {
+      "name": "mais de 10 metas",
+      "goals": [
+        { "id": "g1", "quests": ["a"] }, { "id": "g2", "quests": ["a"] }, { "id": "g3", "quests": ["a"] }, { "id": "g4", "quests": ["a"] },
+        { "id": "g5", "quests": ["a"] }, { "id": "g6", "quests": ["a"] }, { "id": "g7", "quests": ["a"] }, { "id": "g8", "quests": ["a"] },
+        { "id": "g9", "quests": ["a"] }, { "id": "g10", "quests": ["a"] }, { "id": "g11", "quests": ["a"] }
+      ],
+      "expect": ["GOALS_TOO_MANY@"]
+    }
+  ]
+}

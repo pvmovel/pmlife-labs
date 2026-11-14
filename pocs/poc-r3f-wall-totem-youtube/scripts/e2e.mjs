@@ -155,10 +155,20 @@ try {
   await linkInput.click({ clickCount: 3 });
   await linkInput.type('https://www.youtube.com/watch?v=zzzzzzzzzz0');
   await page.click('section.config .publish');
+  // Publicar troca a sala, e o "perto do totem" volta no quadro seguinte da cena: num runner lento, o E apertado antes
+  // disso não encontra o totem. Então o teste espera o link gravado e o totem no alcance antes do E (como o aluno, que
+  // só vê o aviso do totem quando ele está perto), e, se ainda falhar, mostra em que ponto parou.
+  await page.waitForFunction(() => document.querySelector('[data-testid="config-result"]')?.textContent.includes('zzzzzzzzzz0'), { timeout: 5000 });
   await page.$eval('[data-testid="scene"]', (el) => el.scrollIntoView({ block: 'center' }));
   await page.evaluate(() => (document.activeElement instanceof HTMLElement ? document.activeElement.blur() : undefined));
+  await page.waitForFunction(() => document.querySelector('[data-testid="nearby"]')?.textContent.includes('Listening'), { timeout: 30000 });
   await page.keyboard.press('KeyE');
-  await page.waitForFunction(() => document.querySelector('[data-testid="video-overlay"]')?.dataset.status === 'failed', { timeout: 15000 });
+  await page.waitForSelector('[data-testid="video-overlay"]', { timeout: 10000 }).catch(async (e) => {
+    throw new Error(`${e.message}; o E não abriu o vídeo (perto: ${await nearby(page)})`);
+  });
+  await page.waitForFunction(() => document.querySelector('[data-testid="video-overlay"]')?.dataset.status === 'failed', { timeout: 15000 }).catch(async (e) => {
+    throw new Error(`${e.message}; o vídeo ficou em ${await overlayStatus(page)} (${await page.$eval('[data-testid="video-overlay"] iframe', (f) => f.src)})`);
+  });
   const failedText = await page.$eval('[data-testid="video-overlay"] [role="alert"]', (el) => ({ text: el.textContent, href: el.querySelector('a')?.href }));
   check(failedText.text.includes('não está disponível') && failedText.href === 'https://www.youtube.com/watch?v=zzzzzzzzzz0', 'o vídeo removido mostra o aviso, com o link para abrir no YouTube');
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/3-video-removido.png` });

@@ -436,6 +436,18 @@ jobs:
           check "/pocs/poc-hud-keyboard-list-navigation/src/Domain/KeyboardList.ts" 403
           KL_JS=$(curl -sS -A "pmlife-labs-smoke" "${LABS_URL}/pocs/poc-hud-keyboard-list-navigation/dist/" | grep -o 'assets/index-[^"]*\.js' | head -1)
           [ -n "$KL_JS" ] && header "/pocs/poc-hud-keyboard-list-navigation/dist/${KL_JS}" "immutable" || { echo "::error::não achei o bundle com hash dos portais pelo teclado"; fail=1; }
+          # US55: objetivos ativos (só front). O HTML sem cache; o bundle e o pedaço do campus 3D (carregado sob demanda)
+          # com hash e imutáveis; o código-fonte e os casos de conformidade bloqueados.
+          check "/catalogo/poc-r3f-active-goals-markers/" 200
+          check "/pocs/poc-r3f-active-goals-markers/dist/" 200
+          header "/pocs/poc-r3f-active-goals-markers/dist/" "no-cache"
+          check "/pocs/poc-r3f-active-goals-markers/src/Domain/Goals.ts" 403
+          check "/pocs/poc-r3f-active-goals-markers/src/Content/goal-cases.json" 403
+          AG_BASE="${LABS_URL}/pocs/poc-r3f-active-goals-markers/dist"
+          AG_JS=$(curl -sS -A "pmlife-labs-smoke" "${AG_BASE}/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          [ -n "$AG_JS" ] && header "/pocs/poc-r3f-active-goals-markers/dist/${AG_JS}" "immutable" || { echo "::error::não achei o bundle com hash dos objetivos ativos"; fail=1; }
+          AG_3D=$(curl -sS -A "pmlife-labs-smoke" "${AG_BASE}/${AG_JS}" | grep -o 'CampusCanvas-[A-Za-z0-9_-]*\.js' | head -1)
+          [ -n "$AG_3D" ] && header "/pocs/poc-r3f-active-goals-markers/dist/assets/${AG_3D}" "immutable" || { echo "::error::o bundle dos objetivos ativos não referencia o pedaço do campus 3D (CampusCanvas-<hash>.js)"; fail=1; }
           # US46: totem de vídeo além do YouTube (só front). O HTML sem cache, o bundle com hash e imutável, o código-fonte e a medição bloqueados.
           check "/catalogo/spike-video-providers-embed/" 200
           check "/spikes/spike-video-providers-embed/dist/" 200

@@ -1,0 +1,88 @@
+{
+  "nav": {
+    "back": "← PMLife Labs",
+    "docs": "Documentação"
+  },
+  "page": {
+    "eyebrow": "PoC · objetivos ativos",
+    "title": "Fixe uma meta e veja o caminho no campus",
+    "lead": "Uma fase de um curso fictício, com três prédios. O autor sugere metas, cada uma ligada a missões; você fixa uma ou mais no HUD, e os prédios que ainda têm missão da meta ganham um marcador. A meta é cumprida quando as missões dela estão concluídas.",
+    "language": "Idioma",
+    "phase": "Fase",
+    "markers": "Marcadores no 3D",
+    "reset": "Recomeçar a fase",
+    "loading": "Carregando o campus 3D…",
+    "sceneLabel": "Campus 3D da {phase}, com {count} prédios. Prédios marcados: {marked}.",
+    "noneMarked": "nenhum",
+    "nearby": "Prédio no alcance",
+    "nobody": "nenhum",
+    "completed": "Missões concluídas",
+    "keysTitle": "Teclas",
+    "keysMove": "W/S ou ↑/↓: anda · A/D ou ←/→: gira",
+    "keysGoals": "G: abre as metas · na lista, 1 a 9 e 0 (ou Enter) fixam e desafixam",
+    "keysInteract": "Perto de um prédio: E faz a missão dele (na demo, ela já conclui)",
+    "keysTouch": "No toque: o joystick anda e gira; os botões Metas e Fazer missão fazem o resto"
+  },
+  "buildings": {
+    "oficina": "Oficina de código",
+    "produto": "Sala de produto",
+    "dados": "Laboratório de dados"
+  },
+  "phases": {
+    "fase-1": "Fase 1 · com metas do autor",
+    "fase-2": "Fase 2 · sem metas do autor"
+  },
+  "quests": {
+    "testes": "Escrever os primeiros testes",
+    "entrevistas": "Entrevistar três usuários",
+    "consultas": "Montar as consultas do relatório",
+    "metricas": "Definir as métricas de sucesso",
+    "roadmap": "Rascunhar o roadmap do trimestre",
+    "refino": "Refinar as histórias da sprint",
+    "revisao": "Revisar o código de um colega",
+    "painel": "Publicar o painel de indicadores"
+  },
+  "goals": {
+    "base-tecnica": "Base técnica",
+    "visao-produto": "Visão de produto",
+    "plano": "Plano do trimestre"
+  },
+  "hud": {
+    "goals": "Metas",
+    "goalsTitle": "Metas fixadas",
+    "noPins": "Nenhuma meta fixada. Aperte G (ou toque em Metas) para escolher.",
+    "progress": "{done} de {total}",
+    "concluded": "cumprida",
+    "where": "em: {buildings}",
+    "suggestionTitle": "Próximo passo",
+    "suggestion": "{quest}, na {building}",
+    "phaseDone": "Fase concluída: todas as missões feitas.",
+    "doQuest": "Fazer missão",
+    "questDone": "Missão concluída: {quest} (+{xp} XP).",
+    "nothingHere": "Nada a fazer aqui: as missões deste prédio já foram concluídas."
+  },
+  "panel": {
+    "title": "Metas da fase",
+    "intro": "O autor sugeriu estas metas. Escolha as que quer seguir: os prédios delas ganham o marcador.",
+    "label": "Metas da fase: escolha para fixar ou desafixar",
+    "pin": "Fixar",
+    "unpin": "Desafixar",
+    "pinned": "fixada",
+    "detail": "{progress} · {buildings}",
+    "noGoalsIntro": "Esta fase não tem metas do autor. O HUD sugere a próxima missão aberta, e o prédio dela ganha o marcador.",
+    "pinnedSay": "{goal} fixada.",
+    "unpinnedSay": "{goal} desafixada."
+  },
+  "list": {
+    "page": "Página {page} de {pages}",
+    "hint": "Números 1–9 e 0 escolhem · ←/→ página · ↑/↓ e Enter · Home/End",
+    "empty": "Nada para escolher aqui.",
+    "keyLabel": "tecla {key}"
+  },
+  "joystick": {
+    "label": "Joystick: arraste para andar e girar"
+  },
+  "modal": {
+    "close": "Fechar"
+  }
+}

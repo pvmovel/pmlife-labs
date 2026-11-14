@@ -1,0 +1,29 @@
+{
+  "title": "Objetivos ativos no campus",
+  "summary": "O autor do curso sugere metas para a fase, cada uma ligada a missões. O aluno fixa uma ou mais no HUD (G e o número da meta, ou o toque), vê \"0 de 2\" e os prédios que ainda têm missão da meta ganham um marcador 3D. Concluídas as missões, a meta aparece cumprida e os marcadores somem. Na fase sem metas, o HUD sugere a próxima missão.",
+  "problem": "Quem entra numa fase precisa descobrir sozinho qual prédio tem a missão seguinte, andando de prédio em prédio: a maior queixa de quem entra no campus pela primeira vez. Metas claras aumentam o foco, mas não podem virar um segundo progresso gravado (que sai de sincronia) nem pesar no celular.",
+  "result": "A regra fica no domínio, em TypeScript puro: a meta cumprida é derivada das missões concluídas (o progresso que já existe), e só a escolha das metas fixadas fica no aparelho. O documento da fase recusa a meta com missão inexistente, com 7 casos de conformidade que o validador PHP do produto vai rodar também. O HUD usa a mesma lista pelo teclado dos portais. O marcador é um sprite só, sem sombra, com uma textura desenhada uma vez para a cena inteira, e pode ser desligado. Testes de domínio, de tela e do grafo 3D e um e2e no Chrome (andando de verdade até os prédios, lendo os marcadores da cena e no celular) provam os cenários.",
+  "tags": [
+    "React Three Fiber",
+    "Three.js",
+    "Clean Architecture",
+    "Gamificação",
+    "HUD",
+    "WAI-ARIA",
+    "Acessibilidade",
+    "Touch",
+    "i18n",
+    "Vitest",
+    "Puppeteer"
+  ],
+  "roadmap": "US55",
+  "date": "2026-11-14",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Aperte G e o 1 para fixar \"Base técnica\" (Esc fecha): a Oficina e o Laboratório ganham o marcador. Ande com WASD ou as setas até um deles e aperte E para fazer a missão. Troque para a Fase 2 para ver a sugestão sem metas do autor, e desligue os marcadores nas opções. No celular, use o joystick e os botões Metas e Fazer missão. O curso e as missões são inventados."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + testes + e2e no Chrome headless (teclado, toque, celular)\nyarn dev      # demo em http://localhost:5173"
+}

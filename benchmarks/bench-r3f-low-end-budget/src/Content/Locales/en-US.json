@@ -1,0 +1,46 @@
+{
+  "nav": { "home": "← PMLife Labs", "docs": "Documentation" },
+  "page": {
+    "eyebrow": "Benchmark · US56",
+    "title": "Performance budget on a low-end device",
+    "lead": "Measures the 3D campus on this device: FPS, frame time, draw calls, MB downloaded and memory, with today's fixed resolution and with adaptive quality. At the end, the result comes out as JSON to compare devices.",
+    "language": "Português"
+  },
+  "form": {
+    "model": "Device model",
+    "modelHint": "e.g. Moto E13 or Intel UHD 620 laptop",
+    "seconds": "Seconds per run",
+    "start": "Measure ({runs} runs, ~{total} s)",
+    "keep": "Keep the screen on and this tab in front until the end. Close other apps."
+  },
+  "run": {
+    "progress": "Run {n} of {total}: {scenario} · {quality}",
+    "warmup": "warming up",
+    "measuring": "measuring",
+    "idle": "Ready to measure."
+  },
+  "scenario": { "curso": "course city", "estresse": "200 buildings" },
+  "quality": { "fixo": "fixed DPR [1, 2]", "adaptativo": "adaptive" },
+  "result": {
+    "title": "Result",
+    "firstLoad": "Downloaded on first visit: {mb} MB (limit {limit} MB)",
+    "scenario": "City",
+    "quality": "Quality",
+    "fps": "Median FPS",
+    "low": "1% low",
+    "frame": "p95 frame (ms)",
+    "calls": "Draw calls (max)",
+    "dpr": "DPR start ➔ end",
+    "heap": "JS memory (MB)",
+    "verdict": "Budget",
+    "pass": "within",
+    "fail": "over",
+    "goalMissed": "below the 60 target",
+    "json": "JSON for results/",
+    "copy": "Copy JSON",
+    "copied": "Copied.",
+    "download": "Download {file}",
+    "again": "Measure again"
+  },
+  "error": { "webgl": "This browser has no WebGL: the 3D campus does not run here." }
+}

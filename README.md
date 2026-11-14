@@ -69,6 +69,7 @@ Regra prática: se a pergunta é **"dá para o produto fazer isso?"**, é PoC. S
 ## 📊 Benchmarks
 
 - [`benchmarks/sqlite-wasm`](benchmarks/sqlite-wasm): abertura, gravação e leitura do SQLite WASM com OPFS no navegador (abertura ~140 ms, gravação avulsa ~3,5 ms).
+- [`benchmarks/bench-r3f-low-end-budget`](benchmarks/bench-r3f-low-end-budget): orçamento de desempenho do campus 3D em aparelhos simples (30 FPS no mínimo, até 100 draw calls no celular), a qualidade adaptativa com o `PerformanceMonitor` do drei (da GPU fraca simulada, de ~13 a ~45 FPS) e a trava de tamanho do build que barra um modelo 3D acima do orçamento.
 
 ## 🚀 CI/CD e demos ao vivo
 

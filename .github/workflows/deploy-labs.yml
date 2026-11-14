@@ -448,6 +448,16 @@ jobs:
           [ -n "$AG_JS" ] && header "/pocs/poc-r3f-active-goals-markers/dist/${AG_JS}" "immutable" || { echo "::error::não achei o bundle com hash dos objetivos ativos"; fail=1; }
           AG_3D=$(curl -sS -A "pmlife-labs-smoke" "${AG_BASE}/${AG_JS}" | grep -o 'CampusCanvas-[A-Za-z0-9_-]*\.js' | head -1)
           [ -n "$AG_3D" ] && header "/pocs/poc-r3f-active-goals-markers/dist/assets/${AG_3D}" "immutable" || { echo "::error::o bundle dos objetivos ativos não referencia o pedaço do campus 3D (CampusCanvas-<hash>.js)"; fail=1; }
+          # US56: orçamento de desempenho (só front). O HTML sem cache, o bundle com hash e imutável; o código-fonte, o
+          # orçamento e a trava de tamanho bloqueados.
+          check "/catalogo/bench-r3f-low-end-budget/" 200
+          check "/benchmarks/bench-r3f-low-end-budget/dist/" 200
+          header "/benchmarks/bench-r3f-low-end-budget/dist/" "no-cache"
+          for path in src/Domain/AdaptiveQuality.ts src/Domain/SizeBudget.ts budget.json scripts/size-budget.mjs; do
+            check "/benchmarks/bench-r3f-low-end-budget/${path}" 403
+          done
+          PB_JS=$(curl -sS -A "pmlife-labs-smoke" "${LABS_URL}/benchmarks/bench-r3f-low-end-budget/dist/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          [ -n "$PB_JS" ] && header "/benchmarks/bench-r3f-low-end-budget/dist/${PB_JS}" "immutable" || { echo "::error::não achei o bundle com hash do benchmark de desempenho"; fail=1; }
           # US46: totem de vídeo além do YouTube (só front). O HTML sem cache, o bundle com hash e imutável, o código-fonte e a medição bloqueados.
           check "/catalogo/spike-video-providers-embed/" 200
           check "/spikes/spike-video-providers-embed/dist/" 200

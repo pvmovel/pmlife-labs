@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "bench": "bench-r3f-low-end-budget",
+  "date": "2026-11-14T23:52:14.272Z",
+  "device": {
+    "model": "Notebook Intel Core i3 8GB",
+    "class": "desktop",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+    "cores": 4,
+    "memoryGB": 4,
+    "dpr": 1,
+    "screen": "1366x768",
+    "gpu": "ANGLE (Intel, Mesa Intel(R) UHD Graphics (ICL GT1), OpenGL 4.6)"
+  },
+  "firstLoad": { "metric": "firstLoadMB", "value": 0.45, "limit": 3, "ok": true, "level": "required" },
+  "runs": [
+    {
+      "scenario": "curso",
+      "quality": "fixo",
+      "camera": "avatar",
+      "shadows": true,
+      "avatarShadow": "blob",
+      "simulatedFillCostMs": 0,
+      "frames": { "frames": 1198, "seconds": 20.01, "fpsAverage": 59.9, "fpsMedian": 59.9, "fpsLow1": 53.5, "frameMsMedian": 16.7, "frameMsP95": 17.2, "frameMsMax": 78 },
+      "drawCalls": { "median": 23, "max": 23 },
+      "triangles": { "median": 2142, "max": 2142 },
+      "dpr": { "start": 1, "end": 1, "min": 1 },
+      "heapMB": 29.63,
+      "checks": [
+        { "metric": "fps", "value": 59.9, "limit": 30, "ok": true, "level": "required" },
+        { "metric": "fpsTarget", "value": 59.9, "limit": 60, "ok": true, "level": "goal" },
+        { "metric": "drawCalls", "value": 23, "limit": 200, "ok": true, "level": "required" },
+        { "metric": "heapMB", "value": 29.63, "limit": 150, "ok": true, "level": "required" }
+      ]
+    },
+    {
+      "scenario": "curso",
+      "quality": "adaptativo",
+      "camera": "avatar",
+      "shadows": true,
+      "avatarShadow": "blob",
+      "simulatedFillCostMs": 0,
+      "frames": { "frames": 1199, "seconds": 20.01, "fpsAverage": 59.9, "fpsMedian": 59.9, "fpsLow1": 55.9, "frameMsMedian": 16.7, "frameMsP95": 17.2, "frameMsMax": 60.1 },
+      "drawCalls": { "median": 23, "max": 23 },
+      "triangles": { "median": 2142, "max": null },
+      "dpr": { "start": 1, "end": 1, "min": 1 },
+      "heapMB": 32.7,
+      "checks": [
+        { "metric": "fps", "value": 59.9, "limit": 30, "ok": true, "level": "required" },
+        { "metric": "fpsTarget", "value": 59.9, "limit": 60, "ok": true, "level": "goal" },
+        { "metric": "drawCalls", "value": 23, "limit": 200, "ok": true, "level": "required" },
+        { "metric": "heapMB", "value": 32.7, "limit": 150, "ok": true, "level": "required" }
+      ]
+    },
+    {
+      "scenario": "estresse",
+      "quality": "fixo",
+      "camera": "avatar",
+      "shadows": true,
+      "avatarShadow": "blob",
+      "simulatedFillCostMs": 0,
+      "frames": { "frames": 1081, "seconds": 20.01, "fpsAverage": 54, "fpsMedian": 57.5, "fpsLow1": 29.3, "frameMsMedian": 17.4, "frameMsP95": 26, "frameMsMax": 115.5 },
+      "drawCalls": { "median": 713, "max": 722 },
+      "triangles": { "median": 7054, "max": null },
+      "dpr": { "start": 1, "end": 1, "min": 1 },
+      "heapMB": 58.22,
+      "checks": [
+        { "metric": "fps", "value": 57.5, "limit": 30, "ok": true, "level": "required" },
+        { "metric": "fpsTarget", "value": 57.5, "limit": 60, "ok": true, "level": "goal" },
+        { "metric": "drawCalls", "value": 722, "limit": 200, "ok": false, "level": "required" },
+        { "metric": "heapMB", "value": 58.22, "limit": 150, "ok": true, "level": "required" }
+      ]
+    },
+    {
+      "scenario": "estresse",
+      "quality": "adaptativo",
+      "camera": "avatar",
+      "shadows": true,
+      "avatarShadow": "blob",
+      "simulatedFillCostMs": 0,
+      "frames": { "frames": 1115, "seconds": 20, "fpsAverage": 55.7, "fpsMedian": 57.8, "fpsLow1": 34.2, "frameMsMedian": 17.3, "frameMsP95": 23.5, "frameMsMax": 85.1 },
+      "drawCalls": { "median": 713, "max": 722 },
+      "triangles": { "median": 7050, "max": null },
+      "dpr": { "start": 1, "end": 1, "min": 1 },
+      "heapMB": 77.11,
+      "checks": [
+        { "metric": "fps", "value": 57.8, "limit": 30, "ok": true, "level": "required" },
+        { "metric": "fpsTarget", "value": 57.8, "limit": 60, "ok": true, "level": "goal" },
+        { "metric": "drawCalls", "value": 722, "limit": 200, "ok": false, "level": "required" },
+        { "metric": "heapMB", "value": 77.11, "limit": 150, "ok": true, "level": "required" }
+      ]
+    }
+  ]
+}

@@ -20,7 +20,15 @@ Mede tanto com a resolução fixa de hoje quanto com a **qualidade adaptativa**.
 | Cada textura, fonte e pedaço de JS | 512 KB, 64 KB e 400 KB com gzip | na trava do CI |
 | Bundle inicial (o que o `index.html` carrega) | até 450 KB com gzip | na trava do CI |
 
-Os números vivem em [`budget.json`](budget.json) e foram decididos em 2026-11-13. Os finais saem das medições nos aparelhos de referência, em [`results/`](results/).
+Os números vivem em [`budget.json`](budget.json). Foram decididos em 2026-11-13 e confirmados em 2026-11-14 com as medições nos aparelhos de referência, em [`results/`](results/):
+
+| Aparelho | Cidade do curso | 200 prédios |
+| :--- | :--- | :--- |
+| Samsung Galaxy A26 (Mali-G68) | 60 FPS, 21 draw calls | 60 FPS, 582 draw calls |
+| Notebook Intel Core i3 (UHD Graphics) | 60 FPS, 23 draw calls | 57,5 FPS (1% baixo 29), 722 draw calls |
+
+- A cidade de um curso cumpre a meta de 60 FPS nos dois aparelhos, com 0,45 MB no primeiro acesso e até 33 MB de memória.
+- O limite de draw calls ficou conservador de propósito: o Galaxy A26 é um intermediário, e o limite tem que valer para os celulares de entrada.
 
 ## Como medir num aparelho
 

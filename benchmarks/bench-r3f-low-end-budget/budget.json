@@ -1,5 +1,5 @@
 {
-  "$comment": "Orçamento de desempenho (US56). FPS e draw calls conferidos pelo benchmark nos aparelhos (results/); tamanhos conferidos pela trava do CI (scripts/size-budget.mjs) no build. KB com gzip.",
+  "$comment": "Orçamento de desempenho (US56). FPS e draw calls conferidos pelo benchmark nos aparelhos (results/, confirmados em 2026-11-14 no Galaxy A26 e no notebook Core i3); tamanhos conferidos pela trava do CI (scripts/size-budget.mjs) no build. KB com gzip.",
   "performance": { "fpsMin": 30, "fpsTarget": 60, "drawCalls": { "phone": 100, "desktop": 200 }, "firstLoadMB": 3, "heapMB": 150 },
   "size": {
     "initialKB": 450,

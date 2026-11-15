@@ -1,0 +1,9 @@
+{
+  "halfSize": 15,
+  "start": { "x": 0, "z": 10, "heading": 3.141592653589793 },
+  "buildings": [
+    { "id": "matriculas", "labelKey": "buildings.matriculas", "position": [-8, -4], "size": [5, 4, 4], "color": "#0c8599" },
+    { "id": "portal", "labelKey": "buildings.portal", "position": [0, -9], "size": [6, 5, 4], "color": "#5f3dc4" },
+    { "id": "secretaria", "labelKey": "buildings.secretaria", "position": [8, -4], "size": [4, 3, 5], "color": "#e8590c" }
+  ]
+}

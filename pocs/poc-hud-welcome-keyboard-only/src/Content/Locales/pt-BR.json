@@ -1,0 +1,121 @@
+{
+  "nav": {
+    "back": "← PMLife Labs",
+    "docs": "Documentação"
+  },
+  "page": {
+    "eyebrow": "PoC · boas-vindas e teclado",
+    "title": "Chegue, leia as teclas e faça tudo sem o mouse",
+    "lead": "A sede de uma instituição de exemplo. Na primeira visita, a janela de boas-vindas mostra as teclas. No modo Avatar, tudo funciona só pelo teclado: M troca o modo, C abre o Co-Pilot, T o chat da turma, H a ajuda, I as informações e E entra no prédio. O mouse e o toque continuam valendo.",
+    "language": "Idioma",
+    "loading": "Carregando a sede 3D…",
+    "sceneLabel": {
+      "avatar": "Sede 3D com {count} prédios, no modo Avatar (terceira pessoa).",
+      "orbital": "Sede 3D com {count} prédios, na visão Orbital (de cima)."
+    },
+    "showWelcome": "Ver as boas-vindas de novo",
+    "aboutTitle": "O que esta PoC prova",
+    "about1": "Uma lista única de atalhos alimenta o teclado, os botões do HUD, a boas-vindas e a ajuda: a tecla nunca aparece numa tela e falta na outra.",
+    "about2": "Nenhum atalho dispara enquanto se digita (no chat, \"t\", \"c\", \"m\" e \"h\" são só texto), nem com Ctrl, Cmd ou Alt.",
+    "about3": "Um teste confere que todo botão do HUD tem tecla e aparece na ajuda: uma ação nova sem tecla barra o PR.",
+    "nearby": "Prédio no alcance",
+    "nobody": "nenhum"
+  },
+  "buildings": {
+    "matriculas": "Matrículas",
+    "portal": "Portal dos cursos",
+    "secretaria": "Secretaria do aluno"
+  },
+  "hud": {
+    "label": "Ações do campus",
+    "info": "Informações",
+    "copilot": "Co-Pilot",
+    "chat": "Chat",
+    "help": "Ajuda",
+    "enter": "Entrar",
+    "entered": "Você entrou em {building} (na demo, a sala não abre)."
+  },
+  "mode": {
+    "label": "Modo de navegação",
+    "avatar": "Avatar",
+    "orbital": "Orbital",
+    "keys": {
+      "avatar": "WASD ou setas andam · M alterna para a visão Orbital",
+      "orbital": "Arraste para girar, role para aproximar · M alterna para o Avatar"
+    },
+    "touch": {
+      "avatar": "Use o joystick para andar · toque em Orbital para ver de cima",
+      "orbital": "Arraste para girar, pince para aproximar · toque em Avatar para andar"
+    }
+  },
+  "guide": {
+    "welcomeTitle": "Boas-vindas ao PMLife",
+    "helpTitle": "Ajuda: as teclas do campus",
+    "welcomeIntro": "Aqui você aprende andando por uma cidade 3D. Estas são as teclas; a qualquer momento, aperte H para ver esta ajuda de novo.",
+    "welcomeIntroTouch": "Aqui você aprende andando por uma cidade 3D. Assim você se move e usa o campus; a ajuda fica no botão Ajuda, no topo.",
+    "groups": {
+      "move": "Andar",
+      "action": "Ações",
+      "view": "Visão",
+      "window": "Janelas"
+    },
+    "touch": {
+      "move": "Use o joystick, no canto de baixo, para andar e girar.",
+      "buttons": "Os botões do topo abrem as informações, o Co-Pilot, o chat e a ajuda.",
+      "mode": "Avatar anda pela cidade; Orbital mostra tudo de cima (arraste e pince)."
+    },
+    "foot": "O mouse é opcional: os botões na tela fazem o mesmo que as teclas.",
+    "footTouch": "No computador, tudo isso também funciona pelo teclado.",
+    "start": "Começar"
+  },
+  "shortcuts": {
+    "move": "andar e girar",
+    "interact": "entrar no prédio à frente",
+    "info": "informações do lugar",
+    "mode": "trocar entre Avatar e Orbital",
+    "copilot": "abrir o Co-Pilot",
+    "chat": "abrir o chat da turma",
+    "help": "abrir esta ajuda",
+    "close": "fechar a janela aberta"
+  },
+  "chat": {
+    "title": "Chat da turma",
+    "log": "Mensagens da turma",
+    "seed1": "Alguém já achou o Portal dos cursos?",
+    "seed2": "Fica no fundo da praça, é só seguir em frente.",
+    "me": "Você",
+    "input": "Escreva uma mensagem",
+    "send": "Enviar"
+  },
+  "copilot": {
+    "title": "Co-Pilot",
+    "intro": "Pergunte sobre o campus. Na demo, as respostas são prontas; no produto, vêm do tutor de IA.",
+    "input": "Sua pergunta",
+    "placeholder": "Ex.: como troco o modo?",
+    "ask": "Perguntar",
+    "answers": {
+      "mode": "Aperte M para alternar entre o Avatar (você anda pela cidade) e o Orbital (a visão de cima).",
+      "chat": "Aperte T para abrir o chat da turma. Enter envia, e Esc fecha.",
+      "move": "Use WASD ou as setas: W e S andam, A e D giram.",
+      "interact": "Chegue perto de um prédio e aperte E para entrar.",
+      "help": "Aperte H a qualquer momento para ver todas as teclas.",
+      "mouse": "O mouse e o toque são opcionais: os botões na tela fazem o mesmo que as teclas.",
+      "unknown": "Ainda não sei responder isso. Tente perguntar sobre o modo, o chat, como andar ou como entrar num prédio."
+    }
+  },
+  "info": {
+    "title": "Informações",
+    "campus": "Você está na praça da sede. Ande até um prédio para ver as informações dele.",
+    "buildings": {
+      "matriculas": "Matrículas: onde o aluno escolhe o curso e entra numa turma.",
+      "portal": "Portal dos cursos: a porta para a cidade de cada curso.",
+      "secretaria": "Secretaria do aluno: o progresso, as medalhas e o certificado."
+    }
+  },
+  "modal": {
+    "close": "Fechar"
+  },
+  "joystick": {
+    "label": "Joystick: arraste para andar e girar"
+  }
+}

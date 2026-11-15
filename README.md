@@ -36,6 +36,7 @@ Regra prática: se a pergunta é **"dá para o produto fazer isso?"**, é PoC. S
 | [`pocs/poc-r3f-ai-npc-dialog`](pocs/poc-r3f-ai-npc-dialog) | NPCs 3D com conversa: aviso "E para conversar", memória curta de 3 trocas e lista branca de personas no servidor (`INVALID_PERSONA`) |
 | [`pocs/poc-hud-keyboard-list-navigation`](pocs/poc-hud-keyboard-list-navigation) | Portais e Matrículas 100% pelo teclado: números 1 a 9 e 0, páginas de 10, setas, Enter, Home e End, no padrão listbox do WAI-ARIA; a fase bloqueada não abre e o avatar não anda atrás da janela |
 | [`pocs/poc-r3f-active-goals-markers`](pocs/poc-r3f-active-goals-markers) | Objetivos ativos: o autor sugere metas ligadas a missões, o aluno fixa no HUD pela lista do teclado, e os prédios com missão pendente ganham um marcador 3D leve (um sprite); a meta cumprida é derivada do progresso, sem gravar nada em dobro |
+| [`pocs/poc-hud-welcome-keyboard-only`](pocs/poc-hud-welcome-keyboard-only) | Boas-vindas do visitante e modo Avatar 100% teclado: uma lista única de atalhos alimenta o teclado, os botões do HUD, a boas-vindas e a ajuda; M troca o modo, C abre o Co-Pilot, T o chat; nada dispara enquanto se digita, e um teste barra a ação do HUD sem tecla |
 
 ## 🧪 Spikes
 

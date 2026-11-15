@@ -1,0 +1,121 @@
+{
+  "nav": {
+    "back": "← PMLife Labs",
+    "docs": "Documentation"
+  },
+  "page": {
+    "eyebrow": "PoC · welcome and keyboard",
+    "title": "Arrive, read the keys and do everything without a mouse",
+    "lead": "The headquarters of a sample institution. On the first visit, the welcome window shows the keys. In Avatar mode, everything works from the keyboard alone: M switches the mode, C opens the Co-Pilot, T the cohort chat, H the help, I the information and E enters the building. Mouse and touch still work.",
+    "language": "Language",
+    "loading": "Loading the 3D headquarters…",
+    "sceneLabel": {
+      "avatar": "3D headquarters with {count} buildings, in Avatar mode (third person).",
+      "orbital": "3D headquarters with {count} buildings, in the Orbital view (from above)."
+    },
+    "showWelcome": "Show the welcome again",
+    "aboutTitle": "What this PoC proves",
+    "about1": "A single shortcut list feeds the keyboard, the HUD buttons, the welcome and the help: a key never shows on one screen and is missing on another.",
+    "about2": "No shortcut fires while typing (in the chat, \"t\", \"c\", \"m\" and \"h\" are just text), nor with Ctrl, Cmd or Alt.",
+    "about3": "A test checks that every HUD button has a key and appears in the help: a new action without a key blocks the PR.",
+    "nearby": "Building in range",
+    "nobody": "none"
+  },
+  "buildings": {
+    "matriculas": "Enrollment",
+    "portal": "Course portal",
+    "secretaria": "Student office"
+  },
+  "hud": {
+    "label": "Campus actions",
+    "info": "Information",
+    "copilot": "Co-Pilot",
+    "chat": "Chat",
+    "help": "Help",
+    "enter": "Enter",
+    "entered": "You entered {building} (in the demo, the room does not open)."
+  },
+  "mode": {
+    "label": "Navigation mode",
+    "avatar": "Avatar",
+    "orbital": "Orbital",
+    "keys": {
+      "avatar": "WASD or arrows walk · M switches to the Orbital view",
+      "orbital": "Drag to rotate, scroll to zoom · M switches to Avatar"
+    },
+    "touch": {
+      "avatar": "Use the joystick to walk · tap Orbital to see from above",
+      "orbital": "Drag to rotate, pinch to zoom · tap Avatar to walk"
+    }
+  },
+  "guide": {
+    "welcomeTitle": "Welcome to PMLife",
+    "helpTitle": "Help: the campus keys",
+    "welcomeIntro": "Here you learn by walking around a 3D city. These are the keys; at any time, press H to see this help again.",
+    "welcomeIntroTouch": "Here you learn by walking around a 3D city. This is how you move and use the campus; the help is in the Help button, at the top.",
+    "groups": {
+      "move": "Walk",
+      "action": "Actions",
+      "view": "View",
+      "window": "Windows"
+    },
+    "touch": {
+      "move": "Use the joystick, in the bottom corner, to walk and turn.",
+      "buttons": "The buttons at the top open the information, the Co-Pilot, the chat and the help.",
+      "mode": "Avatar walks around the city; Orbital shows everything from above (drag and pinch)."
+    },
+    "foot": "The mouse is optional: the on-screen buttons do the same as the keys.",
+    "footTouch": "On a computer, all of this also works from the keyboard.",
+    "start": "Start"
+  },
+  "shortcuts": {
+    "move": "walk and turn",
+    "interact": "enter the building ahead",
+    "info": "information about the place",
+    "mode": "switch between Avatar and Orbital",
+    "copilot": "open the Co-Pilot",
+    "chat": "open the cohort chat",
+    "help": "open this help",
+    "close": "close the open window"
+  },
+  "chat": {
+    "title": "Cohort chat",
+    "log": "Cohort messages",
+    "seed1": "Has anyone found the Course portal yet?",
+    "seed2": "It is at the back of the square, just go straight ahead.",
+    "me": "You",
+    "input": "Write a message",
+    "send": "Send"
+  },
+  "copilot": {
+    "title": "Co-Pilot",
+    "intro": "Ask about the campus. In the demo, the answers are ready-made; in the product, they come from the AI tutor.",
+    "input": "Your question",
+    "placeholder": "E.g.: how do I switch the mode?",
+    "ask": "Ask",
+    "answers": {
+      "mode": "Press M to switch between Avatar (you walk around the city) and Orbital (the view from above).",
+      "chat": "Press T to open the cohort chat. Enter sends, and Esc closes.",
+      "move": "Use WASD or the arrows: W and S walk, A and D turn.",
+      "interact": "Walk up to a building and press E to enter.",
+      "help": "Press H at any time to see all the keys.",
+      "mouse": "Mouse and touch are optional: the on-screen buttons do the same as the keys.",
+      "unknown": "I can't answer that yet. Try asking about the mode, the chat, how to walk or how to enter a building."
+    }
+  },
+  "info": {
+    "title": "Information",
+    "campus": "You are in the headquarters square. Walk up to a building to see its information.",
+    "buildings": {
+      "matriculas": "Enrollment: where students choose a course and join a cohort.",
+      "portal": "Course portal: the door to each course's city.",
+      "secretaria": "Student office: progress, badges and the certificate."
+    }
+  },
+  "modal": {
+    "close": "Close"
+  },
+  "joystick": {
+    "label": "Joystick: drag to walk and turn"
+  }
+}

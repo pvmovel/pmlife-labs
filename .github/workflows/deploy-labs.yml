@@ -448,6 +448,18 @@ jobs:
           [ -n "$AG_JS" ] && header "/pocs/poc-r3f-active-goals-markers/dist/${AG_JS}" "immutable" || { echo "::error::não achei o bundle com hash dos objetivos ativos"; fail=1; }
           AG_3D=$(curl -sS -A "pmlife-labs-smoke" "${AG_BASE}/${AG_JS}" | grep -o 'CampusCanvas-[A-Za-z0-9_-]*\.js' | head -1)
           [ -n "$AG_3D" ] && header "/pocs/poc-r3f-active-goals-markers/dist/assets/${AG_3D}" "immutable" || { echo "::error::o bundle dos objetivos ativos não referencia o pedaço do campus 3D (CampusCanvas-<hash>.js)"; fail=1; }
+          # US78: boas-vindas e teclado (só front). O HTML sem cache; o bundle e o pedaço da sede 3D (carregado sob demanda)
+          # com hash e imutáveis; o código-fonte e a lista de atalhos bloqueados.
+          check "/catalogo/poc-hud-welcome-keyboard-only/" 200
+          check "/pocs/poc-hud-welcome-keyboard-only/dist/" 200
+          header "/pocs/poc-hud-welcome-keyboard-only/dist/" "no-cache"
+          check "/pocs/poc-hud-welcome-keyboard-only/src/Domain/Shortcuts.ts" 403
+          check "/pocs/poc-hud-welcome-keyboard-only/src/Content/shortcuts.json" 403
+          WK_BASE="${LABS_URL}/pocs/poc-hud-welcome-keyboard-only/dist"
+          WK_JS=$(curl -sS -A "pmlife-labs-smoke" "${WK_BASE}/" | grep -o 'assets/index-[^"]*\.js' | head -1)
+          [ -n "$WK_JS" ] && header "/pocs/poc-hud-welcome-keyboard-only/dist/${WK_JS}" "immutable" || { echo "::error::não achei o bundle com hash da boas-vindas e teclado"; fail=1; }
+          WK_3D=$(curl -sS -A "pmlife-labs-smoke" "${WK_BASE}/${WK_JS}" | grep -o 'CampusCanvas-[A-Za-z0-9_-]*\.js' | head -1)
+          [ -n "$WK_3D" ] && header "/pocs/poc-hud-welcome-keyboard-only/dist/assets/${WK_3D}" "immutable" || { echo "::error::o bundle da boas-vindas e teclado não referencia o pedaço da sede 3D (CampusCanvas-<hash>.js)"; fail=1; }
           # US56: orçamento de desempenho (só front). O HTML sem cache, o bundle com hash e imutável; o código-fonte, o
           # orçamento e a trava de tamanho bloqueados.
           check "/catalogo/bench-r3f-low-end-budget/" 200

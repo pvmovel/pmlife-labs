@@ -1,0 +1,30 @@
+{
+  "title": "Boas-vindas e modo Avatar 100% teclado",
+  "summary": "A sede de uma instituição de exemplo. Na primeira visita, uma janela de boas-vindas mostra as teclas; no modo Avatar, tudo funciona só pelo teclado: M troca o modo, C abre o Co-Pilot, T o chat da turma, H a ajuda, I as informações e E entra no prédio. O mouse e o toque continuam valendo.",
+  "problem": "Quem chega à cidade 3D pela primeira vez não sabe o que fazer. E, no computador, o chat e o Co-Pilot só abriam pelo mouse, o que quebra a navegação só pelo teclado (WCAG 2.1.1). Cada ação nova no HUD corria o risco de nascer sem tecla, ou com uma tecla que a ajuda não mostrava.",
+  "result": "Uma lista única de atalhos, conferida no domínio em TypeScript puro, alimenta o teclado, os botões do HUD, a boas-vindas e a ajuda. A lista recusa tecla repetida ou reservada. Nenhum atalho dispara enquanto se digita ou com Ctrl, Cmd ou Alt. As janelas abrem com o foco onde se escreve, e o Esc fecha. Um teste lê os botões do HUD e barra a ação sem tecla. A boas-vindas abre só na primeira visita, guardada no aparelho. Testes de domínio e de tela e um e2e no Chrome sem nenhum clique (inclusive a câmera orbital lida do three.js e o celular) provam os cenários.",
+  "tags": [
+    "React Three Fiber",
+    "Three.js",
+    "Clean Architecture",
+    "Acessibilidade",
+    "WCAG",
+    "WAI-ARIA",
+    "HUD",
+    "Onboarding",
+    "Touch",
+    "i18n",
+    "Vitest",
+    "Puppeteer"
+  ],
+  "roadmap": "US78",
+  "date": "2026-11-15",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "Leia as boas-vindas e aperte Esc. Depois, sem o mouse: T abre o chat (escreva e aperte Enter), Esc e C abrem o Co-Pilot (pergunte \"como troco o modo?\"), M troca para a visão Orbital e volta, WASD anda até um prédio, E entra e I mostra as informações. H reabre a ajuda. No celular, use o joystick e os botões. O chat, os colegas e as respostas são inventados."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + testes + e2e no Chrome headless (só teclado, toque, celular)\nyarn dev      # demo em http://localhost:5173"
+}

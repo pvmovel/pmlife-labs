@@ -1,0 +1,11 @@
+{
+  "$comment": "Respostas prontas do Co-Pilot da demo, por palavra-chave (sem acento, minúsculas). No produto, o Co-Pilot responde pelo gateway de IA; aqui, só o que cabe na demo.",
+  "answers": [
+    { "keywords": ["modo", "orbital", "camera", "mode", "view"], "answerKey": "copilot.answers.mode" },
+    { "keywords": ["chat", "turma", "colega", "cohort", "classmate"], "answerKey": "copilot.answers.chat" },
+    { "keywords": ["andar", "mover", "anda", "walk", "move"], "answerKey": "copilot.answers.move" },
+    { "keywords": ["predio", "entrar", "missao", "building", "enter", "quest"], "answerKey": "copilot.answers.interact" },
+    { "keywords": ["ajuda", "tecla", "atalho", "help", "key", "shortcut"], "answerKey": "copilot.answers.help" },
+    { "keywords": ["mouse", "toque", "touch", "celular", "phone"], "answerKey": "copilot.answers.mouse" }
+  ]
+}

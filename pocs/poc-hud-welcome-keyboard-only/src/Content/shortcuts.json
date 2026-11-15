@@ -1,0 +1,14 @@
+{
+  "$comment": "A lista única dos atalhos do modo Avatar (US78): a janela de boas-vindas, a ajuda (H), os botões do HUD e a trava dos testes leem daqui. Uma ação nova no HUD sem tecla faz o teste falhar.",
+  "reserved": ["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright", "escape", "tab", "enter", " "],
+  "shortcuts": [
+    { "id": "move", "keys": ["W", "A", "S", "D", "↑", "↓", "←", "→"], "group": "move", "labelKey": "shortcuts.move" },
+    { "id": "interact", "key": "e", "keys": ["E"], "group": "action", "labelKey": "shortcuts.interact" },
+    { "id": "info", "key": "i", "keys": ["I"], "group": "action", "labelKey": "shortcuts.info" },
+    { "id": "mode", "key": "m", "keys": ["M"], "group": "view", "labelKey": "shortcuts.mode" },
+    { "id": "copilot", "key": "c", "keys": ["C"], "group": "window", "labelKey": "shortcuts.copilot" },
+    { "id": "chat", "key": "t", "keys": ["T"], "group": "window", "labelKey": "shortcuts.chat" },
+    { "id": "help", "key": "h", "keys": ["H"], "group": "window", "labelKey": "shortcuts.help" },
+    { "id": "close", "keys": ["Esc"], "group": "window", "labelKey": "shortcuts.close" }
+  ]
+}

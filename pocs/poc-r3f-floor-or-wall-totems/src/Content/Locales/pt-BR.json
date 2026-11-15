@@ -1,0 +1,104 @@
+{
+  "nav": {
+    "back": "← PMLife Labs",
+    "docs": "Documentação"
+  },
+  "page": {
+    "eyebrow": "PoC · no chão ou na parede",
+    "title": "Ponha cada objeto da sala no chão ou na parede",
+    "lead": "Uma sala de um curso fictício, já no tamanho novo: paredes de 18 m e a porta perto do canto. Cada totem de vídeo e cada quadro pode ficar numa parede ou em pé no chão (o quadro no chão vira uma placa de aviso num pedestal). Cada parede aceita até 5 quadros, somando quadros e totens; o que fica no chão não conta. Mude no editor abaixo e publique: a sala só muda se não tiver problema.",
+    "language": "Idioma",
+    "loading": "Carregando a sala 3D…",
+    "sceneLabel": "Sala 3D de {size} m com {walls} objetos nas paredes e {floor} no chão: {titles}.",
+    "nearby": "Em foco",
+    "nobody": "nenhum",
+    "keysTitle": "Teclas",
+    "keysMove": "W/S ou ↑/↓: anda · A/D ou ←/→: gira",
+    "keysInteract": "Perto de um totem (na parede ou no chão): E assiste ao vídeo · Esc fecha",
+    "keysClick": "Clique ou toque num totem para assistir",
+    "keysTouch": "No toque: o joystick no canto anda e gira; Assistir abre o vídeo",
+    "frames": "Quadros desenhados"
+  },
+  "stations": {
+    "leitura": "Mesa de leitura",
+    "pratica": "Mesa de prática"
+  },
+  "items": {
+    "aula1": "Aula 1: abertura do curso",
+    "aula2": "Aula 2: o primeiro projeto",
+    "regras": "Regras da sala: respeite o tempo dos colegas",
+    "agenda": "Agenda: aula ao vivo na quinta, 19h",
+    "metas": "Metas da semana: duas missões",
+    "aviso": "Aviso: a prova abre na segunda",
+    "boasVindas": "Boas-vindas! Comece pela Aula 1",
+    "novo": "Quadro novo"
+  },
+  "hud": {
+    "watch": "Assistir",
+    "nearTotem": "Totem de vídeo",
+    "close": "Fechar"
+  },
+  "player": {
+    "label": "Vídeo: {title}",
+    "frameTitle": "Player do YouTube: {title}",
+    "brand": "PMLife",
+    "loading": "Carregando o vídeo…",
+    "privacy": "Player do YouTube sem cookies de rastreamento antes do play.",
+    "openOnYouTube": "Abrir no YouTube",
+    "failed": {
+      "unavailable": "Este vídeo não está disponível: ele foi removido, é privado ou o endereço mudou. Avise a sua instituição.",
+      "embedBlocked": "Este vídeo não pode ser exibido aqui: o dono não permite que ele toque fora do YouTube, ou ele foi removido ou ficou privado. Avise a sua instituição.",
+      "noResponse": "O vídeo não carregou. A rede pode estar bloqueando o YouTube, ou a internet caiu."
+    }
+  },
+  "editor": {
+    "title": "Editor da sala (o que o master da instituição faz no editor do mundo)",
+    "item": "Objeto",
+    "kinds": {
+      "board": "quadro",
+      "totem": "totem de vídeo"
+    },
+    "placement": "Onde fica",
+    "wall": "Na parede",
+    "floor": "No chão",
+    "whichWall": "Parede",
+    "offset": "Posição na parede (m)",
+    "x": "x (m)",
+    "z": "z (m)",
+    "facing": "Frente virada para",
+    "walls": {
+      "north": "norte",
+      "east": "leste",
+      "south": "sul",
+      "west": "oeste"
+    },
+    "publish": "Publicar a sala",
+    "published": "Publicado.",
+    "refused": "Não publicado (nada foi gravado):",
+    "discard": "Desfazer as mudanças",
+    "addTitle": "Acrescentar um quadro",
+    "addWall": "Na parede",
+    "add": "Acrescentar quadro",
+    "added": "Quadro acrescentado na parede {wall}.",
+    "newRoom": "Começar uma sala nova",
+    "newRoomDone": "Sala nova: paredes de {size} m, a porta perto do canto, sem objetos.",
+    "counts": "Quadros por parede: {counts} (até {max} cada)",
+    "problems": {
+      "ID_DUPLICATE": "o id de {item} se repete",
+      "ITEMS_TOO_MANY": "a sala passou de 20 objetos ({item})",
+      "SIZE_NOT_POSITIVE": "{item} precisa de uma largura positiva",
+      "VIDEO_ID_INVALID": "{item} não tem um vídeo do YouTube válido",
+      "WALL_ITEM_OUTSIDE": "{item} sai da parede",
+      "WALL_ITEM_ON_DOOR": "{item} está sobre a porta",
+      "WALL_ITEMS_OVERLAP": "{item} está sobre outro objeto da mesma parede",
+      "WALL_ITEMS_TOO_MANY": "a parede {wall} já tem 5 quadros ({item} não cabe)",
+      "FLOOR_ITEM_OUTSIDE": "{item} sai da sala",
+      "FLOOR_ITEM_BLOCKS_DOOR": "{item} está no corredor da porta",
+      "FLOOR_ITEMS_OVERLAP": "{item} está sobre uma mesa ou outro objeto do chão",
+      "FLOOR_ITEM_BLOCKS_PATH": "{item} fecha a passagem até {target}"
+    }
+  },
+  "joystick": {
+    "label": "Joystick: arraste para andar e girar"
+  }
+}

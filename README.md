@@ -37,6 +37,7 @@ Regra prática: se a pergunta é **"dá para o produto fazer isso?"**, é PoC. S
 | [`pocs/poc-hud-keyboard-list-navigation`](pocs/poc-hud-keyboard-list-navigation) | Portais e Matrículas 100% pelo teclado: números 1 a 9 e 0, páginas de 10, setas, Enter, Home e End, no padrão listbox do WAI-ARIA; a fase bloqueada não abre e o avatar não anda atrás da janela |
 | [`pocs/poc-r3f-active-goals-markers`](pocs/poc-r3f-active-goals-markers) | Objetivos ativos: o autor sugere metas ligadas a missões, o aluno fixa no HUD pela lista do teclado, e os prédios com missão pendente ganham um marcador 3D leve (um sprite); a meta cumprida é derivada do progresso, sem gravar nada em dobro |
 | [`pocs/poc-hud-welcome-keyboard-only`](pocs/poc-hud-welcome-keyboard-only) | Boas-vindas do visitante e modo Avatar 100% teclado: uma lista única de atalhos alimenta o teclado, os botões do HUD, a boas-vindas e a ajuda; M troca o modo, C abre o Co-Pilot, T o chat; nada dispara enquanto se digita, e um teste barra a ação do HUD sem tecla |
+| [`pocs/poc-r3f-floor-or-wall-totems`](pocs/poc-r3f-floor-or-wall-totems) | Objetos da sala no chão ou na parede: o totem de vídeo e o quadro (no chão, placa de aviso), até 5 quadros por parede, o corredor da porta e a passagem livre até cada mesa por busca em largura, na sala nova de 18 m com a porta perto do canto; os documentos de antes ficam iguais |
 
 ## 🧪 Spikes
 

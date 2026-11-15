@@ -1,0 +1,104 @@
+{
+  "nav": {
+    "back": "← PMLife Labs",
+    "docs": "Documentation"
+  },
+  "page": {
+    "eyebrow": "PoC · on the floor or on the wall",
+    "title": "Put each room object on the floor or on the wall",
+    "lead": "A room of a fictional course, already in the new size: 18 m walls and the door near the corner. Each video totem and each board can be on a wall or standing on the floor (a board on the floor becomes a notice sign on a pedestal). Each wall takes up to 5 boards, counting boards and totems together; what is on the floor does not count. Change it in the editor below and publish: the room only changes if there is no problem.",
+    "language": "Language",
+    "loading": "Loading the 3D room…",
+    "sceneLabel": "{size} m 3D room with {walls} objects on the walls and {floor} on the floor: {titles}.",
+    "nearby": "In focus",
+    "nobody": "none",
+    "keysTitle": "Keys",
+    "keysMove": "W/S or ↑/↓: walk · A/D or ←/→: turn",
+    "keysInteract": "Near a totem (on the wall or on the floor): E watches the video · Esc closes",
+    "keysClick": "Click or tap a totem to watch",
+    "keysTouch": "On touch: the joystick in the corner walks and turns; Watch opens the video",
+    "frames": "Frames drawn"
+  },
+  "stations": {
+    "leitura": "Reading desk",
+    "pratica": "Practice desk"
+  },
+  "items": {
+    "aula1": "Lesson 1: course opening",
+    "aula2": "Lesson 2: the first project",
+    "regras": "Room rules: respect your classmates' time",
+    "agenda": "Schedule: live class on Thursday, 7 pm",
+    "metas": "Goals of the week: two missions",
+    "aviso": "Notice: the test opens on Monday",
+    "boasVindas": "Welcome! Start with Lesson 1",
+    "novo": "New board"
+  },
+  "hud": {
+    "watch": "Watch",
+    "nearTotem": "Video totem",
+    "close": "Close"
+  },
+  "player": {
+    "label": "Video: {title}",
+    "frameTitle": "YouTube player: {title}",
+    "brand": "PMLife",
+    "loading": "Loading the video…",
+    "privacy": "YouTube player with no tracking cookies before play.",
+    "openOnYouTube": "Open on YouTube",
+    "failed": {
+      "unavailable": "This video is not available: it was removed, is private or the address changed. Tell your institution.",
+      "embedBlocked": "This video cannot be shown here: the owner does not allow it to play outside YouTube, or it was removed or made private. Tell your institution.",
+      "noResponse": "The video did not load. The network may be blocking YouTube, or the internet is down."
+    }
+  },
+  "editor": {
+    "title": "Room editor (what the institution master does in the world editor)",
+    "item": "Object",
+    "kinds": {
+      "board": "board",
+      "totem": "video totem"
+    },
+    "placement": "Where it goes",
+    "wall": "On the wall",
+    "floor": "On the floor",
+    "whichWall": "Wall",
+    "offset": "Position on the wall (m)",
+    "x": "x (m)",
+    "z": "z (m)",
+    "facing": "Front facing",
+    "walls": {
+      "north": "north",
+      "east": "east",
+      "south": "south",
+      "west": "west"
+    },
+    "publish": "Publish the room",
+    "published": "Published.",
+    "refused": "Not published (nothing was saved):",
+    "discard": "Undo the changes",
+    "addTitle": "Add a board",
+    "addWall": "On the wall",
+    "add": "Add board",
+    "added": "Board added on the {wall} wall.",
+    "newRoom": "Start a new room",
+    "newRoomDone": "New room: {size} m walls, the door near the corner, no objects.",
+    "counts": "Boards per wall: {counts} (up to {max} each)",
+    "problems": {
+      "ID_DUPLICATE": "the id of {item} repeats",
+      "ITEMS_TOO_MANY": "the room went over 20 objects ({item})",
+      "SIZE_NOT_POSITIVE": "{item} needs a positive width",
+      "VIDEO_ID_INVALID": "{item} has no valid YouTube video",
+      "WALL_ITEM_OUTSIDE": "{item} goes past the wall",
+      "WALL_ITEM_ON_DOOR": "{item} is over the door",
+      "WALL_ITEMS_OVERLAP": "{item} is over another object on the same wall",
+      "WALL_ITEMS_TOO_MANY": "the {wall} wall already has 5 boards ({item} does not fit)",
+      "FLOOR_ITEM_OUTSIDE": "{item} goes past the room",
+      "FLOOR_ITEM_BLOCKS_DOOR": "{item} is in the door corridor",
+      "FLOOR_ITEMS_OVERLAP": "{item} is on a desk or another floor object",
+      "FLOOR_ITEM_BLOCKS_PATH": "{item} blocks the way to {target}"
+    }
+  },
+  "joystick": {
+    "label": "Joystick: drag to walk and turn"
+  }
+}

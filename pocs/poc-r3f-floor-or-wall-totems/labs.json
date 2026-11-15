@@ -1,0 +1,29 @@
+{
+  "title": "Objetos da sala no chão ou na parede",
+  "summary": "Uma sala de 18 m com a porta perto do canto. Cada totem de vídeo e cada quadro pode ficar numa parede ou em pé no chão (o quadro no chão vira uma placa de aviso). Cada parede aceita até 5 quadros, somando quadros e totens. O editor recusa o 6º quadro, o objeto no corredor da porta e o que fecha a passagem até uma mesa, sem gravar nada.",
+  "problem": "As salas tinham quadros e totens só presos à parede, sem limite por parede, e nasciam pequenas. As ferramentas de ensino que vêm (quiz, flashcards, aulas ao vivo) precisam de mais espaço e de liberdade de montagem, sem quebrar os documentos já publicados e sem deixar o master montar uma sala onde o aluno não chega às mesas.",
+  "result": "Um campo opcional (placement) em todo objeto: sem ele, vale a parede, e os documentos de antes ficam iguais. As regras ficam no domínio, em TypeScript puro: até 5 por parede (o chão não conta), o corredor da porta, sem sobrepor mesas, e a passagem livre por busca em largura com a mesma colisão do avatar. Só conta o que os objetos do chão fecharam, então uma sala de antes nunca passa a ser recusada. O totem no chão é o mesmo alvo da parede, e o E abre o vídeo. Testes de domínio e de tela e um e2e no Chrome (o 3D lido do grafo do three.js, o avatar andando pelo teclado e o celular) provam os cenários.",
+  "tags": [
+    "React Three Fiber",
+    "Three.js",
+    "Clean Architecture",
+    "Editor do mundo",
+    "Validação",
+    "Busca em largura",
+    "Acessibilidade",
+    "Touch",
+    "i18n",
+    "Vitest",
+    "Puppeteer"
+  ],
+  "roadmap": "US75",
+  "date": "2026-11-15",
+  "demos": [
+    {
+      "path": "dist/",
+      "label": "Abrir a demo",
+      "note": "No editor abaixo da sala, marque \"No chão\" no totem \"Aula 1\" e publique: ele vai para o meio da sala. Ande até ele (WASD) e aperte E para o vídeo. Ponha o quadro de aviso no chão e tente \"Acrescentar quadro\" na parede norte (cheia). Ponha um totem no chão em x = -6,5 e z = 7 (a porta) para ver a recusa, e \"Começar uma sala nova\" para encher a parede da porta com 5 quadros. O curso e os textos são inventados."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nyarn verify   # fronteiras + tsc + testes + e2e no Chrome headless (teclado, toque, celular)\nyarn dev      # demo em http://localhost:5173"
+}

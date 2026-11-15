@@ -1,0 +1,18 @@
+{
+  "$comment": "Uma sala de exemplo, fictícia, já no tamanho novo (US75): paredes de 18 m e a porta perto do canto. A parede norte tem 3 quadros e 2 totens (cheia); a placa de aviso fica no chão.",
+  "halfSize": 9,
+  "doorX": -6.5,
+  "stations": [
+    { "id": "mesa-leitura", "labelKey": "stations.leitura", "position": [-4, -3], "size": [2, 1, 1.2] },
+    { "id": "mesa-pratica", "labelKey": "stations.pratica", "position": [4, -3], "size": [2, 1, 1.2] }
+  ],
+  "items": [
+    { "id": "aula-1", "kind": "totem", "wall": "north", "offset": -6, "width": 2.4, "videoId": "aziM2ePu1O8", "textKey": "items.aula1" },
+    { "id": "quadro-regras", "kind": "board", "wall": "north", "offset": -3.4, "width": 2.4, "textKey": "items.regras" },
+    { "id": "quadro-agenda", "kind": "board", "wall": "north", "offset": -0.8, "width": 2.4, "textKey": "items.agenda" },
+    { "id": "quadro-metas", "kind": "board", "wall": "north", "offset": 1.8, "width": 2.4, "textKey": "items.metas" },
+    { "id": "aula-2", "kind": "totem", "wall": "north", "offset": 4.4, "width": 2.4, "videoId": "M7lc1UVf-VE", "textKey": "items.aula2" },
+    { "id": "quadro-aviso", "kind": "board", "wall": "east", "offset": 0, "width": 2.4, "textKey": "items.aviso" },
+    { "id": "placa-boas-vindas", "kind": "board", "placement": "floor", "x": -2, "z": 5, "facing": "south", "width": 1.6, "textKey": "items.boasVindas" }
+  ]
+}

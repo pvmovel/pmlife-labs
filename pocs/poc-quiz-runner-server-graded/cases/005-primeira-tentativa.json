@@ -1,0 +1,17 @@
+{
+  "description": "Sem tentativas: pode abrir, ilimitado.",
+  "type": "gate",
+  "policy": {
+    "maxAttempts": null,
+    "cooldownSeconds": 600
+  },
+  "now": 1000,
+  "attempts": [],
+  "expect": {
+    "canStart": true,
+    "reason": "ok",
+    "waitSeconds": 0,
+    "remaining": null,
+    "passed": false
+  }
+}

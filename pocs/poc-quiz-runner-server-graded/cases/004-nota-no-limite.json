@@ -1,0 +1,11 @@
+{
+  "description": "7 de 10 é exatamente 70%: passa.",
+  "type": "score",
+  "correct": 7,
+  "total": 10,
+  "passPercent": 70,
+  "expect": {
+    "score": 70,
+    "passed": true
+  }
+}

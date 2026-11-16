@@ -1,0 +1,44 @@
+{
+  "description": "Os campos do tipo pelo formato: a nota fora de 0 a 100, o modo fora da lista e a referência do gabarito fora do formato.",
+  "registries": [
+    "base",
+    "example"
+  ],
+  "room": {
+    "buildingId": "biblioteca",
+    "items": [
+      {
+        "id": "q1",
+        "wall": "north",
+        "offset": 0,
+        "width": 2,
+        "kind": "quiz-demo",
+        "textKey": "sala.aula",
+        "questId": "ler-o-guia",
+        "passPercent": 150,
+        "mode": "livre",
+        "answerKey": "Gabarito 1"
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "ler-o-guia",
+      "buildingId": "biblioteca"
+    },
+    {
+      "id": "experimento",
+      "buildingId": "laboratorio"
+    }
+  ],
+  "texts": [
+    "sala.aviso",
+    "sala.aula",
+    "quiz.dica"
+  ],
+  "expect": [
+    "FIELD_RANGE@/items/0/passPercent",
+    "FIELD_ENUM@/items/0/mode",
+    "FILE_REF_INVALID@/items/0/answerKey"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "description": "Como o caso 079 do produto: o vídeo não listado do Vimeo (o número e o h).",
+  "registries": [
+    "base"
+  ],
+  "room": {
+    "buildingId": "biblioteca",
+    "items": [
+      {
+        "id": "q1",
+        "wall": "north",
+        "offset": 0,
+        "width": 2,
+        "kind": "totem",
+        "textKey": "sala.aula",
+        "video": {
+          "provider": "vimeo",
+          "id": "76979871",
+          "hash": "0a1b2c3d4e"
+        }
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "ler-o-guia",
+      "buildingId": "biblioteca"
+    },
+    {
+      "id": "experimento",
+      "buildingId": "laboratorio"
+    }
+  ],
+  "texts": [
+    "sala.aviso",
+    "sala.aula",
+    "quiz.dica"
+  ],
+  "expect": []
+}

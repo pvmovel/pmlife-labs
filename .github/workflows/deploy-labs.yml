@@ -472,6 +472,12 @@ jobs:
           [ -n "$FW_JS" ] && header "/pocs/poc-r3f-floor-or-wall-totems/dist/${FW_JS}" "immutable" || { echo "::error::não achei o bundle com hash do chão ou parede"; fail=1; }
           FW_3D=$(curl -sS -A "pmlife-labs-smoke" "${FW_BASE}/${FW_JS}" | grep -o 'RoomCanvas-[A-Za-z0-9_-]*\.js' | head -1)
           [ -n "$FW_3D" ] && header "/pocs/poc-r3f-floor-or-wall-totems/dist/assets/${FW_3D}" "immutable" || { echo "::error::o bundle do chão ou parede não referencia o pedaço da sala 3D (RoomCanvas-<hash>.js)"; fail=1; }
+          # US57: registro declarativo das ferramentas de ensino. Sem demo (as regras rodam no verify, nos dois lados): a
+          # prova é a execução no catálogo; o código, o registro e os casos ficam bloqueados (403).
+          check "/catalogo/spike-phase-tools-registry/" 200
+          for path in src/Domain/ToolRegistry.ts src/Content/tool-types.json fixtures/example-type.json cases/012-tipo-novo-registrado.json php/src/ToolRegistry.php php/verify.php; do
+            check "/spikes/spike-phase-tools-registry/${path}" 403
+          done
           # US56: orçamento de desempenho (só front). O HTML sem cache, o bundle com hash e imutável; o código-fonte, o
           # orçamento e a trava de tamanho bloqueados.
           check "/catalogo/bench-r3f-low-end-budget/" 200

@@ -1,0 +1,41 @@
+{
+  "description": "Como o caso 083: uma plataforma que o PMLife não aceita.",
+  "registries": [
+    "base"
+  ],
+  "room": {
+    "buildingId": "biblioteca",
+    "items": [
+      {
+        "id": "q1",
+        "wall": "north",
+        "offset": 0,
+        "width": 2,
+        "kind": "totem",
+        "textKey": "sala.aula",
+        "video": {
+          "provider": "dailymotion",
+          "id": "x8abcd1"
+        }
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "ler-o-guia",
+      "buildingId": "biblioteca"
+    },
+    {
+      "id": "experimento",
+      "buildingId": "laboratorio"
+    }
+  ],
+  "texts": [
+    "sala.aviso",
+    "sala.aula",
+    "quiz.dica"
+  ],
+  "expect": [
+    "VIDEO_PROVIDER_UNKNOWN@/items/0/video/provider"
+  ]
+}

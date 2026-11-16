@@ -1,0 +1,27 @@
+{
+  "name": "spike-phase-tools-registry",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Spike: registro declarativo de tipos de ferramenta de ensino (US57) — um JSON descreve cada tipo (campos, formatos, missão, ação da tecla E) e o mesmo arquivo é lido pelo validador TypeScript e pelo PHP; tipo novo entra sem mexer nos validadores, e o totem de vídeo migra sem mudar o documento",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "verify": "eslint . && tsc --noEmit && vitest run --reporter=verbose && php php/verify.php"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24",
+    "eslint": "^10.12.0",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-boundaries": "^7.2.0",
+    "typescript": "~5.9",
+    "typescript-eslint": "^8.71.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.4"
+  }
+}

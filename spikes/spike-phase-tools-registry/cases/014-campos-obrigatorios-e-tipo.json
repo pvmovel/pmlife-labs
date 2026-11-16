@@ -1,0 +1,42 @@
+{
+  "description": "Os campos obrigatórios do tipo e o tipo do valor (a nota como texto).",
+  "registries": [
+    "base",
+    "example"
+  ],
+  "room": {
+    "buildingId": "biblioteca",
+    "items": [
+      {
+        "id": "q1",
+        "wall": "north",
+        "offset": 0,
+        "width": 2,
+        "kind": "quiz-demo",
+        "textKey": "sala.aula",
+        "questId": "ler-o-guia",
+        "passPercent": "70"
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "ler-o-guia",
+      "buildingId": "biblioteca"
+    },
+    {
+      "id": "experimento",
+      "buildingId": "laboratorio"
+    }
+  ],
+  "texts": [
+    "sala.aviso",
+    "sala.aula",
+    "quiz.dica"
+  ],
+  "expect": [
+    "FIELD_TYPE@/items/0/passPercent",
+    "FIELD_REQUIRED@/items/0/mode",
+    "FIELD_REQUIRED@/items/0/answerKey"
+  ]
+}

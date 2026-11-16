@@ -1,0 +1,59 @@
+{
+  "description": "A forma comum vale para todos os tipos: o lugar desconhecido, o chão sem centro e a frente desconhecida.",
+  "registries": [
+    "base"
+  ],
+  "room": {
+    "buildingId": "biblioteca",
+    "items": [
+      {
+        "id": "q1",
+        "wall": "north",
+        "offset": 0,
+        "width": 2,
+        "kind": "board",
+        "textKey": "sala.aviso",
+        "placement": "teto"
+      },
+      {
+        "id": "f1",
+        "placement": "floor",
+        "z": 0,
+        "facing": "south",
+        "width": 2,
+        "kind": "board",
+        "textKey": "sala.aviso"
+      },
+      {
+        "id": "f2",
+        "placement": "floor",
+        "x": 0,
+        "z": 0,
+        "facing": "cima",
+        "width": 2,
+        "kind": "board",
+        "textKey": "sala.aviso"
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "ler-o-guia",
+      "buildingId": "biblioteca"
+    },
+    {
+      "id": "experimento",
+      "buildingId": "laboratorio"
+    }
+  ],
+  "texts": [
+    "sala.aviso",
+    "sala.aula",
+    "quiz.dica"
+  ],
+  "expect": [
+    "PLACEMENT_UNKNOWN@/items/0/placement",
+    "FIELD_REQUIRED@/items/1/x",
+    "WALL_UNKNOWN@/items/2/facing"
+  ]
+}

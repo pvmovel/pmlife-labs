@@ -52,6 +52,20 @@ jobs:
         run: |
           set -u
           fail=0
+          # A hospedagem compartilhada às vezes derruba uma conexão no meio de centenas de pedidos (HTTP 000 num item
+          # qualquer, a cada rodada um diferente). Todo curl deste passo tenta de novo, até 3 vezes, só quando a CONEXÃO
+          # falha (sem DNS, recusada, sem resposta no tempo, TLS, resposta vazia ou interrompida). A saída da tentativa
+          # que falhou é descartada; qualquer resposta HTTP (200, 403, 500...) vale como veio, sem repetir.
+          curl() {
+            local out rc i
+            for i in 1 2 3; do
+              out=$(command curl --connect-timeout 10 --max-time 30 "$@"); rc=$?
+              case "$rc" in 6|7|28|35|52|55|56) [ "$i" -lt 3 ] && { sleep 2; continue; } ;; esac
+              break
+            done
+            printf '%s' "$out"
+            return "$rc"
+          }
           check() { # check <caminho> <status esperado> [texto obrigatório no corpo]
             local code body
             body=$(curl -sS -A "pmlife-labs-smoke" -o - -w '\n%{http_code}' "${LABS_URL}$1") || true

@@ -1,0 +1,42 @@
+{
+  "description": "O totem não fecha missão: o questId nele é recusado.",
+  "registries": [
+    "base"
+  ],
+  "room": {
+    "buildingId": "biblioteca",
+    "items": [
+      {
+        "id": "q1",
+        "wall": "north",
+        "offset": 0,
+        "width": 2,
+        "kind": "totem",
+        "textKey": "sala.aula",
+        "video": {
+          "provider": "youtube",
+          "id": "aziM2ePu1O8"
+        },
+        "questId": "ler-o-guia"
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "ler-o-guia",
+      "buildingId": "biblioteca"
+    },
+    {
+      "id": "experimento",
+      "buildingId": "laboratorio"
+    }
+  ],
+  "texts": [
+    "sala.aviso",
+    "sala.aula",
+    "quiz.dica"
+  ],
+  "expect": [
+    "TOOL_QUEST_NOT_ALLOWED@/items/0/questId"
+  ]
+}

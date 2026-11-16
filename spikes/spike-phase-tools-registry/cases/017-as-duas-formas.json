@@ -1,0 +1,54 @@
+{
+  "description": "Regra da US75: todo tipo nasce com as duas formas; o quiz no chão e na parede são válidos.",
+  "registries": [
+    "base",
+    "example"
+  ],
+  "room": {
+    "buildingId": "biblioteca",
+    "items": [
+      {
+        "id": "f1",
+        "placement": "floor",
+        "x": 0,
+        "z": 0,
+        "facing": "south",
+        "width": 2,
+        "kind": "quiz-demo",
+        "textKey": "sala.aula",
+        "questId": "ler-o-guia",
+        "passPercent": 70,
+        "mode": "exam",
+        "answerKey": "gabarito-1"
+      },
+      {
+        "id": "q2",
+        "wall": "north",
+        "offset": 0,
+        "width": 2,
+        "kind": "quiz-demo",
+        "textKey": "sala.aula",
+        "questId": "ler-o-guia",
+        "passPercent": 70,
+        "mode": "exam",
+        "answerKey": "gabarito-1"
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "ler-o-guia",
+      "buildingId": "biblioteca"
+    },
+    {
+      "id": "experimento",
+      "buildingId": "laboratorio"
+    }
+  ],
+  "texts": [
+    "sala.aviso",
+    "sala.aula",
+    "quiz.dica"
+  ],
+  "expect": []
+}

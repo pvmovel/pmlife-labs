@@ -1,0 +1,43 @@
+{
+  "$comment": "O registro dos tipos de objeto da sala (US57): cada tipo diz os campos próprios e o formato de cada um, se fecha uma missão, se é alvo da tecla E e o que o E faz. O validador TypeScript (editor) e o PHP (servidor) leem este mesmo arquivo; uma ferramenta nova é uma entrada nova aqui. Os campos comuns (id, kind, width, textKey e o lugar, US75) valem para todos e não entram aqui.",
+  "types": [
+    {
+      "kind": "board",
+      "label": {
+        "pt-BR": "Quadro",
+        "en-US": "Board"
+      },
+      "icon": "board",
+      "quest": "none",
+      "target": false,
+      "action": "none",
+      "fields": {}
+    },
+    {
+      "kind": "totem",
+      "label": {
+        "pt-BR": "Totem de vídeo",
+        "en-US": "Video totem"
+      },
+      "icon": "video",
+      "quest": "none",
+      "target": true,
+      "action": "video",
+      "fields": {
+        "video": {
+          "format": "videoRef"
+        },
+        "videoId": {
+          "format": "youtubeId"
+        }
+      },
+      "exclusive": {
+        "fields": [
+          "video",
+          "videoId"
+        ],
+        "both": "VIDEO_BOTH"
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "description": "Gherkin \"Totem de vídeo continua igual\": o totem do YouTube no formato novo é válido.",
+  "gherkin": "Totem de vídeo continua igual",
+  "registries": [
+    "base"
+  ],
+  "room": {
+    "buildingId": "biblioteca",
+    "items": [
+      {
+        "id": "q1",
+        "wall": "north",
+        "offset": 0,
+        "width": 2,
+        "kind": "totem",
+        "textKey": "sala.aula",
+        "video": {
+          "provider": "youtube",
+          "id": "aziM2ePu1O8"
+        }
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "ler-o-guia",
+      "buildingId": "biblioteca"
+    },
+    {
+      "id": "experimento",
+      "buildingId": "laboratorio"
+    }
+  ],
+  "texts": [
+    "sala.aviso",
+    "sala.aula",
+    "quiz.dica"
+  ],
+  "expect": []
+}

@@ -1,0 +1,42 @@
+{
+  "description": "Como o caso 082: o videoId e o video juntos.",
+  "registries": [
+    "base"
+  ],
+  "room": {
+    "buildingId": "biblioteca",
+    "items": [
+      {
+        "id": "q1",
+        "wall": "north",
+        "offset": 0,
+        "width": 2,
+        "kind": "totem",
+        "textKey": "sala.aula",
+        "videoId": "aziM2ePu1O8",
+        "video": {
+          "provider": "youtube",
+          "id": "aziM2ePu1O8"
+        }
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "ler-o-guia",
+      "buildingId": "biblioteca"
+    },
+    {
+      "id": "experimento",
+      "buildingId": "laboratorio"
+    }
+  ],
+  "texts": [
+    "sala.aviso",
+    "sala.aula",
+    "quiz.dica"
+  ],
+  "expect": [
+    "VIDEO_BOTH@/items/0"
+  ]
+}

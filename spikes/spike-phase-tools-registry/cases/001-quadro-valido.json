@@ -1,0 +1,35 @@
+{
+  "description": "O quadro de texto (US37) no registro: válido, sem campo próprio.",
+  "registries": [
+    "base"
+  ],
+  "room": {
+    "buildingId": "biblioteca",
+    "items": [
+      {
+        "id": "q1",
+        "wall": "north",
+        "offset": 0,
+        "width": 2,
+        "kind": "board",
+        "textKey": "sala.aviso"
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "ler-o-guia",
+      "buildingId": "biblioteca"
+    },
+    {
+      "id": "experimento",
+      "buildingId": "laboratorio"
+    }
+  ],
+  "texts": [
+    "sala.aviso",
+    "sala.aula",
+    "quiz.dica"
+  ],
+  "expect": []
+}

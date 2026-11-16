@@ -1,0 +1,43 @@
+{
+  "description": "O campo de texto do tipo precisa existir nos textos (como o textKey de todo objeto).",
+  "registries": [
+    "base",
+    "example"
+  ],
+  "room": {
+    "buildingId": "biblioteca",
+    "items": [
+      {
+        "id": "q1",
+        "wall": "north",
+        "offset": 0,
+        "width": 2,
+        "kind": "quiz-demo",
+        "textKey": "sala.aula",
+        "questId": "ler-o-guia",
+        "passPercent": 70,
+        "mode": "exam",
+        "answerKey": "gabarito-1",
+        "hintKey": "quiz.sem-texto"
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "ler-o-guia",
+      "buildingId": "biblioteca"
+    },
+    {
+      "id": "experimento",
+      "buildingId": "laboratorio"
+    }
+  ],
+  "texts": [
+    "sala.aviso",
+    "sala.aula",
+    "quiz.dica"
+  ],
+  "expect": [
+    "TEXT_KEY_MISSING@/items/0/hintKey"
+  ]
+}

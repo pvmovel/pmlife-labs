@@ -1,0 +1,18 @@
+{
+  "title": "Registro declarativo das ferramentas de ensino",
+  "summary": "A base das ferramentas de ensino (quiz, flashcards, PDF, aulas ao vivo): cada uma é um tipo de objeto da sala, descrito num JSON que o validador TypeScript (editor) e o PHP (servidor) leem igual. Um tipo novo entra com uma entrada no JSON, sem mexer nos validadores, e o totem de vídeo de hoje vira uma entrada do registro sem mudar o documento.",
+  "problem": "Cada ferramenta nova precisaria de regras escritas duas vezes, no editor e no servidor, e é aí que os dois lados divergem. A especificação original criava uma tabela de itens que quebraria o documento versionado do curso. O que é secreto ou grande (o gabarito, os arquivos) não pode ir para o documento.",
+  "result": "O registro declara os campos próprios de cada tipo e o formato de cada um (texto, inteiro com faixa, lista fechada, vídeo, ID do YouTube, referência a um arquivo do banco), se o tipo fecha uma missão e o que a tecla E faz. Os dois validadores leem o mesmo arquivo e só implementam os formatos. 19 casos de conformidade dão o mesmo resultado em TypeScript (25 testes) e PHP 8.2, incluindo os casos do totem portados do produto e um quiz de exemplo que entra sem mudar o resultado dos outros tipos.",
+  "tags": [
+    "TypeScript",
+    "PHP 8.2",
+    "Casos de conformidade",
+    "Open/Closed",
+    "Registro declarativo",
+    "Validação",
+    "Clean Architecture"
+  ],
+  "roadmap": "US57",
+  "date": "2026-11-16",
+  "run": "yarn install --frozen-lockfile\nyarn verify   # ESLint + tsc + 25 testes + php php/verify.php (os mesmos 19 casos)"
+}

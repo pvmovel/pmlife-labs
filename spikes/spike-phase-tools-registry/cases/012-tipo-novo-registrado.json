@@ -1,0 +1,42 @@
+{
+  "description": "Gherkin \"Tipo novo sem mexer no motor\": com o tipo de exemplo no registro (só uma entrada no JSON), os dois validadores aceitam o quiz.",
+  "gherkin": "Tipo novo sem mexer no motor",
+  "registries": [
+    "base",
+    "example"
+  ],
+  "room": {
+    "buildingId": "biblioteca",
+    "items": [
+      {
+        "id": "q1",
+        "wall": "north",
+        "offset": 0,
+        "width": 2,
+        "kind": "quiz-demo",
+        "textKey": "sala.aula",
+        "questId": "ler-o-guia",
+        "passPercent": 70,
+        "mode": "exam",
+        "answerKey": "gabarito-1",
+        "hintKey": "quiz.dica"
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "ler-o-guia",
+      "buildingId": "biblioteca"
+    },
+    {
+      "id": "experimento",
+      "buildingId": "laboratorio"
+    }
+  ],
+  "texts": [
+    "sala.aviso",
+    "sala.aula",
+    "quiz.dica"
+  ],
+  "expect": []
+}

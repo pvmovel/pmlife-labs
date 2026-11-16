@@ -1,0 +1,38 @@
+{
+  "description": "O videoId fora do formato do ID.",
+  "registries": [
+    "base"
+  ],
+  "room": {
+    "buildingId": "biblioteca",
+    "items": [
+      {
+        "id": "q1",
+        "wall": "north",
+        "offset": 0,
+        "width": 2,
+        "kind": "totem",
+        "textKey": "sala.aula",
+        "videoId": "curto"
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "ler-o-guia",
+      "buildingId": "biblioteca"
+    },
+    {
+      "id": "experimento",
+      "buildingId": "laboratorio"
+    }
+  ],
+  "texts": [
+    "sala.aviso",
+    "sala.aula",
+    "quiz.dica"
+  ],
+  "expect": [
+    "VIDEO_ID_INVALID@/items/0/videoId"
+  ]
+}

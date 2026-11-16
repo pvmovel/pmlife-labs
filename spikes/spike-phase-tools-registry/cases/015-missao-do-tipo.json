@@ -1,0 +1,67 @@
+{
+  "description": "O quiz fecha uma missão: sem ela, com uma que não existe e com a de outro prédio.",
+  "registries": [
+    "base",
+    "example"
+  ],
+  "room": {
+    "buildingId": "biblioteca",
+    "items": [
+      {
+        "id": "q1",
+        "wall": "north",
+        "offset": 0,
+        "width": 2,
+        "kind": "quiz-demo",
+        "textKey": "sala.aula",
+        "passPercent": 70,
+        "mode": "exam",
+        "answerKey": "gabarito-1"
+      },
+      {
+        "id": "q2",
+        "wall": "north",
+        "offset": 3,
+        "width": 2,
+        "kind": "quiz-demo",
+        "textKey": "sala.aula",
+        "questId": "nao-existe",
+        "passPercent": 70,
+        "mode": "exam",
+        "answerKey": "gabarito-1"
+      },
+      {
+        "id": "q3",
+        "wall": "north",
+        "offset": -3,
+        "width": 2,
+        "kind": "quiz-demo",
+        "textKey": "sala.aula",
+        "questId": "experimento",
+        "passPercent": 70,
+        "mode": "exam",
+        "answerKey": "gabarito-1"
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "ler-o-guia",
+      "buildingId": "biblioteca"
+    },
+    {
+      "id": "experimento",
+      "buildingId": "laboratorio"
+    }
+  ],
+  "texts": [
+    "sala.aviso",
+    "sala.aula",
+    "quiz.dica"
+  ],
+  "expect": [
+    "FIELD_REQUIRED@/items/0/questId",
+    "TOOL_QUEST_UNKNOWN@/items/1/questId",
+    "TOOL_QUEST_OTHER_BUILDING@/items/2/questId"
+  ]
+}

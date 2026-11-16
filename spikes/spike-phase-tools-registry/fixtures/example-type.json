@@ -1,0 +1,39 @@
+{
+  "$comment": "Um tipo de exemplo, só para os testes (Gherkin \"Tipo novo sem mexer no motor\"): um quiz que fecha uma missão, com a nota de corte, o modo e a referência do gabarito no banco da instituição (o documento guarda só a referência, decisão 2 da US57).",
+  "types": [
+    {
+      "kind": "quiz-demo",
+      "label": {
+        "pt-BR": "Quiz de exemplo",
+        "en-US": "Sample quiz"
+      },
+      "icon": "quiz",
+      "quest": "required",
+      "target": true,
+      "action": "modal",
+      "fields": {
+        "passPercent": {
+          "format": "int",
+          "min": 0,
+          "max": 100,
+          "required": true
+        },
+        "mode": {
+          "format": "enum",
+          "values": [
+            "practice",
+            "exam"
+          ],
+          "required": true
+        },
+        "answerKey": {
+          "format": "fileRef",
+          "required": true
+        },
+        "hintKey": {
+          "format": "textKey"
+        }
+      }
+    }
+  ]
+}

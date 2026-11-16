@@ -1,0 +1,11 @@
+{
+  "description": "Gherkin \"Aprovação dá XP uma vez\": 4 de 5 é 80% e passa na nota de corte de 70%.",
+  "type": "score",
+  "correct": 4,
+  "total": 5,
+  "passPercent": 70,
+  "expect": {
+    "score": 80,
+    "passed": true
+  }
+}

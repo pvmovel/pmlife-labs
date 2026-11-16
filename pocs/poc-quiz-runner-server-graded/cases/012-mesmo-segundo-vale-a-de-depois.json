@@ -1,0 +1,28 @@
+{
+  "description": "Aprovada e depois reprovada no mesmo segundo: vale a mais recente (a de depois na lista), e a espera começa (defeito achado pelo e2e).",
+  "type": "gate",
+  "policy": {
+    "maxAttempts": null,
+    "cooldownSeconds": 600
+  },
+  "now": 1000,
+  "attempts": [
+    {
+      "startedAt": 900,
+      "submittedAt": 1000,
+      "passed": true
+    },
+    {
+      "startedAt": 990,
+      "submittedAt": 1000,
+      "passed": false
+    }
+  ],
+  "expect": {
+    "canStart": false,
+    "reason": "cooldown",
+    "waitSeconds": 600,
+    "remaining": null,
+    "passed": true
+  }
+}

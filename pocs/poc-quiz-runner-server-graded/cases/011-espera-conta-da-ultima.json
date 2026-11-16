@@ -1,0 +1,28 @@
+{
+  "description": "A espera conta da última tentativa enviada, não da primeira; restam tentativas no limite de 3.",
+  "type": "gate",
+  "policy": {
+    "maxAttempts": 3,
+    "cooldownSeconds": 600
+  },
+  "now": 2000,
+  "attempts": [
+    {
+      "startedAt": 1,
+      "submittedAt": 100,
+      "passed": false
+    },
+    {
+      "startedAt": 1500,
+      "submittedAt": 1700,
+      "passed": false
+    }
+  ],
+  "expect": {
+    "canStart": false,
+    "reason": "cooldown",
+    "waitSeconds": 300,
+    "remaining": 1,
+    "passed": false
+  }
+}

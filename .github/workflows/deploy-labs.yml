@@ -478,6 +478,27 @@ jobs:
           for path in src/Domain/ToolRegistry.ts src/Content/tool-types.json fixtures/example-type.json cases/012-tipo-novo-registrado.json php/src/ToolRegistry.php php/verify.php; do
             check "/spikes/spike-phase-tools-registry/${path}" 403
           done
+          # US58: quiz corrigido no servidor. A demo fica no ar com o HTML sem cache e o JS com a versão no nome; o código
+          # PHP, o TypeScript, os casos, os scripts e as migrations ficam bloqueados (403). O GET do quiz prova o env, o
+          # banco, as tabelas poc_quiz* e o banco de exemplo (criados à mão no phpMyAdmin), sem o gabarito na resposta.
+          check "/catalogo/poc-quiz-runner-server-graded/" 200
+          check "/pocs/poc-quiz-runner-server-graded/public/" 200
+          curl -sS -A "pmlife-labs-smoke" "${LABS_URL}/pocs/poc-quiz-runner-server-graded/public/" | grep -q 'Quiz corrigido no servidor' && echo "ok  a demo do quiz tem o título" || { echo "::error::a demo do quiz sem o título"; fail=1; }
+          header "/pocs/poc-quiz-runner-server-graded/public/" "no-cache"
+          check "/pocs/poc-quiz-runner-server-graded/public/app.v1.js" 200
+          check "/pocs/poc-quiz-runner-server-graded/public/quiz-view.v1.js" 200
+          for path in php/bootstrap.php php/Quiz/Graders.php php/Quiz/QuizService.php src/quiz.ts cases/001-nota-4-de-5.json scripts/verify.php scripts/e2e-router.php migrations/mysql/002_seed_demo_quiz.sql; do
+            check "/pocs/poc-quiz-runner-server-graded/${path}" 403
+          done
+          quiz=$(curl -sS -A "pmlife-labs-smoke" "${LABS_URL}/pocs/poc-quiz-runner-server-graded/public/quiz.php") || true
+          case "$quiz" in
+            *'"drawCount":5'*'"bank":20'*) echo "ok  quiz: o GET responde com o sorteio de 5 de 20 (env, banco, tabelas e banco de questões no ar)" ;;
+            *) echo "::error::quiz: o GET veio ${quiz:0:200} (as tabelas poc_quiz* e o banco de exemplo foram criados no banco do labs?)"; fail=1 ;;
+          esac
+          case "$quiz" in
+            *'"answer"'*|*'"rationale"'*) echo "::error::quiz: o GET trouxe o gabarito ou a justificativa"; fail=1 ;;
+            *) echo "ok  quiz: o GET não traz o gabarito" ;;
+          esac
           # US56: orçamento de desempenho (só front). O HTML sem cache, o bundle com hash e imutável; o código-fonte, o
           # orçamento e a trava de tamanho bloqueados.
           check "/catalogo/bench-r3f-low-end-budget/" 200

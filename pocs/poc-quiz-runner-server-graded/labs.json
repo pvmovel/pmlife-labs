@@ -1,0 +1,28 @@
+{
+  "title": "Quiz corrigido no servidor",
+  "summary": "Um quiz de 20 questões fictícias, das quais o servidor sorteia 5 por tentativa, com as alternativas embaralhadas. São 5 formatos: escolha única, múltipla, verdadeiro ou falso com a justificativa, lacunas e ordenação. O servidor corrige e devolve a nota, se cada questão está certa e a justificativa. O XP vem só na primeira aprovação, e depois de reprovar há uma espera.",
+  "problem": "Hoje uma missão se conclui com um clique, e o certificado da plataforma é verificável em público: a nota precisa ser confiável. Se o gabarito chega ao navegador, qualquer pessoa o lê; se cada tentativa sorteia de novo sem regra, o aluno abre e fecha até cair em questões fáceis; e a ordenação costuma depender do mouse.",
+  "result": "O banco de questões e o gabarito ficam só no MySQL. A tentativa guarda a semente do sorteio, e a correção refaz o sorteio a partir dela: só contam as questões sorteadas, e a tentativa aberta continua a mesma até ser enviada. A correção é uma estratégia por formato, tudo ou nada. A nota e a regra das tentativas existem em TypeScript e em PHP, com os mesmos casos. A API exige o token CSRF da sessão e nunca devolve o gabarito, a justificativa antes do envio nem a semente. Um e2e no Chrome faz o quiz inteiro só pelo teclado, inclusive a ordenação por Alt+setas, e confere a janela num celular. O verify roda no MySQL 5.7 e no 8.4.",
+  "tags": [
+    "PHP 8.2",
+    "MySQL 5.7",
+    "MySQL 8.4",
+    "TypeScript",
+    "Strategy",
+    "CSRF",
+    "Acessibilidade",
+    "Teclado",
+    "Puppeteer",
+    "Custo zero"
+  ],
+  "roadmap": "US58",
+  "date": "2026-11-16",
+  "demos": [
+    {
+      "path": "public/",
+      "label": "Abrir a demo",
+      "note": "Comece o quiz e responda as 5 questões, só com o teclado se quiser (Tab, Espaço, setas e, na ordenação, Alt+↑/↓). Com 4 de 5 você é aprovado e ganha o XP uma vez. Refaça errando tudo para ver a espera depois de reprovar (60 s na demo; 10 min por padrão no produto). Os dados são fictícios e somem em 1 dia."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nnode --no-warnings --test src/quiz.test.ts   # a nota e as tentativas em TypeScript (Node 24)\nphp scripts/verify.php                       # os mesmos casos, o sorteio e a correção, sem banco\n\n# com o MySQL 5.7 (o da hospedagem), como no CI: o serviço, a API e o e2e no Chrome\ndocker run -d --rm --name poc-mysql -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw -p 127.0.0.1:13306:3306 mysql:5.7\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 SPIKE_MYSQL_DB=spike \\\n  SPIKE_MYSQL_USER=spike SPIKE_MYSQL_PASS=spikepw\nyarn verify\ndocker stop poc-mysql"
+}

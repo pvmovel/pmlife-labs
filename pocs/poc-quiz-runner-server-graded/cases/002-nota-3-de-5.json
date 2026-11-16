@@ -1,0 +1,11 @@
+{
+  "description": "3 de 5 é 60%: reprovado com a nota de corte de 70%.",
+  "type": "score",
+  "correct": 3,
+  "total": 5,
+  "passPercent": 70,
+  "expect": {
+    "score": 60,
+    "passed": false
+  }
+}

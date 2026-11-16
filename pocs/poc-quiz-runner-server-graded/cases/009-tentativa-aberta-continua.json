@@ -1,0 +1,28 @@
+{
+  "description": "Com uma tentativa aberta, abrir de novo continua a mesma (sem sortear outras questões), mesmo na espera de outra.",
+  "type": "gate",
+  "policy": {
+    "maxAttempts": null,
+    "cooldownSeconds": 600
+  },
+  "now": 1010,
+  "attempts": [
+    {
+      "startedAt": 900,
+      "submittedAt": 1000,
+      "passed": false
+    },
+    {
+      "startedAt": 1005,
+      "submittedAt": null,
+      "passed": null
+    }
+  ],
+  "expect": {
+    "canStart": true,
+    "reason": "open",
+    "waitSeconds": 0,
+    "remaining": null,
+    "passed": false
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "description": "Passados os 10 minutos, pode sortear de novo.",
+  "type": "gate",
+  "policy": {
+    "maxAttempts": null,
+    "cooldownSeconds": 600
+  },
+  "now": 1600,
+  "attempts": [
+    {
+      "startedAt": 900,
+      "submittedAt": 1000,
+      "passed": false
+    }
+  ],
+  "expect": {
+    "canStart": true,
+    "reason": "ok",
+    "waitSeconds": 0,
+    "remaining": null,
+    "passed": false
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "description": "O porquê certo com a resposta errada vale 0, mesmo com o meio ponto (o porquê é da resposta certa).",
+  "type": "credit",
+  "answerRight": false,
+  "reasonRight": true,
+  "halfCredit": true,
+  "expect": 0
+}

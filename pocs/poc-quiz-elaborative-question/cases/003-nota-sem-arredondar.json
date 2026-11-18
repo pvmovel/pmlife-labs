@@ -1,0 +1,11 @@
+{
+  "description": "2 de 3 é 66,6%: mostra 66 e não passa em 67% (a aprovação não arredonda para cima).",
+  "type": "score",
+  "points": 2,
+  "total": 3,
+  "passPercent": 67,
+  "expect": {
+    "score": 66,
+    "passed": false
+  }
+}

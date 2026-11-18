@@ -1,0 +1,23 @@
+{
+  "description": "Gherkin \"Espera entre tentativas\": reprovado agora, a espera de 10 minutos mostra quanto falta.",
+  "type": "gate",
+  "policy": {
+    "maxAttempts": null,
+    "cooldownSeconds": 600
+  },
+  "now": 1060,
+  "attempts": [
+    {
+      "startedAt": 900,
+      "submittedAt": 1000,
+      "passed": false
+    }
+  ],
+  "expect": {
+    "canStart": false,
+    "reason": "cooldown",
+    "waitSeconds": 540,
+    "remaining": null,
+    "passed": false
+  }
+}

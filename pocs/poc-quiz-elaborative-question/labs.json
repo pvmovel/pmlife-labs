@@ -1,0 +1,29 @@
+{
+  "title": "A resposta e o porquê",
+  "summary": "Um quiz de 10 questões fictícias de astronomia, das quais o servidor sorteia 5 por tentativa. Sete são em 2 etapas: o aluno responde e, logo abaixo, escolhe por que a resposta está certa. A questão vale 1 só com as duas certas; em três delas, o autor deu meio ponto para quem acerta só a resposta. A devolutiva diz cada etapa e a explicação do porquê, sem entregar a resposta certa.",
+  "problem": "Uma questão de múltipla escolha mede se o aluno reconhece a resposta, não se entende a causa: quem decorou acerta do mesmo jeito. A interrogação elaborativa (Dunlosky et al., 2013) pede o porquê. No quiz corrigido no servidor, isso precisa entrar sem mexer nos outros formatos, sem revelar o acerto no meio da tentativa, com meio ponto sem erro de arredondamento e só pelo teclado.",
+  "result": "A questão em 2 etapas é uma estratégia de correção a mais (Strategy, OCP), que reaproveita a escolha única e o verdadeiro ou falso na 1ª etapa. O porquê aparece na mesma tela, sem perguntar ao servidor, e as duas etapas só são corrigidas no envio. Os pontos são somados em meios pontos inteiros, no TypeScript, no PHP e no MySQL: 3,5 de 5 é exatamente 70%. Os mesmos casos rodam nos dois lados, e o porquê certo nunca chega ao navegador. Um e2e no Chrome faz a prova só pelo teclado, e o verify roda no MySQL 5.7 e no 8.4.",
+  "tags": [
+    "PHP 8.2",
+    "MySQL 5.7",
+    "MySQL 8.4",
+    "TypeScript",
+    "Strategy",
+    "OCP",
+    "Interrogação elaborativa",
+    "Acessibilidade",
+    "Teclado",
+    "Puppeteer",
+    "Custo zero"
+  ],
+  "roadmap": "US59",
+  "date": "2026-11-18",
+  "demos": [
+    {
+      "path": "public/",
+      "label": "Abrir a demo",
+      "note": "Comece o quiz: nas questões em 2 etapas, escolha a resposta e, logo abaixo, o porquê, só com o teclado se quiser (Tab, Espaço e setas). Erre de propósito o porquê de uma questão para ver a devolutiva com cada etapa e a explicação; nas que dizem \"meio ponto\", a resposta certa sozinha vale 0,5. Com 70% você é aprovado e ganha o XP uma vez. Depois de reprovar, a espera é de 60 s na demo (10 min por padrão no produto). Os dados são fictícios e somem em 1 dia."
+    }
+  ],
+  "run": "yarn install --frozen-lockfile\nnode --no-warnings --test src/quiz.test.ts   # a nota, o crédito das 2 etapas e as tentativas em TypeScript (Node 24)\nphp scripts/verify.php                       # os mesmos casos, o sorteio e a correção, sem banco\n\n# com o MySQL 5.7 (o da hospedagem), como no CI: o serviço, a API e o e2e no Chrome\ndocker run -d --rm --name poc-mysql -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw -p 127.0.0.1:13306:3306 mysql:5.7\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 SPIKE_MYSQL_DB=spike \\\n  SPIKE_MYSQL_USER=spike SPIKE_MYSQL_PASS=spikepw\nyarn verify\ndocker stop poc-mysql"
+}

@@ -1,0 +1,8 @@
+{
+  "description": "A resposta e o porquê certos valem 1, com ou sem o meio ponto.",
+  "type": "credit",
+  "answerRight": true,
+  "reasonRight": true,
+  "halfCredit": true,
+  "expect": 1
+}

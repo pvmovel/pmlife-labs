@@ -1,0 +1,18 @@
+{
+  "name": "poc-quiz-elaborative-question",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "PoC: a questão em 2 etapas (US59) sobre o quiz corrigido no servidor — a resposta (escolha única ou verdadeiro ou falso) e o porquê na mesma tela, corrigidos só no envio; vale 1 com as duas certas e, se o autor quiser, meio ponto só com a resposta; nota em meios pontos inteiros; 100% pelo teclado",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node --no-warnings --test src/quiz.test.ts",
+    "e2e": "node scripts/e2e.mjs",
+    "verify": "node --no-warnings --test src/quiz.test.ts && php scripts/verify.php && node scripts/e2e.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^24"
+  }
+}

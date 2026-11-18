@@ -1,0 +1,8 @@
+{
+  "description": "Com o meio ponto ligado pelo autor, a resposta certa e o porquê errado valem 0,5.",
+  "type": "credit",
+  "answerRight": true,
+  "reasonRight": false,
+  "halfCredit": true,
+  "expect": 0.5
+}

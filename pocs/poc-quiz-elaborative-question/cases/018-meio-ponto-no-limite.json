@@ -1,0 +1,11 @@
+{
+  "description": "3,5 de 5 é exatamente 70%: passa na nota de corte de 70%, sem erro de arredondamento.",
+  "type": "score",
+  "points": 3.5,
+  "total": 5,
+  "passPercent": 70,
+  "expect": {
+    "score": 70,
+    "passed": true
+  }
+}

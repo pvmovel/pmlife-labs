@@ -1,0 +1,8 @@
+{
+  "description": "Gherkin \"Resposta certa, porquê errado\": sem o meio ponto, a questão vale 0.",
+  "type": "credit",
+  "answerRight": true,
+  "reasonRight": false,
+  "halfCredit": false,
+  "expect": 0
+}

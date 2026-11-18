@@ -1,0 +1,11 @@
+{
+  "description": "4,5 de 5 é 90% e passa na nota de corte de 70%.",
+  "type": "score",
+  "points": 4.5,
+  "total": 5,
+  "passPercent": 70,
+  "expect": {
+    "score": 90,
+    "passed": true
+  }
+}

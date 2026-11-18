@@ -1,0 +1,11 @@
+{
+  "description": "2,5 de 3 é 83,3%: a nota sai 83 e não passa na nota de corte de 84% (sem arredondar para cima).",
+  "type": "score",
+  "points": 2.5,
+  "total": 3,
+  "passPercent": 84,
+  "expect": {
+    "score": 83,
+    "passed": false
+  }
+}

@@ -513,6 +513,26 @@ jobs:
             *'"answer"'*|*'"rationale"'*) echo "::error::quiz: o GET trouxe o gabarito ou a justificativa"; fail=1 ;;
             *) echo "ok  quiz: o GET não traz o gabarito" ;;
           esac
+          # US59: a questão em 2 etapas, sobre o quiz. A mesma regra da demo da US58, com as tabelas poc_eq_* e o banco de
+          # exemplo de 10 questões (criados à mão no phpMyAdmin).
+          check "/catalogo/poc-quiz-elaborative-question/" 200
+          check "/pocs/poc-quiz-elaborative-question/public/" 200
+          curl -sS -A "pmlife-labs-smoke" "${LABS_URL}/pocs/poc-quiz-elaborative-question/public/" | grep -q 'Quiz: a resposta e o porquê' && echo "ok  a demo da questão em 2 etapas tem o título" || { echo "::error::a demo da questão em 2 etapas sem o título"; fail=1; }
+          header "/pocs/poc-quiz-elaborative-question/public/" "no-cache"
+          check "/pocs/poc-quiz-elaborative-question/public/app.v1.js" 200
+          check "/pocs/poc-quiz-elaborative-question/public/quiz-view.v1.js" 200
+          for path in php/bootstrap.php php/Quiz/Graders.php php/Quiz/QuizService.php src/quiz.ts cases/013-porque-errado-sem-meio-ponto.json scripts/verify.php scripts/e2e-router.php migrations/mysql/002_seed_demo_quiz.sql; do
+            check "/pocs/poc-quiz-elaborative-question/${path}" 403
+          done
+          eq=$(curl -sS -A "pmlife-labs-smoke" "${LABS_URL}/pocs/poc-quiz-elaborative-question/public/quiz.php") || true
+          case "$eq" in
+            *'"drawCount":5'*'"bank":10'*) echo "ok  2 etapas: o GET responde com o sorteio de 5 de 10 (env, banco, tabelas e banco de questões no ar)" ;;
+            *) echo "::error::2 etapas: o GET veio ${eq:0:200} (as tabelas poc_eq_* e o banco de exemplo foram criados no banco do labs?)"; fail=1 ;;
+          esac
+          case "$eq" in
+            *'"answer"'*|*'"rationale"'*|*'"reason"'*) echo "::error::2 etapas: o GET trouxe o gabarito, o porquê ou a justificativa"; fail=1 ;;
+            *) echo "ok  2 etapas: o GET não traz o gabarito" ;;
+          esac
           # US56: orçamento de desempenho (só front). O HTML sem cache, o bundle com hash e imutável; o código-fonte, o
           # orçamento e a trava de tamanho bloqueados.
           check "/catalogo/bench-r3f-low-end-budget/" 200

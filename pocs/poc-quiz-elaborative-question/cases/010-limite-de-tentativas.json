@@ -1,0 +1,28 @@
+{
+  "description": "Com o limite de 2 tentativas usado, acabou (mesmo depois da espera).",
+  "type": "gate",
+  "policy": {
+    "maxAttempts": 2,
+    "cooldownSeconds": 600
+  },
+  "now": 99999,
+  "attempts": [
+    {
+      "startedAt": 1,
+      "submittedAt": 2,
+      "passed": false
+    },
+    {
+      "startedAt": 800,
+      "submittedAt": 900,
+      "passed": false
+    }
+  ],
+  "expect": {
+    "canStart": false,
+    "reason": "exhausted",
+    "waitSeconds": 0,
+    "remaining": 0,
+    "passed": false
+  }
+}

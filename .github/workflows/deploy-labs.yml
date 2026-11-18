@@ -529,8 +529,10 @@ jobs:
             *'"drawCount":5'*'"bank":10'*) echo "ok  2 etapas: o GET responde com o sorteio de 5 de 10 (env, banco, tabelas e banco de questões no ar)" ;;
             *) echo "::error::2 etapas: o GET veio ${eq:0:200} (as tabelas poc_eq_* e o banco de exemplo foram criados no banco do labs?)"; fail=1 ;;
           esac
+          # O GET não traz as questões; o porquê certo ("reason" no gabarito) é conferido na abertura pelo verify.php. Não dá
+          # para barrar "reason" aqui: o gate.reason ("ok", "cooldown"...) faz parte da resposta.
           case "$eq" in
-            *'"answer"'*|*'"rationale"'*|*'"reason"'*) echo "::error::2 etapas: o GET trouxe o gabarito, o porquê ou a justificativa"; fail=1 ;;
+            *'"answer"'*|*'"rationale"'*|*'"reasons"'*) echo "::error::2 etapas: o GET trouxe o gabarito, as questões ou a justificativa"; fail=1 ;;
             *) echo "ok  2 etapas: o GET não traz o gabarito" ;;
           esac
           # US56: orçamento de desempenho (só front). O HTML sem cache, o bundle com hash e imutável; o código-fonte, o

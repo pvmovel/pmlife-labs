@@ -1,0 +1,28 @@
+{
+  "title": "Arquivos da instituição fora do webroot, servidos pelo PHP",
+  "summary": "O autor sobe o PDF, o áudio ou a imagem da aula e o arquivo vai para uma pasta fora do site, que o navegador não alcança. Quem entrega é o PHP, só para quem tem matrícula, inteiro ou em trechos (o áudio avança sem baixar tudo). O tipo é conferido pelo conteúdo e a cota de cada instituição nunca passa do teto, nem com envios ao mesmo tempo.",
+  "problem": "Numa hospedagem compartilhada com deploy por FTPS, uma pasta de uploads dentro do site é apagada a cada deploy e, com permissão de escrita, vira a porta para alguém subir um script e executá-lo. Um link externo depende de CORS e do outro site. O material precisa ficar isolado por instituição e por matrícula, com limite de espaço, sem servidor extra e sem custo.",
+  "result": "58 checks sem banco e o mesmo serviço no MySQL 8.4 e no PostgreSQL 16 do CI. Os 8 tipos permitidos passam pela assinatura e 11 disfarces são recusados (executável com nome .pdf, SVG com script, HTML, ZIP, vídeo). Traversal no id e no nome não sai da pasta, a raiz dentro do webroot é recusada e o arquivo de outra instituição responde 404. Doze processos reservando ao mesmo tempo não passam da cota. O Range responde 206 e 416 num php -S e, pelo smoke, pela URL pública com o Cloudflare na frente.",
+  "tags": [
+    "PHP 8.2",
+    "Range (RFC 9110)",
+    "Upload seguro",
+    "Cota atômica",
+    "MySQL 5.7",
+    "MySQL 8.4",
+    "PostgreSQL 16",
+    "OWASP ASVS",
+    "BOLA/IDOR",
+    "Custo zero"
+  ],
+  "roadmap": "US62",
+  "date": "2026-11-27",
+  "demos": [
+    {
+      "path": "public/",
+      "label": "Abrir a demo",
+      "note": "A imagem e o PDF desta página ficam numa pasta que o navegador não acessa: quem entrega é o PHP. Abra o PDF em outra aba e use os 3 botões de Range para ver o servidor mandar só o começo (206), só o fim (206) ou recusar um trecho além do fim (416). A demo é só leitura: o labs não aceita upload, porque o repositório é público."
+    }
+  ],
+  "run": "cd spikes/spike-php-file-storage-outside-webroot\nphp scripts/verify.php   # sem banco: os tipos, o disco, as regras e o Range num php -S\ndocker run -d --rm --name spike-mysql -e MYSQL_ROOT_PASSWORD=rootpw -e MYSQL_DATABASE=spike \\\n  -e MYSQL_USER=spike -e MYSQL_PASSWORD=spikepw -p 127.0.0.1:13306:3306 mysql:5.7\ndocker run -d --rm --name spike-pg -e POSTGRES_DB=spike -e POSTGRES_USER=spike \\\n  -e POSTGRES_PASSWORD=spikepw -p 127.0.0.1:15432:5432 postgres:16\nexport SPIKE_MYSQL_HOST=127.0.0.1 SPIKE_MYSQL_PORT=13306 SPIKE_MYSQL_DB=spike \\\n  SPIKE_MYSQL_USER=spike SPIKE_MYSQL_PASS=spikepw\nexport SPIKE_PGSQL_HOST=127.0.0.1 SPIKE_PGSQL_PORT=15432 SPIKE_PGSQL_DB=spike \\\n  SPIKE_PGSQL_USER=spike SPIKE_PGSQL_PASS=spikepw\nphp scripts/verify.php   # com os dois bancos: o serviço e 12 envios em paralelo contra a cota\ndocker stop spike-mysql spike-pg\nphp -S 127.0.0.1:8080 -t public   # a demo em http://127.0.0.1:8080/"
+}

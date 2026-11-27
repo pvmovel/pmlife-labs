@@ -535,6 +535,33 @@ jobs:
             *'"answer"'*|*'"rationale"'*|*'"reasons"'*) echo "::error::2 etapas: o GET trouxe o gabarito, as questões ou a justificativa"; fail=1 ;;
             *) echo "ok  2 etapas: o GET não traz o gabarito" ;;
           esac
+          # US62: arquivos fora do webroot. A demo (só leitura, sem banco e sem upload) entrega pelo PHP, com Range, as
+          # amostras de samples/, que ficam bloqueadas (403) como o código. O 206 e o 416 pela URL pública provam que o
+          # PHP da hospedagem e o Cloudflare deixam os trechos passar (o <audio> avança sem baixar tudo).
+          check "/catalogo/spike-php-file-storage-outside-webroot/" 200
+          check "/spikes/spike-php-file-storage-outside-webroot/public/" 200
+          header "/spikes/spike-php-file-storage-outside-webroot/public/" "no-cache"
+          curl -sS -A "pmlife-labs-smoke" "${LABS_URL}/spikes/spike-php-file-storage-outside-webroot/public/" | grep -q 'Arquivos da instituição fora do webroot' && echo "ok  a demo dos arquivos tem o título" || { echo "::error::a demo dos arquivos sem o título"; fail=1; }
+          check "/spikes/spike-php-file-storage-outside-webroot/public/demo.v1.js" 200
+          check "/spikes/spike-php-file-storage-outside-webroot/public/stream.php?f=png" 200
+          header "/spikes/spike-php-file-storage-outside-webroot/public/stream.php?f=pdf" "no-store"
+          check "/spikes/spike-php-file-storage-outside-webroot/public/stream.php?f=../samples/exemplo.pdf" 404
+          FS_URL="${LABS_URL}/spikes/spike-php-file-storage-outside-webroot/public/stream.php?f=pdf"
+          fs=$(curl -sS -A "pmlife-labs-smoke" -r 0-99 -D - -o /dev/null -w 'BYTES=%{size_download}\n' "$FS_URL" | tr -d '\r') || true
+          if printf '%s\n' "$fs" | head -1 | grep -q ' 206' && printf '%s\n' "$fs" | grep -qi '^content-range: bytes 0-99/' && printf '%s\n' "$fs" | grep -q '^BYTES=100$'; then
+            echo "ok  Range bytes=0-99 -> 206 com Content-Range e 100 bytes (PHP e Cloudflare deixam o trecho passar)"
+          else
+            echo "::error::Range bytes=0-99 no stream.php não veio 206 com 100 bytes: $(printf '%s' "$fs" | head -12 | tr '\n' ' ')"; fail=1
+          fi
+          fs=$(curl -sS -A "pmlife-labs-smoke" -r 999999- -D - -o /dev/null "$FS_URL" | tr -d '\r') || true
+          if printf '%s\n' "$fs" | head -1 | grep -q ' 416' && printf '%s\n' "$fs" | grep -qi '^content-range: bytes \*/'; then
+            echo "ok  Range além do fim -> 416 com Content-Range bytes */tamanho"
+          else
+            echo "::error::Range além do fim no stream.php não veio 416: $(printf '%s' "$fs" | head -12 | tr '\n' ' ')"; fail=1
+          fi
+          for path in samples/exemplo.pdf samples/exemplo.png src/Storage/FileService.php src/factory.php http/api/files.php scripts/verify.php migrations/mysql/002_create_stored_files.sql; do
+            check "/spikes/spike-php-file-storage-outside-webroot/${path}" 403
+          done
           # US56: orçamento de desempenho (só front). O HTML sem cache, o bundle com hash e imutável; o código-fonte, o
           # orçamento e a trava de tamanho bloqueados.
           check "/catalogo/bench-r3f-low-end-budget/" 200

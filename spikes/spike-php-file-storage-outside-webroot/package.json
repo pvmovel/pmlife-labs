@@ -1,0 +1,9 @@
+{
+  "name": "spike-php-file-storage-outside-webroot",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Spike: arquivos da instituição (PDF, áudio e imagens) numa pasta fora do webroot, servidos pelo PHP com Range, tipo conferido pelo conteúdo e cota atômica, com o mesmo SQL no MySQL 5.7 e no PostgreSQL 16",
+  "scripts": {
+    "verify": "php scripts/verify.php"
+  }
+}

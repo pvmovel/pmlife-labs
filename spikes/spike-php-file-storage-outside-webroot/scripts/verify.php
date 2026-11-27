@@ -355,10 +355,10 @@ register_shutdown_function(static function () use ($targets): void {
 foreach ($targets as $label => $config) {
     $pdo = ConnectionFactory::create($config);
     $version = (string) $pdo->query('SELECT VERSION()')->fetchColumn();
-    echo "=== {$label} " . strtok($version, ' ,') . "\n";
+    echo "=== {$label} " . (preg_match('/\d+\.\d+(\.\d+)?/', $version, $v) === 1 ? $v[0] : $version) . "\n";
     reset_db($pdo);
     $migrator = new Migrator($pdo, "{$root}/migrations");
-    check($migrator->migrate() === ['001', '002'] && $migrator->migrate() === [], 'migrations 001 e 002 aplicadas uma vez (rodar de novo não faz nada)');
+    check($migrator->migrate() === ['000', '001', '002'] && $migrator->migrate() === [], 'migrations 000 a 002 aplicadas uma vez, em ordem (rodar de novo não faz nada)');
 
     service_scenarios($label, new PdoFileRepository($pdo), new PdoQuotaStore($pdo), $root, $samples);
 

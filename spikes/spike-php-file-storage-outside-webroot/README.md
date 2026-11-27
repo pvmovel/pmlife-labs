@@ -99,9 +99,7 @@ O smoke do deploy do labs confere o `206` e o `416` pela URL pública. Isso prov
 
 ## Para a Etapa 2 (no `pmlife`)
 
-- **Conferir no cPanel, antes de tudo:**
-  - o disco do plano (cPanel ➔ "Uso do disco"), para saber quantas instituições de 1 GB cabem;
-  - `upload_max_filesize` e `post_max_size` (cPanel ➔ "MultiPHP INI Editor"), que precisam ser de pelo menos 20 MB.
+- **Conferido no cPanel pelo Pablo (2026-11-27):** o disco do plano comporta dezenas de instituições com 1 GB cada, e o `upload_max_filesize` e o `post_max_size` (cPanel ➔ "MultiPHP INI Editor") passam dos 20 MB por arquivo. Assim, o limite de 20 MB vale pelo PHP do produto (o `FileLimits`), e não pelo PHP da hospedagem.
 - **Pasta:** criar a pasta no HOME, fora do `public_html`, com a permissão 750, e o caminho dela no `.env.php` do ambiente.
 - **Tabelas:** `file_quota` e `stored_files` vão para o banco da instituição (um banco por instituição, US44), por migration da instituição aplicada pelo Cron. O `tenant_id` do spike existe só para provar o isolamento num banco único.
 - **Teste com banco:** o teste do serviço no MySQL 5.7 entra no CI do `pmlife`. Este spike roda no 8.4 do CI do labs, com o SQL sem nada exclusivo do MySQL 8.
